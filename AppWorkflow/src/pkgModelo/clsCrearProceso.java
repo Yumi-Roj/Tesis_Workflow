@@ -86,4 +86,5 @@ public class clsCrearProceso {
     public void setTiempo(String tiempo) {
         this.tiempo = tiempo;
     }  
+
 }

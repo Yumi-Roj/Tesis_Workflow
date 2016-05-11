@@ -58,7 +58,7 @@ public class clsConecta {
     public void insertar(String sql){
         try{
             stm = con.createStatement();
-            java.sql.ResultSet rs = stm.executeQuery(sql);
+            stm.executeQuery(sql);
         }
         catch(SQLException ex){
             System.out.println("Error insertando: " + ex.toString());

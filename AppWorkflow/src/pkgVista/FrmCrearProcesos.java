@@ -5,6 +5,8 @@
  */
 package pkgVista;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author YUMI
@@ -53,7 +55,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        txt_NomProceso = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -68,7 +70,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_ModificarH = new javax.swing.JButton();
         btn_EliminarH = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         btn_GuardarActividad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -206,7 +208,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jp_crear.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, 109));
-        jp_crear.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, 242, -1));
+        jp_crear.add(txt_NomProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, 242, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("CREAR PROCESO");
@@ -273,7 +275,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel14.setText("Tipo Tramite");
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
         jp_crear.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 270, -1));
 
         btn_GuardarActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
@@ -332,8 +334,12 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_EliminarHActionPerformed
 
     private void btn_GuardarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarProcesoActionPerformed
-        // TODO add your handling code here:
-        
+        // TODO add your handling code here:            
+        pkgModelo.clsDAOCrearProceso objCrearProceso;
+        objCrearProceso = new pkgModelo.clsDAOCrearProceso();
+        objCrearProceso.setNomProceso(txt_NomProceso.getText().trim());
+        objCrearProceso.insertarNuevoProceso();
+        JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
     }//GEN-LAST:event_btn_GuardarProcesoActionPerformed
 
     /**
@@ -408,10 +414,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel jp_crear;
     private javax.swing.JPanel jp_inicio;
     private javax.swing.JTabbedPane jtpanel_procesos;
+    private javax.swing.JTextField txt_NomProceso;
     private javax.swing.JTextField txt_actividad;
     private javax.swing.JTextField txt_responsableArea;
     private javax.swing.JTextField txt_tiempo;

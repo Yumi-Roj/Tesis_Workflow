@@ -49,8 +49,8 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        txt_Fecha = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
+        txt_Fecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -137,11 +137,11 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("NUEVO DOCUMENTO");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, -1, -1));
-        getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 172, 133, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
         jButton1.setText("Modificar");
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, -1));
+        getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 133, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
