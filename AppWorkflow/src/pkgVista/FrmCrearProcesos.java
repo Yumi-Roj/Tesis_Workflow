@@ -52,7 +52,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_GuardarProceso = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
         btn_EliminarRest = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox();
+        cbo_responsable = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         txt_NomProceso = new javax.swing.JTextField();
@@ -70,7 +70,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_ModificarH = new javax.swing.JButton();
         btn_EliminarH = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        cbo_tipoTramite = new javax.swing.JComboBox<String>();
         btn_GuardarActividad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -191,8 +191,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jp_crear.add(btn_EliminarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, 110, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GERENTE DE ADMINISTRACIÓN TRIBUTARIA", "Item 2", "Item 3", "Item 4" }));
-        jp_crear.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 83, -1, -1));
+        cbo_responsable.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GERENTE DE ADMINISTRACIÓN TRIBUTARIA", "Item 2", "Item 3", "Item 4" }));
+        jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 83, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -275,8 +275,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel14.setText("Tipo Tramite");
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
-        jp_crear.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 270, -1));
+        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
+        jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 270, -1));
 
         btn_GuardarActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
         btn_GuardarActividad.setText("Grabar");
@@ -337,7 +337,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         // TODO add your handling code here:            
         pkgModelo.clsDAOCrearProceso objCrearProceso;
         objCrearProceso = new pkgModelo.clsDAOCrearProceso();
+        objCrearProceso.setTipoTramite(cbo_tipoTramite.getSelectedItem().toString().trim());
+        objCrearProceso.setResponsable(cbo_responsable.getSelectedItem().toString().trim());
         objCrearProceso.setNomProceso(txt_NomProceso.getText().trim());
+        //.getSelectedItem().toString();
         objCrearProceso.insertarNuevoProceso();
         JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
     }//GEN-LAST:event_btn_GuardarProcesoActionPerformed
@@ -389,8 +392,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JButton btn_inicio;
     private javax.swing.JButton btn_nuevoH;
     private javax.swing.JButton btn_nuevoRest;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox cbo_responsable;
+    private javax.swing.JComboBox<String> cbo_tipoTramite;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
