@@ -49,7 +49,6 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         txt_tiempo = new javax.swing.JTextField();
         btn_GuardarRest = new javax.swing.JButton();
         btn_nuevoRest = new javax.swing.JButton();
-        btn_GuardarProceso = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
         btn_EliminarRest = new javax.swing.JButton();
         cbo_responsable = new javax.swing.JComboBox();
@@ -71,7 +70,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_EliminarH = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         cbo_tipoTramite = new javax.swing.JComboBox<String>();
-        btn_GuardarActividad = new javax.swing.JButton();
+        btn_GuardarProcesosActividad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,10 +102,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                         .addGroup(jp_inicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13))
-                        .addContainerGap(774, Short.MAX_VALUE))
+                        .addContainerGap(753, Short.MAX_VALUE))
                     .addGroup(jp_inicioLayout.createSequentialGroup()
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 431, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 426, Short.MAX_VALUE)
                         .addComponent(btn_inicio)
                         .addGap(33, 33, 33))))
         );
@@ -149,17 +148,22 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jp_crear.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 227, -1, -1));
 
         jLabel2.setText("Nombre Proceso");
-        jp_crear.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, -1, -1));
+        jp_crear.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 50, -1, -1));
 
         jLabel8.setText("Tiempo");
         jp_crear.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 256, -1, -1));
 
         jLabel3.setText("Responsable");
-        jp_crear.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 86, -1, -1));
+        jp_crear.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, -1, -1));
         jp_crear.add(txt_tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 253, 70, -1));
 
         btn_GuardarRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
         btn_GuardarRest.setText("Grabar");
+        btn_GuardarRest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_GuardarRestActionPerformed(evt);
+            }
+        });
         jp_crear.add(btn_GuardarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 340, 110, -1));
 
         btn_nuevoRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
@@ -170,16 +174,6 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             }
         });
         jp_crear.add(btn_nuevoRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 310, 110, -1));
-
-        btn_GuardarProceso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
-        btn_GuardarProceso.setText("Grabar");
-        btn_GuardarProceso.setActionCommand("Guardar");
-        btn_GuardarProceso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_GuardarProcesoActionPerformed(evt);
-            }
-        });
-        jp_crear.add(btn_GuardarProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 80, 110, -1));
         jp_crear.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 224, 74, -1));
 
         btn_EliminarRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_delete_shred.png"))); // NOI18N
@@ -192,7 +186,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jp_crear.add(btn_EliminarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, 110, -1));
 
         cbo_responsable.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GERENTE DE ADMINISTRACIÓN TRIBUTARIA", "Item 2", "Item 3", "Item 4" }));
-        jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 83, -1, -1));
+        jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -208,7 +202,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jp_crear.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, 109));
-        jp_crear.add(txt_NomProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, 242, -1));
+        jp_crear.add(txt_NomProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 50, 242, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("CREAR PROCESO");
@@ -276,12 +270,17 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, -1));
 
         cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
-        jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 270, -1));
+        jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 240, -1));
 
-        btn_GuardarActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
-        btn_GuardarActividad.setText("Grabar");
-        btn_GuardarActividad.setActionCommand("Guardar");
-        jp_crear.add(btn_GuardarActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 250, 110, -1));
+        btn_GuardarProcesosActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
+        btn_GuardarProcesosActividad.setText("Grabar");
+        btn_GuardarProcesosActividad.setActionCommand("Guardar");
+        btn_GuardarProcesosActividad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_GuardarProcesosActividadActionPerformed(evt);
+            }
+        });
+        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 200, 110, -1));
 
         jtpanel_procesos.addTab("CREAR PROCESO", jp_crear);
 
@@ -291,19 +290,19 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 910, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 910, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(13, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGap(0, 772, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -312,9 +311,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private void btn_inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_inicioActionPerformed
 
         // TODO add your handling code here:
-        //        Inicio Principal=new Inicio();
-        //        Principal.setVisible(true);
-        //        FrmEnfermera.this.dispose();
+                FrmLogin Principal=new FrmLogin();
+                Principal.setVisible(true);
+                FrmCrearProcesos.this.dispose();
+        
     }//GEN-LAST:event_btn_inicioActionPerformed
 
     private void btn_nuevoRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoRestActionPerformed
@@ -333,17 +333,30 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_EliminarHActionPerformed
 
-    private void btn_GuardarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarProcesoActionPerformed
-        // TODO add your handling code here:            
+    private void btn_GuardarProcesosActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarProcesosActividadActionPerformed
+        // TODO add your handling code here:
         pkgModelo.clsDAOCrearProceso objCrearProceso;
         objCrearProceso = new pkgModelo.clsDAOCrearProceso();
         objCrearProceso.setTipoTramite(cbo_tipoTramite.getSelectedItem().toString().trim());
-        objCrearProceso.setResponsable(cbo_responsable.getSelectedItem().toString().trim());
         objCrearProceso.setNomProceso(txt_NomProceso.getText().trim());
-        //.getSelectedItem().toString();
-        objCrearProceso.insertarNuevoProceso();
+        objCrearProceso.setNomActividad(txt_actividad.getText().trim());
+        objCrearProceso.setArea(txt_responsableArea.getText().trim());
+        objCrearProceso.setResponsable(cbo_responsable.getSelectedItem().toString().trim());
+        objCrearProceso.setPosicion(jSpinner1.getValue().toString().trim());
+        objCrearProceso.setTiempo(txt_tiempo.getText().trim());
+        objCrearProceso.insertarNuevoProcesoActividad();
         JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
-    }//GEN-LAST:event_btn_GuardarProcesoActionPerformed
+    }//GEN-LAST:event_btn_GuardarProcesosActividadActionPerformed
+
+    private void btn_GuardarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarRestActionPerformed
+        // TODO add your handling code here:
+        pkgModelo.clsDAOCrearProceso objCrearProceso;
+        objCrearProceso = new pkgModelo.clsDAOCrearProceso();
+        objCrearProceso.setTipoTramite(cbo_tipoTramite.getSelectedItem().toString().trim());
+        objCrearProceso.setNomProceso(txt_NomProceso.getText().trim());
+        objCrearProceso.insertarNuevoProcesoActividad();
+        JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
+    }//GEN-LAST:event_btn_GuardarRestActionPerformed
 
     /**
      * @param args the command line arguments
@@ -383,9 +396,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_EliminarH;
     private javax.swing.JButton btn_EliminarRest;
-    private javax.swing.JButton btn_GuardarActividad;
     private javax.swing.JButton btn_GuardarH;
-    private javax.swing.JButton btn_GuardarProceso;
+    private javax.swing.JButton btn_GuardarProcesosActividad;
     private javax.swing.JButton btn_GuardarRest;
     private javax.swing.JButton btn_ModificarH;
     private javax.swing.JButton btn_ModificarRest;

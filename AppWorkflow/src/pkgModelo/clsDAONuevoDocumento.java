@@ -9,6 +9,6 @@ package pkgModelo;
  *
  * @author YUMI
  */
-public class clsDAONuevoDocumento {
+public class clsDAONuevoDocumento extends clsNuevoDocumento{
     
 }

@@ -15,13 +15,14 @@ public class clsDAOCrearProceso extends clsCrearProceso{
     public clsDAOCrearProceso() {
         objConecta = new pkgControlador.clsConecta();
     }
-    public void insertarNuevoProceso(){         
-        String SQL = "INSERT INTO procesos(nombre_procesos, responsable) VALUE ('"+super.getNomProceso()+"','"+super.getResponsable()+"')";
+    public void insertarNuevoProcesoActividad(){         
+        String SQL = "INSERT INTO procesos(nombre_procesos, tipo) VALUES ('"+super.getNomProceso()+"','"+super.getTipoTramite()+"')";
         objConecta.insertar(SQL);
-    }
-    public void insertarNuevaActividad(){         
-        String SQL = "INSERT INTO actividad(descripcion, area_responsable, tiempo, posicion) VALUE ('"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"')";
+        SQL = "INSERT INTO Actividad_por_Proceso(descripcion, area_responsable, tiempo, pocision) VALUES ('"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"')";
         objConecta.insertar(SQL);
+//        SELECT weather.city, weather.temp_lo, weather.temp_hi, weather.prcp,
+//              weather.date, cities.location
+//       FROM weather, cities WHERE cities.name = weather.city;
     }
     
 }
