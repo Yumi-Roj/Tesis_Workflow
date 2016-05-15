@@ -20,12 +20,13 @@ public class clsNuevoDocumento {
     public clsNuevoDocumento() {
     }
 
-    public clsNuevoDocumento(String numExpediente, String fecha, String asunto, String remitente, String cargo, String destino) {
+    public clsNuevoDocumento(String numExpediente, String asunto, String fecha, String destino, String remitente) {
         this.numExpediente = numExpediente;
+        System.out.println(fecha);
         this.fecha = fecha;
         this.asunto = asunto;
         this.remitente = remitente;
-        this.cargo = cargo;
+        //this.cargo = cargo;
         this.destino = destino;
     }
     

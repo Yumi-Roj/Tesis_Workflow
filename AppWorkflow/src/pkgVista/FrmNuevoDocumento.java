@@ -5,6 +5,9 @@
  */
 package pkgVista;
 
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -172,24 +175,20 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
 
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         // TODO add your handling code here:
-//        NuevoDocumento nuevoDoc = new NuevoDocumento();
-//        nuevoDoc.setNumDocumento(txt_numero.getText());
-////        pac.setTipo(cmb_tipoDoc.getSelectedItem());
-////        pac.setFecha(txt_Fecha.getValue().toString());
-//        nuevoDoc.setAsunto(txt_Asunto.getText());
-//        nuevoDoc.setRemitente(txt_remitente.getText());
-//        nuevoDoc.setCargo(txt_Cargo.getText());
-//        nuevoDoc.setDestino(txt_Destino.getText());
-//        CConexion base = new CConexion();
-//
-//        try {
-//            
-//            base.Insertar(nuevoDoc);
-//            
-////            ActualizarTablaPacientes( base.Listar());
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//        }
+        //FrmNuevoDocumento nuevoDoc = new FrmNuevoDocumento();
+        pkgModelo.clsDAONuevoDocumento objNuevoDocumento;
+        objNuevoDocumento = new pkgModelo.clsDAONuevoDocumento();
+        objNuevoDocumento.setNumExpediente(txt_numero.getText().trim());
+        //System.out.println("LA FECHA ES: " + txt_Fecha.getDateFormatString().trim());
+        String fecha = new SimpleDateFormat("dd/MM/yyyy").format(txt_Fecha.getDate());
+        System.out.println("LA FECHA ES: " + fecha);
+        objNuevoDocumento.setFecha(fecha);
+        objNuevoDocumento.setAsunto(txt_Asunto.getText().trim());
+        objNuevoDocumento.setRemitente(txt_remitente.getText().trim());
+        objNuevoDocumento.setCargo(txt_Cargo.getText().trim());
+        objNuevoDocumento.setDestino(txt_Destino.getText().trim());
+        objNuevoDocumento.insertarNuevoDocumento();
+        JOptionPane.showMessageDialog(rootPane, "Datos correctos");
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void btn_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarActionPerformed

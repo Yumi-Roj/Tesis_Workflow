@@ -69,7 +69,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_ModificarH = new javax.swing.JButton();
         btn_EliminarH = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        cbo_tipoTramite = new javax.swing.JComboBox<String>();
+        cbo_tipoTramite = new javax.swing.JComboBox<>();
         btn_GuardarProcesosActividad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -269,7 +269,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel14.setText("Tipo Tramite");
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, -1));
 
-        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
+        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
         jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 240, -1));
 
         btn_GuardarProcesosActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
@@ -280,7 +280,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_GuardarProcesosActividadActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 200, 110, -1));
+        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 140, 110, -1));
 
         jtpanel_procesos.addTab("CREAR PROCESO", jp_crear);
 
@@ -345,7 +345,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         objCrearProceso.setPosicion(jSpinner1.getValue().toString().trim());
         objCrearProceso.setTiempo(txt_tiempo.getText().trim());
         objCrearProceso.insertarNuevoProcesoActividad();
-        JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
+        JOptionPane.showMessageDialog(rootPane, "Datos correctos");
     }//GEN-LAST:event_btn_GuardarProcesosActividadActionPerformed
 
     private void btn_GuardarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarRestActionPerformed
