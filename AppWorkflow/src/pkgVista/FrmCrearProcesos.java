@@ -5,7 +5,10 @@
  */
 package pkgVista;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -53,13 +56,13 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_EliminarRest = new javax.swing.JButton();
         cbo_responsable = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla_restricciones = new javax.swing.JTable();
         txt_NomProceso = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabla_procesoActividad = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
@@ -69,7 +72,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_ModificarH = new javax.swing.JButton();
         btn_EliminarH = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        cbo_tipoTramite = new javax.swing.JComboBox<>();
+        cbo_tipoTramite = new javax.swing.JComboBox<String>();
         btn_GuardarProcesosActividad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -188,7 +191,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         cbo_responsable.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GERENTE DE ADMINISTRACIÓN TRIBUTARIA", "Item 2", "Item 3", "Item 4" }));
         jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_restricciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -199,7 +202,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 "Numero", "Restriciones"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla_restricciones);
 
         jp_crear.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, 109));
         jp_crear.add(txt_NomProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 50, 242, -1));
@@ -213,7 +216,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jp_crear.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 480, -1, -1));
         jp_crear.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 288, 860, -1));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_procesoActividad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -224,7 +227,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 "Posicion ", "Nombre Actividad", "Area", "Tiempo"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tabla_procesoActividad);
 
         jp_crear.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 860, 110));
 
@@ -269,7 +272,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel14.setText("Tipo Tramite");
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, -1));
 
-        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
+        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
         jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 240, -1));
 
         btn_GuardarProcesosActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
@@ -345,9 +348,33 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         objCrearProceso.setPosicion(jSpinner1.getValue().toString().trim());
         objCrearProceso.setTiempo(txt_tiempo.getText().trim());
         objCrearProceso.insertarNuevoProcesoActividad();
+        objCrearProceso.ListarProceso();
         JOptionPane.showMessageDialog(rootPane, "Datos correctos");
+        tabla_procesoActividad.setModel(objCrearProceso.ListarProceso());
+ 
     }//GEN-LAST:event_btn_GuardarProcesosActividadActionPerformed
-
+    
+    public void ActualizarTablaActividades(ResultSet res) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        tabla_procesoActividad.setModel(modelo);
+        
+        modelo.addColumn("Posicion");
+        modelo.addColumn("NomActividad "); 
+        modelo.addColumn("Area");
+        modelo.addColumn("Tiempo "); 
+        
+        while (res.next()){
+            Object [] fila = new Object[4];
+            fila[0] = res.getString("posicion");
+            fila[1] = res.getString("descripcion");
+            fila[2] = res.getString("area_responsable");
+            fila[3] = res.getString("tiempo");
+            
+            modelo.addRow(fila);
+            //fila = null;
+        }
+    }
+    
     private void btn_GuardarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarRestActionPerformed
         // TODO add your handling code here:
         pkgModelo.clsDAOCrearProceso objCrearProceso;
@@ -427,11 +454,11 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel jp_crear;
     private javax.swing.JPanel jp_inicio;
     private javax.swing.JTabbedPane jtpanel_procesos;
+    private javax.swing.JTable tabla_procesoActividad;
+    private javax.swing.JTable tabla_restricciones;
     private javax.swing.JTextField txt_NomProceso;
     private javax.swing.JTextField txt_actividad;
     private javax.swing.JTextField txt_responsableArea;

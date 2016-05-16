@@ -105,5 +105,10 @@ public class clsConecta {
             return "error";
         }
     }
+//    public ResultSet ListarProceso() throws SQLException{
+//        String sql = "SELECT descripcion, area_responsable, tiempo, posicion FROM actividad_por_proceso;";
+//        res = stm.executeQuery(sql);
+//        return res;
+//    }
     
 }
