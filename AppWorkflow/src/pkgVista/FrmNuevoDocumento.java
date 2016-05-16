@@ -46,13 +46,13 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         btn_Guardar = new javax.swing.JButton();
-        btn_nuevo = new javax.swing.JButton();
-        btn_buscar = new javax.swing.JButton();
-        btn_cerrar = new javax.swing.JButton();
+        btn_Nuevo = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        btn_Cerrar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btn_Modificar = new javax.swing.JButton();
         txt_Fecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,32 +108,32 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         });
         getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 390, 99, -1));
 
-        btn_nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
-        btn_nuevo.setText("Nuevo");
-        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+        btn_Nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
+        btn_Nuevo.setText("Nuevo");
+        btn_Nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nuevoActionPerformed(evt);
+                btn_NuevoActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 102, -1));
+        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 102, -1));
 
-        btn_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/document_preview.png"))); // NOI18N
-        btn_buscar.setText("Buscar");
-        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
+        btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/document_preview.png"))); // NOI18N
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_buscarActionPerformed(evt);
+                btn_BuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 390, 99, -1));
+        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 390, 99, -1));
 
-        btn_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/dialog_close.png"))); // NOI18N
-        btn_cerrar.setText("Cerrar");
-        btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
+        btn_Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/dialog_close.png"))); // NOI18N
+        btn_Cerrar.setText("Cerrar");
+        btn_Cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cerrarActionPerformed(evt);
+                btn_CerrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 390, 117, -1));
+        getContentPane().add(btn_Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 390, 117, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 120, 564, -1));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 229, 564, -1));
 
@@ -141,9 +141,14 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         jLabel2.setText("NUEVO DOCUMENTO");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, -1, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
-        jButton1.setText("Modificar");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, -1));
+        btn_Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
+        btn_Modificar.setText("Modificar");
+        btn_Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ModificarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, -1));
         getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 133, -1));
 
         pack();
@@ -153,7 +158,7 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_remitenteActionPerformed
 
-    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+    private void btn_NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NuevoActionPerformed
         // TODO add your handling code here:
         txt_numero.setEnabled(true);
         txt_Fecha.setEnabled(true);
@@ -167,11 +172,11 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         txt_remitente.setText("");
         txt_Cargo.setText("");
         txt_Destino.setText("");
-    }//GEN-LAST:event_btn_nuevoActionPerformed
+    }//GEN-LAST:event_btn_NuevoActionPerformed
 
-    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_buscarActionPerformed
+    }//GEN-LAST:event_btn_BuscarActionPerformed
 
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         // TODO add your handling code here:
@@ -191,10 +196,15 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, "Datos correctos");
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
-    private void btn_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarActionPerformed
+    private void btn_CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CerrarActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_btn_cerrarActionPerformed
+    }//GEN-LAST:event_btn_CerrarActionPerformed
+
+    private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btn_ModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,11 +242,11 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Cerrar;
     private javax.swing.JButton btn_Guardar;
-    private javax.swing.JButton btn_buscar;
-    private javax.swing.JButton btn_cerrar;
-    private javax.swing.JButton btn_nuevo;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_Modificar;
+    private javax.swing.JButton btn_Nuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
