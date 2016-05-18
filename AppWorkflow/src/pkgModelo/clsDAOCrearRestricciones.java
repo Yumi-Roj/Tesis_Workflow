@@ -17,7 +17,7 @@ public class clsDAOCrearRestricciones extends clsCrearRestricciones{
     }
     
     public void restriccionesActividad(){         
-        String SQL = "INSERT INTO restricciones_por_actividad(codigo_restriccion, descripcion) VALUE ('"+super.getCodigo_restriccion()+"','"+super.getDescripcion()+"')";
+        String SQL = "INSERT INTO restricciones_por_actividad(codigo_restriccion, descripcion) VALUES ('"+super.getCodigo_restriccion()+"','"+super.getDescripcion()+"')";
         objConecta.insertar(SQL);
     }
     

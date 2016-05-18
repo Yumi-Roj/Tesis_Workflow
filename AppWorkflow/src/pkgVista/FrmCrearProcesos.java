@@ -74,6 +74,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         cbo_tipoTramite = new javax.swing.JComboBox<String>();
         btn_GuardarProcesosActividad = new javax.swing.JButton();
+        btn_Listar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,7 +162,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jp_crear.add(txt_tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 253, 70, -1));
 
         btn_GuardarRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
-        btn_GuardarRest.setText("Grabar");
+        btn_GuardarRest.setText("Listar");
         btn_GuardarRest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_GuardarRestActionPerformed(evt);
@@ -285,6 +286,14 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 140, 110, -1));
 
+        btn_Listar.setText("Listar");
+        btn_Listar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ListarActionPerformed(evt);
+            }
+        });
+        jp_crear.add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 480, -1, -1));
+
         jtpanel_procesos.addTab("CREAR PROCESO", jp_crear);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -322,6 +331,9 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
     private void btn_nuevoRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoRestActionPerformed
         // TODO add your handling code here:
+        FrmNuevaRestriccion Principal=new FrmNuevaRestriccion();
+        Principal.setVisible(true);
+        FrmCrearProcesos.this.dispose();
     }//GEN-LAST:event_btn_nuevoRestActionPerformed
 
     private void btn_EliminarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarRestActionPerformed
@@ -330,6 +342,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
     private void btn_nuevoHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoHActionPerformed
         // TODO add your handling code here:
+        txt_actividad.setText("");
+        txt_responsableArea.setText("");
+        jSpinner1.getValue();
+        txt_tiempo.setText("");
     }//GEN-LAST:event_btn_nuevoHActionPerformed
 
     private void btn_EliminarHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarHActionPerformed
@@ -350,6 +366,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         objCrearProceso.insertarNuevoProcesoActividad();
         objCrearProceso.ListarProceso();
         JOptionPane.showMessageDialog(rootPane, "Datos correctos");
+        
         tabla_procesoActividad.setModel(objCrearProceso.ListarProceso());
  
     }//GEN-LAST:event_btn_GuardarProcesosActividadActionPerformed
@@ -379,11 +396,19 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         // TODO add your handling code here:
         pkgModelo.clsDAOCrearProceso objCrearProceso;
         objCrearProceso = new pkgModelo.clsDAOCrearProceso();
-        objCrearProceso.setTipoTramite(cbo_tipoTramite.getSelectedItem().toString().trim());
-        objCrearProceso.setNomProceso(txt_NomProceso.getText().trim());
-        objCrearProceso.insertarNuevoProcesoActividad();
+//        objCrearProceso.setCodigo_restriccion(txt_Codigo.getText().trim());
+//        objCrearProceso.setDescripcion(txt_descripcionRest.getText().trim());
+        objCrearProceso.ListarRestriciones();
         JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
+        tabla_restricciones.setModel(objCrearProceso.ListarRestriciones());
     }//GEN-LAST:event_btn_GuardarRestActionPerformed
+
+    private void btn_ListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ListarActionPerformed
+        // TODO add your handling code here:
+        pkgModelo.clsDAOCrearProceso objCrearProceso;
+        objCrearProceso = new pkgModelo.clsDAOCrearProceso();
+        objCrearProceso.totalPersonas((DefaultTableModel)tabla_procesoActividad.getModel());
+    }//GEN-LAST:event_btn_ListarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -426,6 +451,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JButton btn_GuardarH;
     private javax.swing.JButton btn_GuardarProcesosActividad;
     private javax.swing.JButton btn_GuardarRest;
+    private javax.swing.JButton btn_Listar;
     private javax.swing.JButton btn_ModificarH;
     private javax.swing.JButton btn_ModificarRest;
     private javax.swing.JButton btn_inicio;
