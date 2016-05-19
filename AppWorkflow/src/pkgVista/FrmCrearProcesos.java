@@ -7,8 +7,10 @@ package pkgVista;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import pkgControlador.clsConecta;
 
 /**
  *
@@ -19,9 +21,34 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     /**
      * Creates new form FrmCrearProcesos
      */
+    public clsConecta abc=new clsConecta();
+    
     public FrmCrearProcesos() {
         initComponents();
+        pkgModelo.clsDAOCrearProceso objCrearProceso;
+        objCrearProceso = new pkgModelo.clsDAOCrearProceso();
+        cbo_ListarArea.addItem(objCrearProceso.ListarTipoProceso());
+        String SQL = "SELECT nombre_area FROM area";
+        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+        this.cbo_ListarArea.setModel(objCrearProceso.ListarTipoProceso());
+        
+        
+//        tabla_procesoActividad.setModel(objCrearProceso.ListarProceso());
     }
+//    public FrmCrearProcesos() throws SQLException{
+//        initComponents();
+////        pkgModelo.clsDAOCrearProceso objCrearProceso;
+////        objCrearProceso = new pkgModelo.clsDAOCrearProceso();
+////        cbo_ListarArea.addItem(objCrearProceso.ListarTipoProceso());
+//        clsConecta base=new clsConecta();
+////        ResultSet res2=base.Lista("SELECT * from\"MaestroEnfermedad\"ORDER BY\"IdEnfermedad\"");
+//        ResultSet res2=base.listaTipo("SELECT * FROM area ORDER BY id_area");
+//        res2.next();      
+//        for(int y=0; y<abc.Cant("SELECT count(*)nombre_area FROM area");y++){
+//            cbo_ListarArea.addItem(res2.getString("Nombre"));
+//            res2.next(); 
+//        } 
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,6 +102,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         cbo_tipoTramite = new javax.swing.JComboBox<String>();
         btn_GuardarProcesosActividad = new javax.swing.JButton();
         btn_Listar = new javax.swing.JButton();
+        cbo_ListarArea = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,7 +174,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel6.setText("Area Responsable");
         jp_crear.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 198, -1, -1));
         jp_crear.add(txt_actividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 165, 154, -1));
-        jp_crear.add(txt_responsableArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 195, 154, -1));
+        jp_crear.add(txt_responsableArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 130, 30, -1));
 
         jLabel7.setText("Posicion");
         jp_crear.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 227, -1, -1));
@@ -158,7 +186,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jp_crear.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 256, -1, -1));
 
         jLabel3.setText("Responsable");
-        jp_crear.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, -1, -1));
+        jp_crear.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
         jp_crear.add(txt_tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 253, 70, -1));
 
         btn_GuardarRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
@@ -190,7 +218,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jp_crear.add(btn_EliminarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, 110, -1));
 
         cbo_responsable.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GERENTE DE ADMINISTRACIÓN TRIBUTARIA", "Item 2", "Item 3", "Item 4" }));
-        jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, -1, -1));
+        jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 200, -1, -1));
 
         tabla_restricciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -294,6 +322,9 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jp_crear.add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 480, -1, -1));
 
+        cbo_ListarArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jp_crear.add(cbo_ListarArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 300, -1));
+
         jtpanel_procesos.addTab("CREAR PROCESO", jp_crear);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -328,7 +359,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 FrmCrearProcesos.this.dispose();
         
     }//GEN-LAST:event_btn_inicioActionPerformed
-
+    
     private void btn_nuevoRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoRestActionPerformed
         // TODO add your handling code here:
         FrmNuevaRestriccion Principal=new FrmNuevaRestriccion();
@@ -360,6 +391,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         objCrearProceso.setNomProceso(txt_NomProceso.getText().trim());
         objCrearProceso.setNomActividad(txt_actividad.getText().trim());
         objCrearProceso.setArea(txt_responsableArea.getText().trim());
+        objCrearProceso.setArea(cbo_ListarArea.getSelectedItem().toString().trim());
         objCrearProceso.setResponsable(cbo_responsable.getSelectedItem().toString().trim());
         objCrearProceso.setPosicion(jSpinner1.getValue().toString().trim());
         objCrearProceso.setTiempo(txt_tiempo.getText().trim());
@@ -457,6 +489,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JButton btn_inicio;
     private javax.swing.JButton btn_nuevoH;
     private javax.swing.JButton btn_nuevoRest;
+    private javax.swing.JComboBox cbo_ListarArea;
     private javax.swing.JComboBox cbo_responsable;
     private javax.swing.JComboBox<String> cbo_tipoTramite;
     private javax.swing.JLabel jLabel1;

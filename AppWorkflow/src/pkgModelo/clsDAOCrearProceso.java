@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,6 +21,10 @@ public class clsDAOCrearProceso extends clsCrearProceso{
     pkgControlador.clsConecta objConecta;
     Connection conexion;
     Statement consulta;
+    ResultSet rs = null;
+    Statement st = null; 
+    Connection conn = null; 
+    String sql = null;
 
     public clsDAOCrearProceso() {
         objConecta = new pkgControlador.clsConecta();
@@ -30,11 +35,97 @@ public class clsDAOCrearProceso extends clsCrearProceso{
         SQL = "INSERT INTO Actividad_por_Proceso(descripcion, area_responsable, tiempo, posicion) VALUES ('"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"')";
         objConecta.insertar(SQL);
     }
-//    public ResultSet ListarProceso() throws SQLException{
-//        String sql = "SELECT descripcion, area_responsable, tiempo, posicion FROM actividad_por_proceso;";
-//        res = stm.executeQuery(sql);
-//        return res;
-//    }
+    public DefaultComboBoxModel ListarTipoProceso(){
+        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+        String SQL = "SELECT nombre_area FROM area";
+        java.sql.ResultSet rs = null;
+        rs = objConecta.consulta(SQL);
+        try{
+            int numeroColumna = rs.getMetaData().getColumnCount();
+                for(int j = 1;j <= numeroColumna;j++){
+                    modeloCombo.addElement(rs.getMetaData().getColumnName(j));
+                }
+            while (rs.next()){
+                Object []objetos = new Object[numeroColumna];
+                    for(int i = 1;i <= numeroColumna;i++){
+                        objetos[i-1] = rs.getObject(i);
+                    }
+                    modeloCombo.addElement(objetos);
+//                modelo.addColumn(rs.getString(1) + "" + rs.getString(2)+ "" + rs.getString(3)+ "" + rs.getString(4));
+            }
+        }catch (SQLException ex){
+            System.out.println("Error en SQL");
+        }
+        return modeloCombo;
+//        objConecta.listaTipo(SQL);
+//        modeloCombo.addElement("Seleccione un Estado");
+//        java.sql.ResultSet rs = null;
+//        rs = objConecta.listaTipo(SQL);
+//        return modeloCombo;
+    }
+    public void llenar_combo() throws SQLException{
+        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+        st = conn.createStatement();
+        rs = st.executeQuery ("SELECT nombre_area FROM area");
+        while (rs.next()){
+        modeloCombo.addElement(rs.getObject("nombre"));
+        }
+    }
+    
+
+    public DefaultTableModel ListarProceso(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setRowCount(0);
+        modelo.setColumnCount(0);
+        String SQL = "SELECT descripcion, area_responsable, tiempo, posicion FROM actividad_por_proceso";
+        java.sql.ResultSet rs = null;
+        rs = objConecta.consulta(SQL);
+        try{
+            int numeroColumna = rs.getMetaData().getColumnCount();
+                for(int j = 1;j <= numeroColumna;j++){
+                    modelo.addColumn(rs.getMetaData().getColumnName(j));
+                }
+            while (rs.next()){
+                Object []objetos = new Object[numeroColumna];
+                    for(int i = 1;i <= numeroColumna;i++){
+                        objetos[i-1] = rs.getObject(i);
+                    }
+                    modelo.addRow(objetos);
+//                modelo.addColumn(rs.getString(1) + "" + rs.getString(2)+ "" + rs.getString(3)+ "" + rs.getString(4));
+            }
+        }catch (SQLException ex){
+            System.out.println("Error en SQL");
+        }
+        return modelo;
+    }
+    
+    public DefaultTableModel ListarRestriciones(){
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.setRowCount(0);
+        modelo.setColumnCount(0);
+        String SQL = "SELECT codigo_restriccion, descripcion FROM restricciones_por_actividad";
+        java.sql.ResultSet rs = null;
+        rs = objConecta.consulta(SQL);
+        try{
+            int numeroColumna = rs.getMetaData().getColumnCount();
+                for(int j = 1;j <= numeroColumna;j++){
+                    modelo.addColumn(rs.getMetaData().getColumnName(j));
+                }
+            while (rs.next()){
+                Object []objetos = new Object[numeroColumna];
+                    for(int i = 1;i <= numeroColumna;i++){
+                        objetos[i-1] = rs.getObject(i);
+                    }
+                    modelo.addRow(objetos);
+//                modelo.addColumn(rs.getString(1) + "" + rs.getString(2)+ "" + rs.getString(3)+ "" + rs.getString(4));
+            }
+        }catch (SQLException ex){
+            System.out.println("Error en SQL");
+        }
+        return modelo;
+    }
+    
     public ResultSet consultar(String sql){
         ResultSet resultado = null;
         
@@ -89,60 +180,6 @@ public class clsDAOCrearProceso extends clsCrearProceso{
              e.printStackTrace();
          }
      }
-    }
-    
-    public DefaultTableModel ListarProceso(){
-        
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setRowCount(0);
-        modelo.setColumnCount(0);
-        String SQL = "SELECT descripcion, area_responsable, tiempo, posicion FROM actividad_por_proceso;";
-        java.sql.ResultSet rs = null;
-        rs = objConecta.consulta(SQL);
-        try{
-            int numeroColumna = rs.getMetaData().getColumnCount();
-                for(int j = 1;j <= numeroColumna;j++){
-                    modelo.addColumn(rs.getMetaData().getColumnName(j));
-                }
-            while (rs.next()){
-                Object []objetos = new Object[numeroColumna];
-                    for(int i = 1;i <= numeroColumna;i++){
-                        objetos[i-1] = rs.getObject(i);
-                    }
-                    modelo.addRow(objetos);
-//                modelo.addColumn(rs.getString(1) + "" + rs.getString(2)+ "" + rs.getString(3)+ "" + rs.getString(4));
-            }
-        }catch (SQLException ex){
-            System.out.println("Error en SQL");
-        }
-        return modelo;
-    }
-    
-    public DefaultTableModel ListarRestriciones(){
-        
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setRowCount(0);
-        modelo.setColumnCount(0);
-        String SQL = "SELECT codigo_restriccion, descripcion FROM restricciones_por_actividad;";
-        java.sql.ResultSet rs = null;
-        rs = objConecta.consulta(SQL);
-        try{
-            int numeroColumna = rs.getMetaData().getColumnCount();
-                for(int j = 1;j <= numeroColumna;j++){
-                    modelo.addColumn(rs.getMetaData().getColumnName(j));
-                }
-            while (rs.next()){
-                Object []objetos = new Object[numeroColumna];
-                    for(int i = 1;i <= numeroColumna;i++){
-                        objetos[i-1] = rs.getObject(i);
-                    }
-                    modelo.addRow(objetos);
-//                modelo.addColumn(rs.getString(1) + "" + rs.getString(2)+ "" + rs.getString(3)+ "" + rs.getString(4));
-            }
-        }catch (SQLException ex){
-            System.out.println("Error en SQL");
-        }
-        return modelo;
     }
 //    public javax.swing.table.DefaultTableModel ListarProceso(){
 //        javax.swing.table.DefaultTableModel tem;

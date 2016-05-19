@@ -105,6 +105,34 @@ public class clsConecta {
             return "error";
         }
     }
+    
+    public ResultSet Lista(String cadena) throws SQLException{       
+       String sql=cadena; 
+       res=stm.executeQuery(sql);
+       return res;
+   }
+    public java.sql.ResultSet listaTipo(String sql){
+        try{
+            stm = con.createStatement();
+            return stm.executeQuery(sql);
+        }
+        catch(SQLException ex){
+            System.out.println("Error insertando: " + ex.toString());
+            return null;
+        }
+    }
+    
+    public int Cant(String cadena){
+    try{
+        Statement instruccion = con.createStatement(ResultSet.CONCUR_READ_ONLY,ResultSet.CONCUR_UPDATABLE);        
+        res = instruccion.executeQuery(cadena);
+        res.absolute(1);       
+        return res.getInt(1);    
+       }
+    catch(Exception X)
+    { return 0;  }   
+    
+    } 
 //    public ResultSet ListarProceso() throws SQLException{
 //        String sql = "SELECT descripcion, area_responsable, tiempo, posicion FROM actividad_por_proceso;";
 //        res = stm.executeQuery(sql);

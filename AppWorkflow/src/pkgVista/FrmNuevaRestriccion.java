@@ -38,11 +38,16 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
         btn_Nuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Numero");
         jLabel1.setToolTipText("");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 51, -1, -1));
 
         jLabel2.setText("Descripcion Restriccion");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 107, -1, -1));
+        getContentPane().add(txt_Codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 48, 196, -1));
+        getContentPane().add(txt_descripcionRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 104, 196, -1));
 
         btn_Guardar.setText("Guardar");
         btn_Guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -50,6 +55,7 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
                 btn_GuardarActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 166, -1, -1));
 
         btn_Regresar.setText("Regresar");
         btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
@@ -57,6 +63,7 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
                 btn_RegresarActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(296, 166, -1, -1));
 
         btn_Nuevo.setText("Nuevo");
         btn_Nuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -64,48 +71,7 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
                 btn_NuevoActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(66, 66, 66)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txt_Codigo)
-                    .addComponent(txt_descripcionRest, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(btn_Guardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addComponent(btn_Nuevo)
-                .addGap(27, 27, 27)
-                .addComponent(btn_Regresar)
-                .addGap(42, 42, 42))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txt_Codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_descripcionRest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Guardar)
-                    .addComponent(btn_Regresar)
-                    .addComponent(btn_Nuevo))
-                .addContainerGap())
-        );
+        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 166, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -140,6 +140,26 @@ INSERT INTO estado(descripcion_estado)
     ('Archivado'),
     ('Anulado');
 
+INSERT INTO area(nombre_area)
+    VALUES ('Oficina Secretaria General'),
+    ('Gerencia de Administracion Tributaria'),
+    ('SubGerencia Logistica'),
+    ('SubGerencia Tesoreria'),
+    ('SubGerencia Contabilidad'),
+    ('SubGerencia Informatica y Estadistica'),
+    ('SubGerencia Estudis y Proyectos'),
+    ('SubGerencia Recursos Humanos'),
+    ('SubGerencia Gestion Riesgos de Desastres'),
+    ('Gerencia Asesoria Juridica'),
+    ('Gerencia Planificacion y Presupuesto'),
+    ('Gerencia Desarrollo Urbano'),
+    ('Gerencia Servicio Ciudadano'),
+    ('Gerencia Desarrollo Social'),
+    ('Gerencia Transporte Urbano'),
+    ('Gerencia Administracion Tributaria'),
+    ('SubGerencia Fiscalizacion Administracion'),
+    ('Gerencia Seguridad Ciudadana'),
+    ('Gerencia Centro Historico');
 
 INSERT INTO area(
             id_area, nombre_area, encargado)
