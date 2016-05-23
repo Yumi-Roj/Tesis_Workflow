@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import pkgControlador.clsConecta;
 
 /**
@@ -59,6 +60,12 @@ Statement sent;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Cargo");
+
+        txt_Usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_UsuarioActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Usuario");
 
@@ -133,10 +140,8 @@ Statement sent;
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,30 +158,21 @@ Statement sent;
                                             .addComponent(txt_NombApellidos)
                                             .addComponent(txt_Contraseña)))))
                             .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_Salir, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btn_NuevoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_GuardarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_ModificarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(btn_EliminarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap())
+                            .addComponent(btn_Salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_NuevoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_GuardarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_ModificarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_EliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_NuevoUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_GuardarUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_ModificarUsuario)
-                        .addGap(7, 7, 7)
-                        .addComponent(btn_EliminarUsuario))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(cbo_Cargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -191,10 +187,19 @@ Statement sent;
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txt_NombApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_Salir)
-                .addGap(21, 21, 21)
+                            .addComponent(txt_NombApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(btn_NuevoUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_GuardarUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_ModificarUsuario)
+                        .addGap(7, 7, 7)
+                        .addComponent(btn_EliminarUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Salir)))
+                .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
@@ -253,7 +258,7 @@ Statement sent;
         // TODO add your handling code here:
         try{
             int fila=tabla_Usuario.getSelectedRow();
-            String sql="delete from usuario where id_usuario="+tabla_Usuario.getValueAt(fila,0);
+            String sql="delete from usuario where nombre_usuario="+tabla_Usuario.getValueAt(fila,0);
             sent=Conn.createStatement();
             int n=sent.executeUpdate(sql);
             if(n>0){
@@ -289,31 +294,39 @@ Statement sent;
 
     private void tabla_UsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_UsuarioMouseClicked
         // TODO add your handling code here:
-        if(evt.getButton()==1){
-            try{
-                Habilitar();
-                 int fila=tabla_Usuario.getSelectedRow();
-                 String sql="select * from usuario where id_usuario="+tabla_Usuario.getValueAt(fila,0);
-                 sent=Conn.createStatement();
-                 ResultSet rs=sent.executeQuery(sql);
-                 rs.next();
-                 cbo_Cargo.getSelectedItem().toString();
-                 txt_Usuario.setText(rs.getString("nombre_usuario"));
-                 txt_Contraseña.setText(rs.getString("clave_usuario"));
-                 txt_NombApellidos.setText(rs.getString("nombre_completo"));
-                 
-
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
+        int i = tabla_Usuario.getSelectedRow();
+        Habilitar();
+        TableModel model = tabla_Usuario.getModel();
+         cbo_Cargo.getSelectedItem().toString();
+         txt_Usuario.setText(model.getValueAt(i,0).toString());
+         txt_Contraseña.setText(model.getValueAt(i,1).toString());
+         txt_NombApellidos.setText(model.getValueAt(i,2).toString());
+//        if(evt.getButton()==1){
+//            int fila=tabla_Usuario.getSelectedRow();
+//            try{
+//                Habilitar();
+//                 
+//                 String sql="select * from usuario where id_usuario="+tabla_Usuario.getValueAt(fila,0);
+//                 sent=Conn.createStatement();
+//                 ResultSet rs=sent.executeQuery(sql);
+//                 rs.next();
+//                 cbo_Cargo.getSelectedItem().toString();
+//                 txt_Usuario.setText(rs.getString("nombre_usuario"));
+//                 txt_Contraseña.setText(rs.getString("clave_usuario"));
+//                 txt_NombApellidos.setText(rs.getString("nombre_completo"));
+//                 
+//
+//            }catch(Exception e){
+//                e.printStackTrace();
+//            }
+//        }
     }//GEN-LAST:event_tabla_UsuarioMouseClicked
 
     private void btn_ModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarUsuarioActionPerformed
         // TODO add your handling code here:
         try{
             String sql="Update usuario set nombre_usuario=?, clave_usuario=?, nombre_completo=?, cargo=?"+
-                    "where id=?";
+                    "where id_usuario=?";
             int fila=tabla_Usuario.getSelectedRow();
             String dao=(String)tabla_Usuario.getValueAt(fila,0);
             PreparedStatement ps=Conn.prepareCall(sql);
@@ -339,6 +352,10 @@ Statement sent;
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btn_SalirActionPerformed
+
+    private void txt_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_UsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_UsuarioActionPerformed
 
     /**
      * @param args the command line arguments
