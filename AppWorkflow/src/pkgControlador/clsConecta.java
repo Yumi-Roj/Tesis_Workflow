@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,9 +18,13 @@ import java.sql.SQLException;
  */
 public class clsConecta {
 
-    public Connection con;
-    public ResultSet res;
-    public Statement stm;
+    public static Connection con;
+    public static ResultSet res;
+    public static Statement stm;
+    private static String driver;
+    private static String user;
+    private static String pwd;
+    private static String dbstr;
 
     public clsConecta() {
          try{
@@ -35,6 +40,16 @@ public class clsConecta {
         catch(SQLException ex){
             System.out.println("No se puede conectar");
         }
+    }
+    public static Connection getConnection(){
+    try{
+        Class.forName("org.postgresql.Driver");
+        con =  DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbWorkflow","postgres","postgres");
+
+    }catch(Exception e){
+        JOptionPane.showMessageDialog(null,"Error"+e.getMessage());
+    }
+        return con;
     }
     
     public boolean validar(String sql){

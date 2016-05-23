@@ -35,8 +35,9 @@ public class FrmLogin extends javax.swing.JFrame {
         btn_Aceptar = new javax.swing.JButton();
         btn_Cancelar = new javax.swing.JButton();
         btn_Salir = new javax.swing.JButton();
-        cbo_tipo = new javax.swing.JComboBox<>();
+        cbo_tipo = new javax.swing.JComboBox<String>();
         txt_Usuario = new javax.swing.JTextField();
+        btn_NuevoUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -65,7 +66,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 btn_AceptarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
+        getContentPane().add(btn_Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         btn_Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_delete_mail.png"))); // NOI18N
         btn_Cancelar.setText("Cancelar");
@@ -74,7 +75,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 btn_CancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, -1, -1));
+        getContentPane().add(btn_Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
 
         btn_Salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/stop.png"))); // NOI18N
         btn_Salir.setText("Salir");
@@ -83,11 +84,20 @@ public class FrmLogin extends javax.swing.JFrame {
                 btn_SalirActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 150, 90, -1));
+        getContentPane().add(btn_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 90, -1));
 
-        cbo_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Encargado Mesa Partes", "Modelador", "Gerente" }));
+        cbo_tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Encargado Mesa Partes", "Modelador", "Gerente" }));
         getContentPane().add(cbo_tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 170, -1));
         getContentPane().add(txt_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 167, -1));
+
+        btn_NuevoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
+        btn_NuevoUsuario.setText("Nuevo");
+        btn_NuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_NuevoUsuarioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_NuevoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, 90, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -125,6 +135,13 @@ public class FrmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btn_SalirActionPerformed
+
+    private void btn_NuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NuevoUsuarioActionPerformed
+        // TODO add your handling code here:
+        FrmUsuario Principal=new FrmUsuario();
+        Principal.setVisible(true);
+        FrmLogin.this.dispose();
+    }//GEN-LAST:event_btn_NuevoUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,6 +181,7 @@ public class FrmLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Aceptar;
     private javax.swing.JButton btn_Cancelar;
+    private javax.swing.JButton btn_NuevoUsuario;
     private javax.swing.JButton btn_Salir;
     private javax.swing.JComboBox<String> cbo_tipo;
     private javax.swing.JLabel jLabel1;

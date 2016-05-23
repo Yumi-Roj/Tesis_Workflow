@@ -28,6 +28,7 @@ CREATE TABLE Usuario
   nombre_usuario character(50) NULL,
   clave_usuario character(50) NULL,
   nombre_completo character(50) NULL,
+  cargo character(50) NULL,
   CONSTRAINT pk_usuario PRIMARY KEY (id_usuario)
 )
 
