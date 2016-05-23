@@ -165,7 +165,7 @@ Statement sent;
                             .addComponent(btn_GuardarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_ModificarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_EliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +326,7 @@ Statement sent;
         // TODO add your handling code here:
         try{
             String sql="Update usuario set nombre_usuario=?, clave_usuario=?, nombre_completo=?, cargo=?"+
-                    "where id_usuario=?";
+                    "where nombre_usuario=?";
             int fila=tabla_Usuario.getSelectedRow();
             String dao=(String)tabla_Usuario.getValueAt(fila,0);
             PreparedStatement ps=Conn.prepareCall(sql);
