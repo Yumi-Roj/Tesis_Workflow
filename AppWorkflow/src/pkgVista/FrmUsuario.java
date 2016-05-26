@@ -205,10 +205,10 @@ Statement sent;
             int n=0;
             int fila=tabla_Usuario.getSelectedRow();
             fila++;
-            JOptionPane.showMessageDialog(null, fila);
+            //JOptionPane.showMessageDialog(null, fila);
             String sql="delete from usuario where nombre_usuario= '"+tabla_Usuario.getValueAt(fila - 1,0).toString().trim() + "'";
-            JOptionPane.showMessageDialog(null, tabla_Usuario.getValueAt(fila - 1,0));
-            JOptionPane.showMessageDialog(null, sql);
+            //JOptionPane.showMessageDialog(null, tabla_Usuario.getValueAt(fila - 1,0));
+            //JOptionPane.showMessageDialog(null, sql);
             sent=Conn.createStatement();
             n=sent.executeUpdate(sql);
            
