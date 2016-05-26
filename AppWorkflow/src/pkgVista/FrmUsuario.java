@@ -58,22 +58,31 @@ Statement sent;
         btn_Salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Cargo");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 45, 44, -1));
 
         txt_Usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_UsuarioActionPerformed(evt);
             }
         });
+        getContentPane().add(txt_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 68, 161, -1));
 
         jLabel2.setText("Usuario");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 74, -1, -1));
 
         jLabel3.setText("Contraseña");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 109, -1, -1));
 
         cbo_Cargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Encargado Mesa Partes", "Modelador", "Gerente" }));
+        getContentPane().add(cbo_Cargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 39, -1, -1));
+        getContentPane().add(txt_Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 103, 160, -1));
 
         jLabel4.setText("Nombre y Apellidos");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 146, -1, -1));
+        getContentPane().add(txt_NombApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 143, 160, -1));
 
         btn_NuevoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_NuevoUsuario.setText("Nuevo");
@@ -82,6 +91,7 @@ Statement sent;
                 btn_NuevoUsuarioActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_NuevoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 27, 120, -1));
 
         btn_GuardarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
         btn_GuardarUsuario.setText("Grabar");
@@ -90,6 +100,7 @@ Statement sent;
                 btn_GuardarUsuarioActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_GuardarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 59, 120, -1));
 
         btn_ModificarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
         btn_ModificarUsuario.setText("Modificar");
@@ -98,6 +109,7 @@ Statement sent;
                 btn_ModificarUsuarioActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_ModificarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 97, 120, -1));
 
         btn_EliminarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_delete_shred.png"))); // NOI18N
         btn_EliminarUsuario.setText("Eliminar");
@@ -106,6 +118,7 @@ Statement sent;
                 btn_EliminarUsuarioActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_EliminarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 129, 120, -1));
 
         tabla_Usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -125,6 +138,8 @@ Statement sent;
         });
         jScrollPane1.setViewportView(tabla_Usuario);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 219, 484, 131));
+
         btn_Salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/stop.png"))); // NOI18N
         btn_Salir.setText("Salir");
         btn_Salir.addActionListener(new java.awt.event.ActionListener() {
@@ -132,77 +147,7 @@ Statement sent;
                 btn_SalirActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(73, 73, 73)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbo_Cargo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txt_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_NombApellidos)
-                                            .addComponent(txt_Contraseña)))))
-                            .addComponent(jLabel4))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_Salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_NuevoUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_GuardarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_ModificarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_EliminarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(cbo_Cargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(txt_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txt_NombApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(btn_NuevoUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_GuardarUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_ModificarUsuario)
-                        .addGap(7, 7, 7)
-                        .addComponent(btn_EliminarUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_Salir)))
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
+        getContentPane().add(btn_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 161, 120, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -223,30 +168,30 @@ Statement sent;
         txt_NombApellidos.setEditable(true);
     }
     void Llenar(){
-    try{
-        Conn=clsConecta.getConnection();
-        String [] titulos ={"Usuario","Contraseña", "NombreyApellidos","Cargo"};
-        String sql="select nombre_usuario,clave_usuario,nombre_completo, cargo from usuario";
-        model=new DefaultTableModel(null, titulos);
-        sent=Conn.createStatement();
-        ResultSet rs=sent.executeQuery(sql);
+        try {
+            Conn = clsConecta.getConnection();
+            String[] titulos = {"Usuario", "Contraseña", "NombreyApellidos", "Cargo"};
+            String sql = "select nombre_usuario,clave_usuario,nombre_completo, cargo from usuario";
+            model = new DefaultTableModel(null, titulos);
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
 
-        String fila []= new String [5];
+            String fila[] = new String[5];
 
-        while(rs.next()){
-            fila [0]=rs.getString("nombre_usuario");
-            fila [1]=rs.getString("clave_usuario");
-            fila [2]=rs.getString("nombre_completo");
-            fila [3]=rs.getString("cargo");
+            while (rs.next()) {
+                fila[0] = rs.getString("nombre_usuario");
+                fila[1] = rs.getString("clave_usuario");
+                fila[2] = rs.getString("nombre_completo");
+                fila[3] = rs.getString("cargo");
 
-            model.addRow(fila);
+                model.addRow(fila);
 
-        }
-        tabla_Usuario.setModel(model);
-
-            }catch(Exception e){
-        e.printStackTrace();
             }
+            tabla_Usuario.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 }
     private void btn_NuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NuevoUsuarioActionPerformed
         // TODO add your handling code here:
@@ -257,15 +202,23 @@ Statement sent;
     private void btn_EliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarUsuarioActionPerformed
         // TODO add your handling code here:
         try{
+            int n=0;
             int fila=tabla_Usuario.getSelectedRow();
-            String sql="delete from usuario where nombre_usuario="+tabla_Usuario.getValueAt(fila,0);
+            fila++;
+            JOptionPane.showMessageDialog(null, fila);
+            String sql="delete from usuario where nombre_usuario= '"+tabla_Usuario.getValueAt(fila - 1,0).toString().trim() + "'";
+            JOptionPane.showMessageDialog(null, tabla_Usuario.getValueAt(fila - 1,0));
+            JOptionPane.showMessageDialog(null, sql);
             sent=Conn.createStatement();
-            int n=sent.executeUpdate(sql);
+            n=sent.executeUpdate(sql);
+           
             if(n>0){
+                
                 Llenar();
                 JOptionPane.showMessageDialog(null, "datos eliminados");
                 Limpiar();
             }
+            fila = 0;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "error"+e.getMessage());
         }
@@ -277,10 +230,10 @@ Statement sent;
             String sql="insert into usuario (nombre_usuario, clave_usuario, nombre_completo, cargo)" +
                    "Values (?,?,?,?) ";
             PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_Usuario.getText());
-            ps.setString(2, txt_Contraseña.getText());
-            ps.setString(3, txt_NombApellidos.getText());
-            ps.setString(4, cbo_Cargo.getSelectedItem().toString());
+            ps.setString(1, txt_Usuario.getText().trim());
+            ps.setString(2, txt_Contraseña.getText().trim());
+            ps.setString(3, txt_NombApellidos.getText().trim());
+            ps.setString(4, cbo_Cargo.getSelectedItem().toString().trim());
             
             int n=ps.executeUpdate();
             if(n>0)
@@ -294,13 +247,14 @@ Statement sent;
 
     private void tabla_UsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_UsuarioMouseClicked
         // TODO add your handling code here:
+        Limpiar();
         int i = tabla_Usuario.getSelectedRow();
         Habilitar();
         TableModel model = tabla_Usuario.getModel();
          cbo_Cargo.getSelectedItem().toString();
-         txt_Usuario.setText(model.getValueAt(i,0).toString());
-         txt_Contraseña.setText(model.getValueAt(i,1).toString());
-         txt_NombApellidos.setText(model.getValueAt(i,2).toString());
+         txt_Usuario.setText(model.getValueAt(i,0).toString().trim());
+         txt_Contraseña.setText(model.getValueAt(i,1).toString().trim());
+         txt_NombApellidos.setText(model.getValueAt(i,2).toString().trim());
 //        if(evt.getButton()==1){
 //            int fila=tabla_Usuario.getSelectedRow();
 //            try{
@@ -330,10 +284,10 @@ Statement sent;
             int fila=tabla_Usuario.getSelectedRow();
             String dao=(String)tabla_Usuario.getValueAt(fila,0);
             PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_Usuario.getText());
-            ps.setString(2, txt_Contraseña.getText());
-            ps.setString(3, txt_NombApellidos.getText());
-            ps.setString(4, cbo_Cargo.getSelectedItem().toString());
+            ps.setString(1, txt_Usuario.getText().trim());
+            ps.setString(2, txt_Contraseña.getText().trim());
+            ps.setString(3, txt_NombApellidos.getText().trim());
+            ps.setString(4, cbo_Cargo.getSelectedItem().toString().trim());
 
            ps.setString(5,dao);
             int n=ps.executeUpdate();

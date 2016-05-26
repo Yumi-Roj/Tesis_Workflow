@@ -35,7 +35,6 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
         txt_descripcionRest = new javax.swing.JTextField();
         btn_Guardar = new javax.swing.JButton();
         btn_Regresar = new javax.swing.JButton();
-        btn_Nuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -55,31 +54,23 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
                 btn_GuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 166, -1, -1));
+        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, -1, -1));
 
-        btn_Regresar.setText("Regresar");
+        btn_Regresar.setText("Cerrar");
         btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_RegresarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(296, 166, -1, -1));
-
-        btn_Nuevo.setText("Nuevo");
-        btn_Nuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_NuevoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(206, 166, -1, -1));
+        getContentPane().add(btn_Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
         // TODO add your handling code here:
-        FrmCrearProcesos Principal=new FrmCrearProcesos();
-        Principal.setVisible(true);
+        //FrmCrearProcesos Principal=new FrmCrearProcesos();
+        //Principal.setVisible(true);
         FrmNuevaRestriccion.this.dispose();
     }//GEN-LAST:event_btn_RegresarActionPerformed
 
@@ -92,14 +83,13 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
         objCrearProceso.restriccionesActividad();
 //        objCrearProceso.ListarProceso();
         JOptionPane.showMessageDialog(rootPane, "Datos correctos");
+        NuevaRestriccion();
     }//GEN-LAST:event_btn_GuardarActionPerformed
-
-    private void btn_NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NuevoActionPerformed
-        // TODO add your handling code here:
+    
+    public void NuevaRestriccion(){
         txt_Codigo.setText("");
         txt_descripcionRest.setText("");
-    }//GEN-LAST:event_btn_NuevoActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */
@@ -137,7 +127,6 @@ public class FrmNuevaRestriccion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Guardar;
-    private javax.swing.JButton btn_Nuevo;
     private javax.swing.JButton btn_Regresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

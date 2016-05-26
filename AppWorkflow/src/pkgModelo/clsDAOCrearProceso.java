@@ -21,10 +21,6 @@ public class clsDAOCrearProceso extends clsCrearProceso{
     pkgControlador.clsConecta objConecta;
     Connection conexion;
     Statement consulta;
-    ResultSet rs = null;
-    Statement st = null; 
-    Connection conn = null; 
-    String sql = null;
 
     public clsDAOCrearProceso() {
         objConecta = new pkgControlador.clsConecta();
@@ -35,7 +31,7 @@ public class clsDAOCrearProceso extends clsCrearProceso{
         SQL = "INSERT INTO Actividad_por_Proceso(descripcion, area_responsable, tiempo, posicion) VALUES ('"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"')";
         objConecta.insertar(SQL);
     }
-    public DefaultComboBoxModel ListarTipoProceso(){
+    public DefaultComboBoxModel ListarArea(){
         DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
         String SQL = "SELECT nombre_area FROM area";
         java.sql.ResultSet rs = null;
@@ -63,15 +59,6 @@ public class clsDAOCrearProceso extends clsCrearProceso{
 //        rs = objConecta.listaTipo(SQL);
 //        return modeloCombo;
     }
-    public void llenar_combo() throws SQLException{
-        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        st = conn.createStatement();
-        rs = st.executeQuery ("SELECT nombre_area FROM area");
-        while (rs.next()){
-        modeloCombo.addElement(rs.getObject("nombre"));
-        }
-    }
-    
 
     public DefaultTableModel ListarProceso(){
         DefaultTableModel modelo = new DefaultTableModel();

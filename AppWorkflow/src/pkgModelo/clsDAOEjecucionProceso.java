@@ -5,10 +5,22 @@
  */
 package pkgModelo;
 
+import pkgControlador.clsConecta;
+
 /**
  *
  * @author YUMI
  */
-public class clsDAOEjecucionProceso {
+public class clsDAOEjecucionProceso extends clsEjecucionProceso{
+    pkgControlador.clsConecta objConecta;
+
+    public clsDAOEjecucionProceso() {
+    }
+
+    public clsDAOEjecucionProceso(clsConecta objConecta, String nomProceso, String numExpediente) {
+        super(nomProceso, numExpediente);
+        this.objConecta = objConecta;
+    }
+    
     
 }
