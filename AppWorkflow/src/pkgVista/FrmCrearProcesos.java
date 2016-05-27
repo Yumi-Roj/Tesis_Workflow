@@ -81,7 +81,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_ModificarH = new javax.swing.JButton();
         btn_EliminarActividad = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        cbo_tipoTramite = new javax.swing.JComboBox<String>();
+        cbo_tipoTramite = new javax.swing.JComboBox<>();
         btn_GuardarProcesosActividad = new javax.swing.JButton();
         btn_Listar = new javax.swing.JButton();
         cbo_ListarArea = new javax.swing.JComboBox();
@@ -89,6 +89,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         txt_NumeroRest = new javax.swing.JTextField();
         txt_DescripcionRest = new javax.swing.JTextField();
+        btn_ListarRestric = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,7 +139,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                     .addGroup(jp_inicioLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(463, Short.MAX_VALUE))
+                        .addContainerGap(306, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_inicioLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_inicio)
@@ -237,13 +238,13 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
         tabla_procesoActividad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Posicion ", "Nombre Actividad", "Area", "Tiempo"
+                "ID", "Posicion ", "Nombre Actividad", "Area", "Tiempo"
             }
         ));
         tabla_procesoActividad.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -311,7 +312,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel14.setText("Tipo Tramite");
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 80, -1));
 
-        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
+        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
         jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 240, -1));
 
         btn_GuardarProcesosActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
@@ -322,7 +323,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_GuardarProcesosActividadActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 190, 90, 30));
+        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 190, 110, 30));
 
         btn_Listar.setText("Listar");
         btn_Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -350,24 +351,37 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
         jtpanel_procesos.addTab("CREAR PROCESO", jp_crear);
 
+        btn_ListarRestric.setText("Listar");
+        btn_ListarRestric.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ListarRestricActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 911, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(12, Short.MAX_VALUE)
-                    .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(12, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 840, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(343, 343, 343)
+                .addComponent(btn_ListarRestric)
+                .addContainerGap(505, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 818, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(640, Short.MAX_VALUE)
+                .addComponent(btn_ListarRestric)
+                .addGap(24, 24, 24))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -434,7 +448,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 model.addRow(fila);
 
             }
-            tabla_restricciones.setModel(model);
+           tabla_restricciones.setModel(model);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -449,29 +463,6 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_inicioActionPerformed
     
-    private void btn_nuevoRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoRestActionPerformed
-        // TODO add your handling code here:
-        txt_NumeroRest.setText("");
-        txt_DescripcionRest.setText("");
-    }//GEN-LAST:event_btn_nuevoRestActionPerformed
-
-    private void btn_EliminarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarRestActionPerformed
-        // TODO add your handling code here:
-        try {
-            int fila = tabla_restricciones.getSelectedRow();
-            String sql = "delete from restricciones_por_actividad where codigo_restriccion= '"+tabla_restricciones.getValueAt(fila - 1,0).toString().trim() + "'";
-            sent = Conn.createStatement();
-            int n = sent.executeUpdate(sql);
-            if (n > 0) {
-                LlenarActividad();
-                JOptionPane.showMessageDialog(null, "datos eliminados");
-                Limpiar();
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error" + e.getMessage());
-        }
-    }//GEN-LAST:event_btn_EliminarRestActionPerformed
-
     private void btn_nuevoHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoHActionPerformed
         // TODO add your handling code here:
         txt_actividad.setText("");
@@ -514,6 +505,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         //objCrearProceso.ListarProceso();
         tabla_procesoActividad.setModel(objCrearProceso.ListarProceso());
         JOptionPane.showMessageDialog(rootPane, "Datos correctos");
+        LlenarActividad();
         NuevaActividad();
     }//GEN-LAST:event_btn_GuardarProcesosActividadActionPerformed
     public void NuevaActividad(){
@@ -522,30 +514,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         txt_tiempo.setText("");
     }
 
-    private void btn_GuardarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarRestActionPerformed
-        // TODO add your handling code here:
-        try{
-            String sql="insert into restricciones_por_actividad (codigo_restriccion, descripcion)" +
-                   "Values (?,?) ";
-
-            PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_NumeroRest.getText().trim());
-            ps.setString(2, txt_DescripcionRest.getText().trim());
-            
-            int n=ps.executeUpdate();
-            if(n>0)
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
-        }
-        LlenarRestricciones();
-        
-        
-    }//GEN-LAST:event_btn_GuardarRestActionPerformed
-
     private void btn_ListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ListarActionPerformed
         // TODO add your handling code here:
         LlenarActividad();
+        cambiarCombo(evt);
     }//GEN-LAST:event_btn_ListarActionPerformed
 
     private void cbo_ListarAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_ListarAreaActionPerformed
@@ -556,9 +528,9 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         // TODO add your handling code here:
          try{
             String sql="Update actividad_por_proceso set descripcion=?, area_responsable=?, tiempo=?, posicion=?"+
-                    "where posicion=?";
+                    "where id_actividad=?";
             int fila=tabla_procesoActividad.getSelectedRow();
-            String dao=(String)tabla_procesoActividad.getValueAt(fila,0);
+            int dao= Integer.parseInt(tabla_procesoActividad.getValueAt(fila,0).toString());
             PreparedStatement ps=Conn.prepareCall(sql);
             
 //           ps.setString(1, txt_NomProceso.getText().trim());
@@ -568,8 +540,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
            // ps.setString(3, cbo_responsable.getSelectedItem().toString().trim());
             ps.setString(3, txt_tiempo.getText().trim());
             ps.setString(4, jSpinner1.getValue().toString());
-
-           ps.setString(5,dao);
+            
+            
+           ps.setInt(5,dao);
+           JOptionPane.showMessageDialog(null, ps.toString());
             int n=ps.executeUpdate();
             if(n>0){
                 //Limpiar();
@@ -595,17 +569,22 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 //        cbo_responsable.getSelectedItem().toString();
         txt_tiempo.setText(model.getValueAt(i,4).toString().trim());     
     }//GEN-LAST:event_tabla_procesoActividadMouseClicked
-
+    
+    private void cambiarCombo(java.awt.event.ActionEvent evt)
+    {
+        cbo_ListarArea.setSelectedIndex(2);
+    }
+    
     private void btn_GuardarHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarHActionPerformed
         // TODO add your handling code here:
         try{
-            String sql="insert into procesos (nombre_procesos, tipo)" +
-                   "Values (?,?) ";
-            sql="insert into Actividad_por_Proceso (descripcion, area_responsable, tiempo, posicion)" +
-                   "Values (?,?,?,?) ";
+            String sql="INSERT INTO procesos(nombre_procesos, tipo) VALUES (?,?)";
+            PreparedStatement pr=Conn.prepareCall(sql);
+            sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable, tiempo, posicion) VALUES (?,?,?,?)";
             PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_NomProceso.getText().trim());
-            ps.setString(2, cbo_tipoTramite.getSelectedItem().toString().trim());
+            JOptionPane.showMessageDialog(null, sql);
+            pr.setString(1, txt_NomProceso.getText().trim());
+            pr.setString(2, cbo_tipoTramite.getSelectedItem().toString().trim());
             ps.setString(3, txt_actividad.getText().trim());
             ps.setString(4, cbo_ListarArea.getSelectedItem().toString().trim());
             ps.setString(5, cbo_responsable.getSelectedItem().toString().trim());
@@ -619,22 +598,40 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
         }
         LlenarActividad();
-        Limpiar();
+       // Limpiar();
     }//GEN-LAST:event_btn_GuardarHActionPerformed
+
+    private void btn_EliminarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarRestActionPerformed
+        // TODO add your handling code here:
+        try {
+            int fila = tabla_restricciones.getSelectedRow();
+            String sql = "delete from restricciones_por_actividad where codigo_restriccion= '"+tabla_restricciones.getValueAt(fila-1,0).toString().trim() + "'";
+            JOptionPane.showMessageDialog(null, sql);
+            sent = Conn.createStatement();
+            int n = sent.executeUpdate(sql);
+            if (n > 0) {
+                LlenarActividad();
+                JOptionPane.showMessageDialog(null, "datos eliminados");
+                Limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error" + e.getMessage());
+        }
+    }//GEN-LAST:event_btn_EliminarRestActionPerformed
 
     private void btn_ModificarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarRestActionPerformed
         // TODO add your handling code here:
-         try{
+        try{
             String sql="Update restricciones_por_actividad set codigo_restriccion=?, descripcion=?"+
-                    "where codigo_restriccion=?";
+            "where codigo_restriccion=?";
             int fila=tabla_restricciones.getSelectedRow();
             String dao=(String)tabla_restricciones.getValueAt(fila,0);
             PreparedStatement ps=Conn.prepareCall(sql);
-            
+
             ps.setString(1, txt_actividad.getText().trim());
             ps.setString(2, txt_tiempo.getText().trim());
 
-           ps.setString(3,dao);
+            ps.setString(5,dao);
             int n=ps.executeUpdate();
             if(n>0){
                 //Limpiar();
@@ -647,16 +644,51 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_ModificarRestActionPerformed
 
+    private void btn_GuardarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarRestActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql="insert into restricciones_por_actividad (codigo_restriccion, descripcion)" +
+            "Values (?,?) ";
+
+            PreparedStatement ps=Conn.prepareCall(sql);
+            ps.setString(1, txt_NumeroRest.getText().trim());
+            ps.setString(2, txt_DescripcionRest.getText().trim());
+
+            int n=ps.executeUpdate();
+            if(n>0)
+            JOptionPane.showMessageDialog(null, "datos guardados");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
+        }
+        LlenarRestricciones();
+    }//GEN-LAST:event_btn_GuardarRestActionPerformed
+
+    private void btn_nuevoRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoRestActionPerformed
+        // TODO add your handling code here:
+        txt_NumeroRest.setText("");
+        txt_DescripcionRest.setText("");
+    }//GEN-LAST:event_btn_nuevoRestActionPerformed
+
     private void tabla_restriccionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_restriccionesMouseClicked
-        // TODO add your handling code here:                                                  
+        // TODO add your handling code here:
         //Limpiar();
         int i = tabla_restricciones.getSelectedRow();
-       // Habilitar();
+        // Habilitar();
         TableModel model = tabla_restricciones.getModel();
         txt_NumeroRest.setText(model.getValueAt(i,0).toString().trim());
-        txt_DescripcionRest.setText(model.getValueAt(i,1).toString().trim());     
+        txt_DescripcionRest.setText(model.getValueAt(i,1).toString().trim());
     }//GEN-LAST:event_tabla_restriccionesMouseClicked
 
+    private void btn_ListarRestricActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ListarRestricActionPerformed
+        // TODO add your handling code here:
+        LlenarRestricciones();
+    }//GEN-LAST:event_btn_ListarRestricActionPerformed
+
+    public void insertarNuevoProcesoActividad(){         
+        String SQL; //= "INSERT INTO procesos(nombre_procesos, tipo) VALUES (?,?)";
+        SQL = "INSERT INTO Actividad_por_Proceso(descripcion, area_responsable, tiempo, posicion) VALUES (?,?,?,?)";
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -699,6 +731,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JButton btn_GuardarProcesosActividad;
     private javax.swing.JButton btn_GuardarRest;
     private javax.swing.JButton btn_Listar;
+    private javax.swing.JButton btn_ListarRestric;
     private javax.swing.JButton btn_ModificarH;
     private javax.swing.JButton btn_ModificarRest;
     private javax.swing.JButton btn_inicio;
