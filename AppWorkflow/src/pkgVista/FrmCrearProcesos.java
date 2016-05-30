@@ -81,7 +81,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_ModificarH = new javax.swing.JButton();
         btn_EliminarActividad = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        cbo_tipoTramite = new javax.swing.JComboBox<>();
+        cbo_tipoTramite = new javax.swing.JComboBox<String>();
         btn_GuardarProcesosActividad = new javax.swing.JButton();
         btn_Listar = new javax.swing.JButton();
         cbo_ListarArea = new javax.swing.JComboBox();
@@ -289,7 +289,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_GuardarHActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_GuardarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 110, -1));
+        jp_crear.add(btn_GuardarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 190, 110, -1));
 
         btn_ModificarH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
         btn_ModificarH.setText("Modificar");
@@ -312,7 +312,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel14.setText("Tipo Tramite");
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 80, -1));
 
-        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
+        cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
         jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 240, -1));
 
         btn_GuardarProcesosActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
@@ -323,7 +323,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_GuardarProcesosActividadActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 190, 110, 30));
+        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 110, -1));
 
         btn_Listar.setText("Listar");
         btn_Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -341,7 +341,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jp_crear.add(cbo_ListarArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 300, -1));
 
-        jLabel15.setText("Numero");
+        jLabel15.setText("Codigo");
         jp_crear.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, -1, -1));
 
         jLabel16.setText("Restriccion");
@@ -433,7 +433,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     void LlenarRestricciones(){
         try {
             Conn = clsConecta.getConnection();
-            String[] titulos = {"ID", "Numero", "Restricciones"};
+            String[] titulos = {"ID", "Codigo", "Restricciones"};
             String sql = "select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
@@ -505,8 +505,9 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         objCrearProceso.insertarNuevoProcesoActividad();
         //objCrearProceso.ListarProceso();
         tabla_procesoActividad.setModel(objCrearProceso.ListarProceso());
-        JOptionPane.showMessageDialog(rootPane, "Datos correctos");
         LlenarActividad();
+        JOptionPane.showMessageDialog(rootPane, "Datos correctos");
+        
         NuevaActividad();
     }//GEN-LAST:event_btn_GuardarProcesosActividadActionPerformed
     public void NuevaActividad(){
@@ -579,18 +580,17 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             String sql="INSERT INTO procesos(nombre_procesos, tipo) VALUES (?,?)";
-            PreparedStatement pr=Conn.prepareCall(sql);
-            sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable, tiempo, posicion) VALUES (?,?,?,?)";
             PreparedStatement ps=Conn.prepareCall(sql);
-            JOptionPane.showMessageDialog(null, sql);
-            pr.setString(1, txt_NomProceso.getText().trim());
-            pr.setString(2, cbo_tipoTramite.getSelectedItem().toString().trim());
-            ps.setString(3, txt_actividad.getText().trim());
-            ps.setString(4, cbo_ListarArea.getSelectedItem().toString().trim());
-            ps.setString(5, cbo_responsable.getSelectedItem().toString().trim());
-            ps.setString(6, txt_tiempo.getText().trim());
-            ps.setString(7, jSpinner1.getValue().toString());
-            
+            ps.setString(1, txt_NomProceso.getText().trim());
+            ps.setString(2, cbo_tipoTramite.getSelectedItem().toString().trim());
+//            sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable, tiempo, posicion) VALUES (?,?,?,?)";
+//            PreparedStatement ps=Conn.prepareCall(sql);
+//            ps.setString(3, txt_actividad.getText().trim());
+//            ps.setString(4, cbo_ListarArea.getSelectedItem().toString().trim());
+//            ps.setString(5, cbo_responsable.getSelectedItem().toString().trim());
+//            ps.setString(6, txt_tiempo.getText().trim());
+//            ps.setString(7, jSpinner1.getValue().toString());
+            guardarActividad();
             int n=ps.executeUpdate();
             if(n>0)
             JOptionPane.showMessageDialog(null, "datos guardados");
@@ -601,6 +601,25 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
        // Limpiar();
     }//GEN-LAST:event_btn_GuardarHActionPerformed
 
+    private void guardarActividad(){
+        try{
+            String  sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable, tiempo, posicion) VALUES (?,?,?,?)";
+            PreparedStatement ps=Conn.prepareCall(sql);
+            ps.setString(1, txt_actividad.getText().trim());
+            ps.setString(2, cbo_ListarArea.getSelectedItem().toString().trim());
+            ps.setString(3, cbo_responsable.getSelectedItem().toString().trim());
+            ps.setString(4, txt_tiempo.getText().trim());
+            ps.setString(5, jSpinner1.getValue().toString());
+            
+            int n=ps.executeUpdate();
+            if(n>0)
+            JOptionPane.showMessageDialog(null, "datos guardados");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
+        }
+        //LlenarActividad();
+    }
+    
     private void btn_EliminarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarRestActionPerformed
         // TODO add your handling code here:
         try {

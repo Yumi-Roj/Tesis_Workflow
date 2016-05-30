@@ -5,8 +5,18 @@
  */
 package pkgVista;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import pkgControlador.clsConecta;
 
 
 /**
@@ -14,12 +24,17 @@ import javax.swing.JOptionPane;
  * @author YUMI
  */
 public class FrmNuevoDocumento extends javax.swing.JFrame {
-
+DefaultTableModel model;
+Connection Conn;
+Statement sent;
     /**
      * Creates new form FrmNuevoDocumento
      */
     public FrmNuevoDocumento() {
         initComponents();
+        Calendar c1 = GregorianCalendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");       
+        //txt_Fecha.setDate(sdf.format(c1.getTime())); 
     }
 
     /**
@@ -41,8 +56,6 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         txt_Destino = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txt_remitente = new javax.swing.JTextField();
-        txt_Cargo = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         btn_Guardar = new javax.swing.JButton();
@@ -54,6 +67,8 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btn_Modificar = new javax.swing.JButton();
         txt_Fecha = new com.toedter.calendar.JDateChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla_Expediente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -71,29 +86,25 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 140, -1, -1));
 
         jLabel6.setText("Fecha");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 178, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, -1, -1));
 
         jLabel4.setText("Asunto");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
-        getContentPane().add(txt_Asunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 320, -1));
-        getContentPane().add(txt_Destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 315, 124, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
+        getContentPane().add(txt_Asunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 320, -1));
+        getContentPane().add(txt_Destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, 124, -1));
 
         jLabel5.setText("Destino");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(311, 318, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
 
         txt_remitente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_remitenteActionPerformed(evt);
             }
         });
-        getContentPane().add(txt_remitente, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 274, 124, -1));
-        getContentPane().add(txt_Cargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 314, 124, -1));
-
-        jLabel14.setText("Cargo");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 317, -1, -1));
+        getContentPane().add(txt_remitente, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 124, -1));
 
         jLabel3.setText("Remitente");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 277, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel13.setText("Datos Administrado");
@@ -106,7 +117,7 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
                 btn_GuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 390, 99, -1));
+        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 360, 99, -1));
 
         btn_Nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_Nuevo.setText("Nuevo");
@@ -115,7 +126,7 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
                 btn_NuevoActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 102, -1));
+        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, 102, -1));
 
         btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/document_preview.png"))); // NOI18N
         btn_Buscar.setText("Buscar");
@@ -124,7 +135,7 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
                 btn_BuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 390, 99, -1));
+        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 99, -1));
 
         btn_Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/dialog_close.png"))); // NOI18N
         btn_Cerrar.setText("Cerrar");
@@ -133,9 +144,9 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
                 btn_CerrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 390, 117, -1));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 120, 564, -1));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 229, 564, -1));
+        getContentPane().add(btn_Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(687, 480, 100, -1));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 120, 770, 10));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 229, 770, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("NUEVO DOCUMENTO");
@@ -148,12 +159,80 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
                 btn_ModificarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, -1));
-        getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 133, -1));
+        getContentPane().add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 420, 100, -1));
+        getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 133, -1));
+
+        tabla_Expediente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "NumExpediente", "Asunto", "Fecha", "Destino", "Remitente"
+            }
+        ));
+        tabla_Expediente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_ExpedienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla_Expediente);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 670, 160));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    void Deshabilitar() {
+        txt_numero.setEditable(false);
+        txt_Asunto.setEditable(false);
+        txt_remitente.setEditable(false);
+        txt_Destino.setEditable(false);
+    }
 
+    void Limpiar() {
+        txt_numero.setText("");
+        txt_Asunto.setText("");
+        txt_remitente.setText("");
+        txt_Destino.setText("");
+    }
+
+    void Habilitar() {
+        txt_numero.setEditable(true);
+        txt_Asunto.setEditable(true);
+        txt_remitente.setEditable(true);
+        txt_Destino.setEditable(true);
+    }
+
+    void LlenarDocumento() {
+        try {
+            Conn = clsConecta.getConnection();
+            String[] titulos = {"ID", "NumExpediente", "Asunto", "Fecha", "Destino", "Remitente"};
+            String sql = "select id_documento,numero_expediente,asunto,fecha,destino,remitente from documento";
+            model = new DefaultTableModel(null, titulos);
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+
+            String fila[] = new String[5];
+
+            while (rs.next()) {
+                fila[0] = rs.getString("id_documento");
+                fila[1] = rs.getString("numero_expediente");
+                fila[2] = rs.getString("asunto");
+                fila[3] = rs.getString("fecha");
+                fila[2] = rs.getString("destino");
+                fila[3] = rs.getString("remitente");
+
+                model.addRow(fila);
+
+            }
+            tabla_Expediente.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void txt_remitenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_remitenteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_remitenteActionPerformed
@@ -164,13 +243,11 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         txt_Fecha.setEnabled(true);
         txt_Asunto.setEnabled(true);
         txt_remitente.setEnabled(true);
-        txt_Cargo.setEnabled(true);
         txt_Destino.setEnabled(true);
         
         txt_numero.setText("");
         txt_Asunto.setText("");
         txt_remitente.setText("");
-        txt_Cargo.setText("");
         txt_Destino.setText("");
     }//GEN-LAST:event_btn_NuevoActionPerformed
 
@@ -184,16 +261,17 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
         pkgModelo.clsDAONuevoDocumento objNuevoDocumento;
         objNuevoDocumento = new pkgModelo.clsDAONuevoDocumento();
         objNuevoDocumento.setNumExpediente(txt_numero.getText().trim());
+        objNuevoDocumento.setAsunto(txt_Asunto.getText().trim());
         //System.out.println("LA FECHA ES: " + txt_Fecha.getDateFormatString().trim());
         String fecha = new SimpleDateFormat("dd/MM/yyyy").format(txt_Fecha.getDate());
         System.out.println("LA FECHA ES: " + fecha);
         objNuevoDocumento.setFecha(fecha);
-        objNuevoDocumento.setAsunto(txt_Asunto.getText().trim());
+        
         objNuevoDocumento.setRemitente(txt_remitente.getText().trim());
-        objNuevoDocumento.setCargo(txt_Cargo.getText().trim());
         objNuevoDocumento.setDestino(txt_Destino.getText().trim());
         objNuevoDocumento.insertarNuevoDocumento();
         JOptionPane.showMessageDialog(rootPane, "Datos correctos");
+        LlenarDocumento();
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void btn_CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CerrarActionPerformed
@@ -203,8 +281,48 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
 
     private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed
         // TODO add your handling code here:
+        Calendar c1 = GregorianCalendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");       
+       // txtfecha.setText(sdf.format(c1.getTime()));  
         
+        try{
+            String sql="Update documento set numero_expediente=?, asunto=?, fecha=?, destino=?, remitente=?"+
+                    "where id_documento=?";
+            int fila=tabla_Expediente.getSelectedRow();
+            int dao= Integer.parseInt(tabla_Expediente.getValueAt(fila,0).toString());
+            PreparedStatement ps=Conn.prepareCall(sql);
+            ps.setString(1, txt_numero.getText().trim());
+            ps.setString(2, txt_Asunto.getText().trim());
+            //ps.setDate(3, txt_Fecha.getCalendar());
+            ps.setString(3, txt_remitente.getText().trim());
+            ps.setString(4, txt_Destino.getText().trim());
+ 
+           ps.setInt(5,dao);
+           //JOptionPane.showMessageDialog(null, ps.toString());
+            int n=ps.executeUpdate();
+            if(n>0){
+                //Limpiar();
+                LlenarDocumento();
+                JOptionPane.showMessageDialog(null, "datos modificados");
+
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
+        }
     }//GEN-LAST:event_btn_ModificarActionPerformed
+
+    private void tabla_ExpedienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_ExpedienteMouseClicked
+        // TODO add your handling code here:
+         
+         int i = tabla_Expediente.getSelectedRow();
+       // Habilitar();
+        TableModel model = tabla_Expediente.getModel();
+        txt_numero.setText(model.getValueAt(i,1).toString().trim());
+        txt_Asunto.setText(model.getValueAt(i,2).toString().trim());
+        txt_Fecha.setDate((Date) model.getValueAt(i,3));
+        txt_Destino.setText(model.getValueAt(i,4).toString().trim()); 
+        txt_remitente.setText(model.getValueAt(i,5).toString().trim());  
+    }//GEN-LAST:event_tabla_ExpedienteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -251,16 +369,16 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTable tabla_Expediente;
     private javax.swing.JTextField txt_Asunto;
-    private javax.swing.JTextField txt_Cargo;
     private javax.swing.JTextField txt_Destino;
     private com.toedter.calendar.JDateChooser txt_Fecha;
     private javax.swing.JTextField txt_numero;

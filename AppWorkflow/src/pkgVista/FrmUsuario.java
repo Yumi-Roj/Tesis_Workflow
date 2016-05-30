@@ -167,7 +167,7 @@ Statement sent;
         txt_Contraseña.setEditable(true);
         txt_NombApellidos.setEditable(true);
     }
-    void Llenar(){
+    void Llenar() {
         try {
             Conn = clsConecta.getConnection();
             String[] titulos = {"Usuario", "Contraseña", "NombreyApellidos", "Cargo"};
@@ -192,7 +192,7 @@ Statement sent;
         } catch (Exception e) {
             e.printStackTrace();
         }
-}
+    }
     private void btn_NuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NuevoUsuarioActionPerformed
         // TODO add your handling code here:
         Limpiar();
