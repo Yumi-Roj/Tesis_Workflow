@@ -433,17 +433,18 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     void LlenarRestricciones(){
         try {
             Conn = clsConecta.getConnection();
-            String[] titulos = {"Numero", "Restricciones"};
-            String sql = "select codigo_restriccion,descripcion from restricciones_por_actividad";
+            String[] titulos = {"ID", "Numero", "Restricciones"};
+            String sql = "select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
 
-            String fila[] = new String[2];
+            String fila[] = new String[3];
 
             while (rs.next()) {
-                fila[0] = rs.getString("codigo_restriccion");
-                fila[1] = rs.getString("descripcion");
+                fila[0] = rs.getString("id_restriccion");
+                fila[1] = rs.getString("codigo_restriccion");
+                fila[2] = rs.getString("descripcion");
 
                 model.addRow(fila);
 
@@ -540,10 +541,9 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
            // ps.setString(3, cbo_responsable.getSelectedItem().toString().trim());
             ps.setString(3, txt_tiempo.getText().trim());
             ps.setString(4, jSpinner1.getValue().toString());
-            
-            
+ 
            ps.setInt(5,dao);
-           JOptionPane.showMessageDialog(null, ps.toString());
+           //JOptionPane.showMessageDialog(null, ps.toString());
             int n=ps.executeUpdate();
             if(n>0){
                 //Limpiar();
@@ -565,7 +565,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         //jSpinner1.setValue(model.getValueAt(i,1));
         jSpinner1.setValue(0);
         txt_actividad.setText(model.getValueAt(i,2).toString().trim());
-        cbo_ListarArea.getSelectedItem().toString().equals(model.getValueAt(i, 3).toString());
+        cbo_ListarArea.setSelectedItem(toString().equals(model.getValueAt(i, 3).toString()));
 //        cbo_responsable.getSelectedItem().toString();
         txt_tiempo.setText(model.getValueAt(i,4).toString().trim());     
     }//GEN-LAST:event_tabla_procesoActividadMouseClicked
@@ -621,17 +621,18 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
     private void btn_ModificarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarRestActionPerformed
         // TODO add your handling code here:
-        try{
+            try{
             String sql="Update restricciones_por_actividad set codigo_restriccion=?, descripcion=?"+
-            "where codigo_restriccion=?";
+            "where id_restriccion=?";
             int fila=tabla_restricciones.getSelectedRow();
-            String dao=(String)tabla_restricciones.getValueAt(fila,0);
+            int dao= Integer.parseInt(tabla_restricciones.getValueAt(fila,0).toString().trim());
             PreparedStatement ps=Conn.prepareCall(sql);
 
-            ps.setString(1, txt_actividad.getText().trim());
-            ps.setString(2, txt_tiempo.getText().trim());
+            ps.setString(1, txt_NumeroRest.getText().trim());
+            ps.setString(2, txt_DescripcionRest.getText().trim());
 
-            ps.setString(5,dao);
+            ps.setInt(3,dao);
+            //JOptionPane.showMessageDialog(null, ps.toString());
             int n=ps.executeUpdate();
             if(n>0){
                 //Limpiar();
@@ -675,8 +676,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         int i = tabla_restricciones.getSelectedRow();
         // Habilitar();
         TableModel model = tabla_restricciones.getModel();
-        txt_NumeroRest.setText(model.getValueAt(i,0).toString().trim());
-        txt_DescripcionRest.setText(model.getValueAt(i,1).toString().trim());
+        txt_NumeroRest.setText(model.getValueAt(i,1).toString().trim());
+        txt_DescripcionRest.setText(model.getValueAt(i,2).toString().trim());
     }//GEN-LAST:event_tabla_restriccionesMouseClicked
 
     private void btn_ListarRestricActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ListarRestricActionPerformed
