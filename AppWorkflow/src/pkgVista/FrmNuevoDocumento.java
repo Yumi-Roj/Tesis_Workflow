@@ -214,15 +214,15 @@ Statement sent;
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
 
-            String fila[] = new String[5];
+            String fila[] = new String[6];
 
             while (rs.next()) {
                 fila[0] = rs.getString("id_documento");
                 fila[1] = rs.getString("numero_expediente");
                 fila[2] = rs.getString("asunto");
                 fila[3] = rs.getString("fecha");
-                fila[2] = rs.getString("destino");
-                fila[3] = rs.getString("remitente");
+                fila[4] = rs.getString("destino");
+                fila[5] = rs.getString("remitente");
 
                 model.addRow(fila);
 
