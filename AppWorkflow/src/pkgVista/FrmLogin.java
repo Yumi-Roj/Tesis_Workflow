@@ -87,6 +87,11 @@ public class FrmLogin extends javax.swing.JFrame {
         getContentPane().add(btn_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 90, -1));
 
         cbo_tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Encargado Mesa Partes", "Modelador", "Gerente" }));
+        cbo_tipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbo_tipoActionPerformed(evt);
+            }
+        });
         getContentPane().add(cbo_tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 170, -1));
         getContentPane().add(txt_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 167, -1));
 
@@ -109,7 +114,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btn_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AceptarActionPerformed
                 
       pkgModelo.clsDAOLogin obj = new pkgModelo.clsDAOLogin();
-//      obj.setUsuario(cbo_tipo.getSelectedItem().toString().trim());
+      obj.setUsuario(cbo_tipo.getSelectedItem().toString().trim());
       obj.setUsuario(txt_Usuario.getText().trim());
       obj.setContrasena(txt_Contrasena.getText().trim());
       if (obj.valide()== false) {
@@ -119,7 +124,8 @@ public class FrmLogin extends javax.swing.JFrame {
       else{
           java.awt.EventQueue.invokeLater(new Runnable(){
               public void run(){
-              new FrmCrearProcesos().setVisible(true);
+              //new FrmCrearProcesos().setVisible(true);
+                  //cbo_tipoActionPerformed(java.awt.event.ActionEvent evt);
           }
           });
           this.dispose();
@@ -142,6 +148,25 @@ public class FrmLogin extends javax.swing.JFrame {
         Principal.setVisible(true);
         FrmLogin.this.dispose();
     }//GEN-LAST:event_btn_NuevoUsuarioActionPerformed
+
+    private void cbo_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_tipoActionPerformed
+        // TODO add your handling code here:
+        if (cbo_tipo.getSelectedItem().equals("Encargado Mesa Partes")) {
+            FrmNuevoDocumento NuevoDocumento=new FrmNuevoDocumento();
+            NuevoDocumento.setVisible(true);
+            FrmLogin.this.dispose();
+            //oo9988  this.setBounds(50, 50, 450, 240);
+        } else if (cbo_tipo.getSelectedItem().equals("Modelador")) {
+            FrmCrearProcesos CrearProcesos=new FrmCrearProcesos();
+            CrearProcesos.setVisible(true);
+            FrmLogin.this.dispose();
+            
+        } else if (cbo_tipo.getSelectedItem().equals("Gerente")) {
+            FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
+            EjecucionProceso.setVisible(true);
+            FrmLogin.this.dispose();
+        }
+    }//GEN-LAST:event_cbo_tipoActionPerformed
 
     /**
      * @param args the command line arguments

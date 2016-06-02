@@ -8,9 +8,11 @@ package pkgControlador;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -118,7 +120,54 @@ public class clsConecta {
             return null;
         }
     }
-    
+    public ResultSet consultas(String sql) throws SQLException {
+        try {
+            res = stm.executeQuery(sql);//para sentencias select nada mas
+
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return res;
+    }
+    //funcion para ejecutar sentencias INSERT DELETE UPDATE
+
+    public void ejecutar(String sql) throws SQLException {
+        try {
+            stm.execute(sql);
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+     public DefaultTableModel retornarDatosTabla(String SentenciaSQL) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        try {
+            ResultSet rsDatos = consulta(SentenciaSQL);
+            //optendremos lo metodos se la consulta 
+            // del cual optenemos 
+            ResultSetMetaData metaDatos = rsDatos.getMetaData();
+            //optemos el nro de columnas
+            int numeroColumnas = metaDatos.getColumnCount();//columnas
+            //optener las etiquetas  de la tabla 
+            Object[] etiquetas = new Object[numeroColumnas];//creamos de array de objetos dinamico
+            for (int i = 0; i < numeroColumnas; i++) {
+                etiquetas[i] = metaDatos.getColumnLabel(i + 1);//las etiquetas comienzan desde 1e
+            }
+            //enlazar las etiquetas con el modelo 
+            modelo.setColumnIdentifiers(etiquetas);//asignamos edentiofocadores de columnas 
+            while (rsDatos.next()) {
+                //creamos un objeto para almacenar un registro
+                Object[] datosFila = new Object[modelo.getColumnCount()];
+                //rellenar cada posicion del objeto con una de las columans de la tabla 
+                for (int i = 0; i < modelo.getColumnCount(); i++) {
+                    datosFila[i] = rsDatos.getObject(i + 1);
+                }
+                modelo.addRow(datosFila);
+            }
+        } catch (Exception e) {
+        }
+        return modelo;
+    }
+     
     public String eliminar(String sql){
         try{
             stm = con.createStatement();

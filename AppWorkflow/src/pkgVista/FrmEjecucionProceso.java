@@ -21,6 +21,8 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     DefaultTableModel model;
     Connection Conn;
     Statement sent;
+    ResultSet rs;
+    clsConecta conectar;
     /**
      * Creates new form FrmEjecucionProceso
      */
@@ -174,27 +176,38 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     
     private void btn_nuevoEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoEjecucionActionPerformed
         // TODO add your handling code here:
+        txt_NumExpediente.setText("");
     }//GEN-LAST:event_btn_nuevoEjecucionActionPerformed
 
     private void btn_BuscarExpedienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarExpedienteActionPerformed
         // TODO add your handling code here:
         try {
-            Conn = clsConecta.getConnection();
-            String sql = "select numero_expediente from documento where numero_expediente = 'txt_NumExpediente'";
-            sent = Conn.createStatement();
-            ResultSet rs = sent.executeQuery(sql);
-
-            String fila[] = new String[3];
+            conectar = new clsConecta();
+            //Conn = clsConecta.getConnection();
+            String codBuscar = "";
+            codBuscar = (txt_NumExpediente.getText()); 
+            //codBuscar = JOptionPane.showInputDialog("Ingrese el codigo a Buscar: ");
+            rs = conectar.consulta("select numero_expediente from documento");
+            //codBuscar=txt_NumExpediente.setText("");
+//            String sql = "select numero_expediente from documento";
+//            sent = Conn.createStatement();
+//            ResultSet rs = sent.executeQuery(sql);
+            boolean encontro = false;
 
             while (rs.next()) {
-                fila[0] = rs.getString("id_restriccion");
-                fila[1] = rs.getString("codigo_restriccion");
-                fila[2] = rs.getString("descripcion");
-
-                model.addRow(fila);
-
+                if (codBuscar.equals(rs.getObject("numero_expediente"))) {
+                    encontro = true;
+                    break;
+                }
             }
-           tabla_EjecucionProceso.setModel(model);
+            String SQL = "SELECT id_documento,numero_expediente,asunto,fecha,destino,remitente FROM documento where numero_expediente = '" + codBuscar + "'";
+            model = conectar.retornarDatosTabla(SQL);
+            tabla_EjecucionProceso.setModel(model);
+            //jScrollPane2.getViewport().add(tabla_EjecucionProceso);
+            if (encontro == false) {
+                JOptionPane.showMessageDialog(null, "no existe proceso Buscado");
+            }
+           //tabla_EjecucionProceso.setModel(model);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
