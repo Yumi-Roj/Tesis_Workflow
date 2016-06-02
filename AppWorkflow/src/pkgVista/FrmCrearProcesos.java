@@ -578,46 +578,46 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     
     private void btn_GuardarHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarHActionPerformed
         // TODO add your handling code here:
-        try{
-            String sql="INSERT INTO procesos(nombre_procesos, tipo) VALUES (?,?)";
-            PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_NomProceso.getText().trim());
-            ps.setString(2, cbo_tipoTramite.getSelectedItem().toString().trim());
-//            sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable, tiempo, posicion) VALUES (?,?,?,?)";
-//            PreparedStatement ps=Conn.prepareCall(sql);
-//            ps.setString(3, txt_actividad.getText().trim());
-//            ps.setString(4, cbo_ListarArea.getSelectedItem().toString().trim());
-//            ps.setString(5, cbo_responsable.getSelectedItem().toString().trim());
-//            ps.setString(6, txt_tiempo.getText().trim());
-//            ps.setString(7, jSpinner1.getValue().toString());
-            guardarActividad();
-            int n=ps.executeUpdate();
-            if(n>0)
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
+        try {
+
+            String sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable, tiempo, posicion)"
+                    + "VALUES (?,?,?,?)";
+            PreparedStatement ps = Conn.prepareCall(sql);
+            ps.setString(1, txt_actividad.getText().trim());
+            ps.setString(2, cbo_ListarArea.getSelectedItem().toString().trim());
+            //ps.setString(3, cbo_responsable.getSelectedItem().toString().trim());
+            ps.setString(3, txt_tiempo.getText().trim());
+            ps.setString(4, jSpinner1.getValue().toString());
+            guardarProceso();
+            int n = ps.executeUpdate();
+            if (n > 0) {
+                JOptionPane.showMessageDialog(null, "datos guardados Actividad");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error" + e.getMessage());
         }
         LlenarActividad();
        // Limpiar();
     }//GEN-LAST:event_btn_GuardarHActionPerformed
 
-    private void guardarActividad(){
-        try{
-            String  sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable, tiempo, posicion) VALUES (?,?,?,?)";
-            PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_actividad.getText().trim());
-            ps.setString(2, cbo_ListarArea.getSelectedItem().toString().trim());
-            ps.setString(3, cbo_responsable.getSelectedItem().toString().trim());
-            ps.setString(4, txt_tiempo.getText().trim());
-            ps.setString(5, jSpinner1.getValue().toString());
+    private void guardarProceso() {
+        try {
+
+            String sql = "insert into procesos (nombre_procesos, tipo)"
+                    + "Values (?,?) ";
+            PreparedStatement ps = Conn.prepareCall(sql);
+            ps.setString(1, txt_NomProceso.getText().trim());
+            ps.setString(2, cbo_tipoTramite.getSelectedItem().toString().trim());
             
-            int n=ps.executeUpdate();
-            if(n>0)
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
+
+            int n = ps.executeUpdate();
+            if (n > 0) {
+                JOptionPane.showMessageDialog(null, "datos guardados ");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error" + e.getMessage());
         }
-        //LlenarActividad();
+        LlenarActividad();
     }
     
     private void btn_EliminarRestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarRestActionPerformed

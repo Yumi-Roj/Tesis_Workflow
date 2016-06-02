@@ -70,6 +70,34 @@ public class clsConecta {
         }
     }
     
+    public boolean ejecutarSql(String sql) {
+        try {
+            stm.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Error en la consulta SQL: " +ex.getMessage());
+            return false;
+        }
+    }
+    
+    public ResultSet getSql(String Sql) {
+        try {
+            res = stm.executeQuery(Sql);
+        } catch (SQLException ex) {
+            System.out.println("Error en la consulta SQL: " +ex.getMessage());
+        }
+        return res;
+    }
+    
+    public void cerrar() {
+        try {
+            stm.close();
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+    }
+    
     public void insertar(String sql){
         try{
             stm = con.createStatement();

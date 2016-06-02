@@ -182,3 +182,8 @@ INSERT INTO Procesos(id_procesos, id_actividad, id_restriccion, nombre_procesos,
 
  INSERT INTO Documento(id_usuario, id_persona, id_estado,numero_expediente, asunto, fecha, destino, remitente)
     VALUES (1, 1, 1,01, 'tramite', '05/05/2016', 'mm', 'kkk');
+
+
+    ALTER TABLE usuario
+  ADD CONSTRAINT fk_usuario_cargo
+  FOREIGN KEY (id_cargo) REFERENCES cargo(id_cargo);

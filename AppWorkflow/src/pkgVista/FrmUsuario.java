@@ -41,6 +41,7 @@ Statement sent;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollBar1 = new javax.swing.JScrollBar();
         jLabel1 = new javax.swing.JLabel();
         txt_Usuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -77,7 +78,7 @@ Statement sent;
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 109, -1, -1));
 
         cbo_Cargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Encargado Mesa Partes", "Modelador", "Gerente" }));
-        getContentPane().add(cbo_Cargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 39, -1, -1));
+        getContentPane().add(cbo_Cargo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 39, 160, -1));
         getContentPane().add(txt_Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(161, 103, 160, -1));
 
         jLabel4.setText("Nombre y Apellidos");
@@ -230,7 +231,7 @@ Statement sent;
             
             String sql="insert into usuario (nombre_usuario, clave_usuario, nombre_completo, cargo)" +
                    "Values (?,?,?,?) ";
-            JOptionPane.showMessageDialog(null, sql);
+            //JOptionPane.showMessageDialog(null, sql);
             PreparedStatement ps=Conn.prepareCall(sql);
             ps.setString(1, txt_Usuario.getText().trim());
             ps.setString(2, txt_Contraseña.getText().trim());
@@ -359,6 +360,7 @@ Statement sent;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla_Usuario;
     private javax.swing.JTextField txt_Contraseña;

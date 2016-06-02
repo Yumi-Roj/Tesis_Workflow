@@ -69,6 +69,7 @@ Statement sent;
         txt_Fecha = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_Expediente = new javax.swing.JTable();
+        btn_Listar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -182,6 +183,14 @@ Statement sent;
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 670, 160));
 
+        btn_Listar.setText("Listar");
+        btn_Listar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ListarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 330, 100, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
     void Deshabilitar() {
@@ -286,14 +295,14 @@ Statement sent;
        // txtfecha.setText(sdf.format(c1.getTime()));  
         
         try{
-            String sql="Update documento set numero_expediente=?, asunto=?, fecha=?, destino=?, remitente=?"+
+            String sql="Update documento set numero_expediente=?, asunto=?, destino=?, remitente=?"+
                     "where id_documento=?";
             int fila=tabla_Expediente.getSelectedRow();
             int dao= Integer.parseInt(tabla_Expediente.getValueAt(fila,0).toString());
             PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_numero.getText().trim());
+            ps.setInt(1, Integer.parseInt(txt_numero.getText().trim()));
             ps.setString(2, txt_Asunto.getText().trim());
-            //ps.setDate(3, txt_Fecha.getCalendar());
+            //ps.setDate(3, (java.sql.Date) txt_Fecha.getDate());
             ps.setString(3, txt_remitente.getText().trim());
             ps.setString(4, txt_Destino.getText().trim());
  
@@ -313,16 +322,40 @@ Statement sent;
 
     private void tabla_ExpedienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_ExpedienteMouseClicked
         // TODO add your handling code here:
-         
-         int i = tabla_Expediente.getSelectedRow();
-       // Habilitar();
-        TableModel model = tabla_Expediente.getModel();
-        txt_numero.setText(model.getValueAt(i,1).toString().trim());
-        txt_Asunto.setText(model.getValueAt(i,2).toString().trim());
-        txt_Fecha.setDate((Date) model.getValueAt(i,3));
-        txt_Destino.setText(model.getValueAt(i,4).toString().trim()); 
-        txt_remitente.setText(model.getValueAt(i,5).toString().trim());  
+          if(evt.getButton()==1){
+            int fila=tabla_Expediente.getSelectedRow();
+            try{
+                Habilitar();
+                 
+                 String sql="select * from documento where id_documento="+tabla_Expediente.getValueAt(fila,0);
+                 sent=Conn.createStatement();
+                 ResultSet rs=sent.executeQuery(sql);
+                 rs.next();
+                 txt_numero.setText(rs.getString("numero_expediente").trim());
+                 txt_Asunto.setText(rs.getString("asunto").trim());
+                 txt_Fecha.setDate(rs.getDate("fecha"));
+                 txt_Destino.setText(rs.getString("destino").trim());
+                 txt_remitente.setText(rs.getString("remitente").trim());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+//         Limpiar();
+//         int i = tabla_Expediente.getSelectedRow();
+//       // Habilitar();
+//        TableModel model = tabla_Expediente.getModel();
+//        txt_numero.setText(model.getValueAt(i,1).toString().trim());
+//        txt_Asunto.setText(model.getValueAt(i,2).toString().trim());
+//        txt_Fecha.setDate((Date) model.getValueAt(i,3));
+//        txt_Destino.setText(model.getValueAt(i,4).toString().trim()); 
+//        txt_remitente.setText(model.getValueAt(i,5).toString().trim());  
+        
     }//GEN-LAST:event_tabla_ExpedienteMouseClicked
+
+    private void btn_ListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ListarActionPerformed
+        // TODO add your handling code here:
+        LlenarDocumento();
+    }//GEN-LAST:event_btn_ListarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -363,6 +396,7 @@ Statement sent;
     private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Cerrar;
     private javax.swing.JButton btn_Guardar;
+    private javax.swing.JButton btn_Listar;
     private javax.swing.JButton btn_Modificar;
     private javax.swing.JButton btn_Nuevo;
     private javax.swing.JLabel jLabel1;

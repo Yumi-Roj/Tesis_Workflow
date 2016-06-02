@@ -5,17 +5,29 @@
  */
 package pkgVista;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pkgControlador.clsConecta;
 /**
  *
  * @author YUMI
  */
 public class FrmEjecucionProceso extends javax.swing.JFrame {
-
+    private javax.swing.DefaultComboBoxModel modeloCboProcesos;
+    DefaultTableModel model;
+    Connection Conn;
+    Statement sent;
     /**
      * Creates new form FrmEjecucionProceso
      */
     public FrmEjecucionProceso() {
+        modeloCboProcesos = new javax.swing.DefaultComboBoxModel(new String[] {});
         initComponents();
+        LlenarComboboxProcesos();
     }
 
     /**
@@ -32,17 +44,17 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         jCheckBoxMenuItem3 = new javax.swing.JCheckBoxMenuItem();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        btn_Buscar = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        btn_BuscarExpediente = new javax.swing.JButton();
+        cbo_Procesos = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
-        txt = new javax.swing.JTextField();
+        txt_NumExpediente = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla_EjecucionProceso = new javax.swing.JTable();
         btn_Detalle = new javax.swing.JButton();
-        btn_nuevoH = new javax.swing.JButton();
+        btn_nuevoEjecucion = new javax.swing.JButton();
         btn_ModificarH = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
@@ -60,12 +72,17 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/document_preview.png"))); // NOI18N
-        btn_Buscar.setText("Buscar");
-        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 90, -1, -1));
+        btn_BuscarExpediente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/document_preview.png"))); // NOI18N
+        btn_BuscarExpediente.setText("Buscar");
+        btn_BuscarExpediente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarExpedienteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_BuscarExpediente, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 90, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Certificado y/o constancia de contribuyente", "Fraccionamiento de pagos por deudas menores a 2UIT", "Fraccionamiento de pagos por deudas mayores a 2UIT", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 294, -1));
+        cbo_Procesos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Certificado y/o constancia de contribuyente", "Fraccionamiento de pagos por deudas menores a 2UIT", "Fraccionamiento de pagos por deudas mayores a 2UIT", "Item 3", "Item 4" }));
+        getContentPane().add(cbo_Procesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 294, -1));
 
         jLabel2.setText("Nombre Proceso");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 63, -1, -1));
@@ -77,9 +94,9 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
         jLabel7.setText("Numero de Expediente");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 140, -1));
-        getContentPane().add(txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 130, -1));
+        getContentPane().add(txt_NumExpediente, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 130, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_EjecucionProceso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -90,7 +107,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
                 "Posicion", "Numero Documento", "Nombre Actividad", "Area", "Estado", "Tiempo", "ver Restriccion"
             }
         ));
-        jScrollPane5.setViewportView(jTable1);
+        jScrollPane5.setViewportView(tabla_EjecucionProceso);
 
         getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 950, 130));
 
@@ -98,14 +115,14 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         btn_Detalle.setText("Detalle");
         getContentPane().add(btn_Detalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 170, 110, -1));
 
-        btn_nuevoH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
-        btn_nuevoH.setText("Nuevo");
-        btn_nuevoH.addActionListener(new java.awt.event.ActionListener() {
+        btn_nuevoEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
+        btn_nuevoEjecucion.setText("Nuevo");
+        btn_nuevoEjecucion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nuevoHActionPerformed(evt);
+                btn_nuevoEjecucionActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_nuevoH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 210, 110, -1));
+        getContentPane().add(btn_nuevoEjecucion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 210, 110, -1));
 
         btn_ModificarH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_select_all.png"))); // NOI18N
         btn_ModificarH.setText("Modificar");
@@ -113,10 +130,76 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void iniCboProcesos() {
 
-    private void btn_nuevoHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoHActionPerformed
+        pkgControlador.clsConecta BD = new pkgControlador.clsConecta();
+        ResultSet resul;
+        try {
+            //BD.clsConecta();
+            resul = BD.getSql("SELECT id_procesos,nombre_procesos,tipo FROM procesos ORDER BY id_procesos");
+
+            modeloCboProcesos.addElement("[ Elije un Proceso ]");
+            //Llenamos con datos el JComboBox
+            while(resul.next())
+                modeloCboProcesos.addElement(resul.getString("nombre_procesos"));
+            
+            cbo_Procesos.setModel(modeloCboProcesos);
+        } catch (Exception e) {
+        }
+       // BD.cerrar();
+
+    }
+    void LlenarComboboxProcesos(){
+ 
+        try {
+            Conn = clsConecta.getConnection();
+            String sql = "SELECT id_procesos,nombre_procesos,tipo FROM procesos ORDER BY id_procesos";
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            modeloCboProcesos.addElement("[ Elije un Proceso ]");
+            while (rs.next()) {
+                modeloCboProcesos.addElement(rs.getString("nombre_procesos"));
+                cbo_Procesos.setModel(modeloCboProcesos);
+//               String tmpStrObtenido = rs.getString("nombre_procesos");
+//               cbo_Procesos.addItem(makeObj(tmpStrObtenido));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private Object makeObj(final String item)  {
+     return new Object() { public String toString() { return item; } };
+   }
+    
+    private void btn_nuevoEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoEjecucionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_nuevoHActionPerformed
+    }//GEN-LAST:event_btn_nuevoEjecucionActionPerformed
+
+    private void btn_BuscarExpedienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarExpedienteActionPerformed
+        // TODO add your handling code here:
+        try {
+            Conn = clsConecta.getConnection();
+            String sql = "select numero_expediente from documento where numero_expediente = 'txt_NumExpediente'";
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+
+            String fila[] = new String[3];
+
+            while (rs.next()) {
+                fila[0] = rs.getString("id_restriccion");
+                fila[1] = rs.getString("codigo_restriccion");
+                fila[2] = rs.getString("descripcion");
+
+                model.addRow(fila);
+
+            }
+           tabla_EjecucionProceso.setModel(model);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
+        }
+    }//GEN-LAST:event_btn_BuscarExpedienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,14 +237,14 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_BuscarExpediente;
     private javax.swing.JButton btn_Detalle;
     private javax.swing.JButton btn_ModificarH;
-    private javax.swing.JButton btn_nuevoH;
+    private javax.swing.JButton btn_nuevoEjecucion;
+    private javax.swing.JComboBox cbo_Procesos;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
@@ -169,7 +252,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txt;
+    private javax.swing.JTable tabla_EjecucionProceso;
+    private javax.swing.JTextField txt_NumExpediente;
     // End of variables declaration//GEN-END:variables
 }
