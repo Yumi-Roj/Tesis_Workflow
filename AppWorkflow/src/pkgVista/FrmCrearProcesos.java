@@ -566,7 +566,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         //jSpinner1.setValue(model.getValueAt(i,1));
         jSpinner1.setValue(0);
         txt_actividad.setText(model.getValueAt(i,2).toString().trim());
-        cbo_ListarArea.setSelectedItem(toString().equals(model.getValueAt(i, 3).toString()));
+        cbo_ListarArea.setSelectedItem(toString().equals(model.getValueAt(i, 3)));
 //        cbo_responsable.getSelectedItem().toString();
         txt_tiempo.setText(model.getValueAt(i,4).toString().trim());     
     }//GEN-LAST:event_tabla_procesoActividadMouseClicked
