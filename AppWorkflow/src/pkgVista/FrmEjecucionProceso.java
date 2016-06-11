@@ -6,6 +6,7 @@
 package pkgVista;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,6 +47,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         jCheckBoxMenuItem3 = new javax.swing.JCheckBoxMenuItem();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jDialog1 = new javax.swing.JDialog();
         btn_BuscarExpediente = new javax.swing.JButton();
         cbo_Procesos = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
@@ -111,11 +113,11 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(tabla_EjecucionProceso);
 
-        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 950, 130));
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 1070, 330));
 
         btn_Detalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/list.png"))); // NOI18N
         btn_Detalle.setText("Detalle");
-        getContentPane().add(btn_Detalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 170, 110, -1));
+        getContentPane().add(btn_Detalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 130, 110, -1));
 
         btn_nuevoEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_nuevoEjecucion.setText("Nuevo");
@@ -124,11 +126,16 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
                 btn_nuevoEjecucionActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_nuevoEjecucion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 210, 110, -1));
+        getContentPane().add(btn_nuevoEjecucion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 170, 110, -1));
 
         btn_ModificarH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_select_all.png"))); // NOI18N
         btn_ModificarH.setText("Modificar");
-        getContentPane().add(btn_ModificarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 250, 110, -1));
+        btn_ModificarH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ModificarHActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_ModificarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 210, 110, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -200,12 +207,21 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
                     break;
                 }
             }
-            String SQL = "SELECT id_documento,numero_expediente,asunto,fecha,destino,remitente FROM documento where numero_expediente = '" + codBuscar + "'";
+//            String SQL = "SELECT id_documento,numero_expediente,asunto,fecha,destino,remitente FROM documento where numero_expediente = '" + codBuscar + "'";
+            
+            String SQL = "SELECT d.numero_expediente, p.nombre_procesos, \n" +
+                "ap.posicion, ap.descripcion, ap.area_responsable, ap.tiempo,\n" +
+                "restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion,\n" +
+                "encargado_actividad.nombre\n" +
+                "FROM documento as d, procesos as p, actividad_por_proceso as ap\n" +
+                "INNER JOIN restricciones_por_actividad ON ap.id_restriccion = ap.id_restriccion\n" +
+                "INNER JOIN encargado_actividad ON ap.id_encargadoActividad = encargado_actividad.id_encargadoActividad where numero_expediente = '" + codBuscar + "' ";
+            
             model = conectar.retornarDatosTabla(SQL);
             tabla_EjecucionProceso.setModel(model);
             //jScrollPane2.getViewport().add(tabla_EjecucionProceso);
             if (encontro == false) {
-                JOptionPane.showMessageDialog(null, "no existe proceso Buscado");
+                //JOptionPane.showMessageDialog(null, "no existe proceso Buscado");
             }
            //tabla_EjecucionProceso.setModel(model);
 
@@ -213,6 +229,37 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
         }
     }//GEN-LAST:event_btn_BuscarExpedienteActionPerformed
+
+    private void btn_ModificarHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarHActionPerformed
+        // TODO add your handling code here:
+         try{
+            String sql="Update actividad_por_proceso set descripcion=?, area_responsable=?, tiempo=?, posicion=?, responsable=?"+
+                    "where id_actividad=?";
+            int fila=tabla_EjecucionProceso.getSelectedRow();
+            int dao= Integer.parseInt(tabla_EjecucionProceso.getValueAt(fila,0).toString());
+            PreparedStatement ps=Conn.prepareCall(sql);
+            
+//           ps.setString(1, txt_NomProceso.getText().trim());
+//            ps.setString(1, cbo_tipoTramite.getSelectedItem().toString().trim());
+//            ps.setString(1, txt_actividad.getText().trim());
+//            ps.setString(2, cbo_ListarArea.getSelectedItem().toString().trim());   
+//            ps.setString(3, txt_tiempo.getText().trim());1
+//            ps.setString(4, jSpinner1.getValue().toString());
+//            ps.setString(5, cbo_responsable.getSelectedItem().toString().trim());
+ 
+           //ps.setInt(6,dao);
+           //JOptionPane.showMessageDialog(null, ps.toString());
+            int n=ps.executeUpdate();
+            if(n>0){
+                //Limpiar();
+                //LlenarActividad();
+                JOptionPane.showMessageDialog(null, "datos modificados");
+
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
+        }
+    }//GEN-LAST:event_btn_ModificarHActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,6 +305,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;

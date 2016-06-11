@@ -24,7 +24,6 @@ CREATE TABLE Persona
 CREATE TABLE Usuario
 (
   id_usuario serial NOT NULL,
-  id_cargo integer NULL,
   nombre_usuario character(50) NULL,
   clave_usuario character(50) NULL,
   nombre_completo character(50) NULL,
@@ -58,7 +57,7 @@ CREATE TABLE Procesos
 CREATE TABLE Restricciones_por_Actividad
 (
   id_restriccion serial NOT NULL,
-  codigo_restriccion integer NULL,
+  codigo_restriccion character(50) NULL,
   descripcion character(100) NULL,
   CONSTRAINT pk_restriccion PRIMARY KEY (id_restriccion)
 )
@@ -81,6 +80,7 @@ CREATE TABLE Actividad_por_Proceso
   area_responsable character(100) NULL,
   tiempo character(50) NULL,
   posicion character(50) NULL,
+  responsable character(100),
   CONSTRAINT pk_actividad PRIMARY KEY (id_actividad)
 )
 
@@ -117,21 +117,55 @@ CREATE TABLE Actividad
   CONSTRAINT pk_actividades PRIMARY KEY (id_actividad)
   )
 
+ALTER TABLE usuario
+ADD CONSTRAINT fk_usuario_cargo
+FOREIGN KEY (id_cargo) REFERENCES cargo(id_cargo);
+
+ALTER TABLE actividad_por_proceso
+ADD CONSTRAINT fk_ActividadProceso_RestriccionActividad
+FOREIGN KEY (id_restriccion) REFERENCES restricciones_por_actividad(id_restriccion);
+
+ALTER TABLE actividad_por_proceso
+ADD CONSTRAINT fk_ActividadProceso_EncargadoActividad
+FOREIGN KEY (id_encargadoactividad) REFERENCES encargado_actividad(id_encargadoactividad);
+
+ALTER TABLE procesos
+ADD CONSTRAINT fk_Proceso_ActividadProceso
+FOREIGN KEY (id_actividad) REFERENCES actividad_por_proceso(id_actividad);
+
+ALTER TABLE documento
+ADD CONSTRAINT fk_Documento_Usuario
+FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario);
+
+ALTER TABLE documento
+ADD CONSTRAINT fk_Documento_Persona
+FOREIGN KEY (id_persona) REFERENCES persona(id_persona);
+
+ALTER TABLE documento
+ADD CONSTRAINT fk_Documento_Estado
+FOREIGN KEY (id_estado) REFERENCES estado(id_estado);
+
+ALTER TABLE documento
+ADD CONSTRAINT fk_Documento_Procesos
+FOREIGN KEY (id_procesos) REFERENCES procesos(id_procesos);
+
+
+
+
 INSERT INTO Cargo(nombre_cargo)
     VALUES ('Encargado Mesa Partes'),
     ('Modelador'),
     ('Gerente');
 
-  INSERT INTO Usuario(id_cargo, nombre_usuario, clave_usuario, nombre_completo)
-    VALUES (1, 'admin', 'admin', 'Mariano Torres'),
-  (2, 'vgonzalo', 'gonzalo', 'Gonzalo Valderrama'),
-  (3, 'cmaria', 'maria',  'Maria Chavez');
+  INSERT INTO Usuario(nombre_usuario, clave_usuario, nombre_completo)
+    VALUES ('admin', 'admin', 'Mariano Torres'),
+  ('vgonzalo', 'gonzalo', 'Gonzalo Valderrama'),
+  ('cmaria', 'maria',  'Maria Chavez');
 
 
-INSERT INTO Persona(id_persona, nombre, apellidos, dni, direccion, telefono)
-    VALUES (1, 'Jose', 'Perez Martinez', '45698712', 'Av. jesus 12', 255511),
-    (2, 'Jose', 'Perez Martinez', '45698712', 'Av. jesus 12', 255511)
-
+INSERT INTO Persona(nombre, apellidos, dni, direccion, telefono)
+    VALUES ('Jose', 'Perez Martinez', '45698712', 'Av. jesus 12', 255511),
+    ('MArcos', 'Sanchez Bengoa', '42698212', 'Av. Jiron 2', 256987);
 INSERT INTO estado(descripcion_estado)
     VALUES ('Registrado'),
     ('En Tramite'),
@@ -165,7 +199,7 @@ INSERT INTO area(nombre_area)
 INSERT INTO area(
             id_area, nombre_area, encargado)
     VALUES (1, 'Gerencia de Administracion Tributaria', 'Gerente de Administracion Tributaria');
-    (2, 'Gerencia de Administracion Tributaria', 'susan flores');
+    (2, 'Gerencia de Informatica', 'susan flores');
     (3, 'contabilidad', 'susan flores');
 
 INSERT INTO Restricciones_por_Actividad(id_restriccion, codigo_restriccion, descripcion)
@@ -184,6 +218,4 @@ INSERT INTO Procesos(id_procesos, id_actividad, id_restriccion, nombre_procesos,
     VALUES (1, 1, 1,01, 'tramite', '05/05/2016', 'mm', 'kkk');
 
 
-    ALTER TABLE usuario
-  ADD CONSTRAINT fk_usuario_cargo
-  FOREIGN KEY (id_cargo) REFERENCES cargo(id_cargo);
+

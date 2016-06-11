@@ -154,17 +154,17 @@ public class FrmLogin extends javax.swing.JFrame {
         if (cbo_tipo.getSelectedItem().equals("Encargado Mesa Partes")) {
             FrmNuevoDocumento NuevoDocumento=new FrmNuevoDocumento();
             NuevoDocumento.setVisible(true);
-            FrmLogin.this.dispose();
+            //FrmLogin.this.dispose();
             //oo9988  this.setBounds(50, 50, 450, 240);
         } else if (cbo_tipo.getSelectedItem().equals("Modelador")) {
             FrmCrearProcesos CrearProcesos=new FrmCrearProcesos();
             CrearProcesos.setVisible(true);
-            FrmLogin.this.dispose();
+           // FrmLogin.this.dispose();
             
         } else if (cbo_tipo.getSelectedItem().equals("Gerente")) {
             FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
             EjecucionProceso.setVisible(true);
-            FrmLogin.this.dispose();
+            //FrmLogin.this.dispose();
         }
     }//GEN-LAST:event_cbo_tipoActionPerformed
 

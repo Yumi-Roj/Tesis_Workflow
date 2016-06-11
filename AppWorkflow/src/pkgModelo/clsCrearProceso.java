@@ -17,6 +17,15 @@ public class clsCrearProceso {
     private String area;
     private String posicion;
     private String tiempo;
+    private String idActividad;
+
+    public String getIdActividad() {
+        return idActividad;
+    }
+
+    public void setIdActividad(String idActividad) {
+        this.idActividad = idActividad;
+    }
     
     public clsCrearProceso() {
     }

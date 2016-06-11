@@ -21,14 +21,18 @@ public class clsDAOCrearProceso extends clsCrearProceso{
     pkgControlador.clsConecta objConecta;
     Connection conexion;
     Statement consulta;
-
+     private static ResultSet registro;
+     int getIdActividad=1;
     public clsDAOCrearProceso() {
         objConecta = new pkgControlador.clsConecta();
     }
-    public void insertarNuevoProcesoActividad(){         
+    public void insertarNuevoProcesoActividad(){   
+        
         String SQL = "INSERT INTO procesos(nombre_procesos, tipo) VALUES ('"+super.getNomProceso()+"','"+super.getTipoTramite()+"')";
+        
         objConecta.insertar(SQL);
-        SQL = "INSERT INTO Actividad_por_Proceso(descripcion, area_responsable, tiempo, posicion) VALUES ('"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"')";
+        getIdActividad++;
+        SQL = "INSERT INTO Actividad_por_Proceso(descripcion, area_responsable, tiempo, posicion,responsable) VALUES ('"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"','"+super.getResponsable()+"')";
         objConecta.insertar(SQL);
     }
     public DefaultComboBoxModel ListarArea(){
