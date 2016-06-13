@@ -17,7 +17,7 @@ public class clsDAOLogin extends clsLogin{
     }
     // and tipo_usuario='"+super.getTipo()+"'
     public boolean valide(){
-        String SQL = "select * from usuario where nombre_usuario='"+super.getUsuario()+"' and clave_usuario='"+super.getContrasena()+"';";
+    String SQL = "select * from usuario where cargo='"+super.getUsuario()+"' and clave_usuario='"+super.getContrasena()+"';";
         if (objConecta.validar(SQL) == false){
             return false;
         }

@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,18 +24,25 @@ public class clsDAOCrearProceso extends clsCrearProceso{
     Connection conexion;
     Statement consulta;
      private static ResultSet registro;
+     private  ResultSet idActividad = null;
      int getIdActividad=1;
     public clsDAOCrearProceso() {
         objConecta = new pkgControlador.clsConecta();
     }
     public void insertarNuevoProcesoActividad(){   
+        //try {
+            //String idActi = idActividad.getString("id_actividad");
+            String SQL = "INSERT INTO procesos(nombre_procesos, tipo, estado) VALUES ('"+super.getNomProceso()+"','"+super.getTipoTramite()+"','"+super.getEstado()+"')";
         
-        String SQL = "INSERT INTO procesos(nombre_procesos, tipo) VALUES ('"+super.getNomProceso()+"','"+super.getTipoTramite()+"')";
-        
-        objConecta.insertar(SQL);
-        getIdActividad++;
-        SQL = "INSERT INTO Actividad_por_Proceso(descripcion, area_responsable, tiempo, posicion,responsable) VALUES ('"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"','"+super.getResponsable()+"')";
-        objConecta.insertar(SQL);
+            objConecta.insertar(SQL);
+            //getIdActividad++;
+            SQL = "INSERT INTO Actividad_por_Proceso(codigo_actividad,descripcion, area_responsable, tiempo, posicion,responsable) VALUES ('"+super.getIdActividad()+"','"+super.getNomActividad()+"','"+super.getArea()+"','"+super.getTiempo()+"','"+super.getPosicion()+"','"+super.getResponsable()+"')";
+            objConecta.insertar(SQL);
+            
+//        } catch (SQLException ex) {
+//            System.out.println("Error al ingresar nuevo" + ex.getMessage());
+//        }
+//        
     }
     public DefaultComboBoxModel ListarArea(){
         DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();

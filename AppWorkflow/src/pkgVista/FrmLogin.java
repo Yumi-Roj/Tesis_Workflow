@@ -115,21 +115,40 @@ public class FrmLogin extends javax.swing.JFrame {
                 
       pkgModelo.clsDAOLogin obj = new pkgModelo.clsDAOLogin();
       obj.setUsuario(cbo_tipo.getSelectedItem().toString().trim());
-      obj.setUsuario(txt_Usuario.getText().trim());
+      //obj.setUsuario(txt_Usuario.getText().trim());
       obj.setContrasena(txt_Contrasena.getText().trim());
-      if (obj.valide()== false) {
-          JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
-          
-      }
-      else{
-          java.awt.EventQueue.invokeLater(new Runnable(){
-              public void run(){
-              //new FrmCrearProcesos().setVisible(true);
-                  //cbo_tipoActionPerformed(java.awt.event.ActionEvent evt);
-          }
-          });
-          this.dispose();
-      }
+      String password = new String(txt_Contrasena.getPassword());
+      
+      if (cbo_tipo.getSelectedItem().toString().equals("Encargado Mesa Partes")&& password.equals("admin")) {
+            FrmNuevoDocumento NuevoDocumento=new FrmNuevoDocumento();
+            NuevoDocumento.setVisible(true);
+            //this.setVisible(true);
+            FrmLogin.this.dispose();
+            //oo9988  this.setBounds(50, 50, 450, 240);
+        } if (cbo_tipo.getSelectedItem().toString().equals("Modelador")&& password.equals("admin")){
+            FrmCrearProcesos CrearProcesos=new FrmCrearProcesos();
+            CrearProcesos.setVisible(true);
+           // FrmLogin.this.dispose();
+            
+        } if (cbo_tipo.getSelectedItem().toString().equals("Gerente")&& password.equals("admin")){
+            FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
+            EjecucionProceso.setVisible(true);
+            //FrmLogin.this.dispose();
+        }
+      
+//      if (obj.valide()== false) {
+//          JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
+//          
+//      }
+//      else{
+//          java.awt.EventQueue.invokeLater(new Runnable(){
+//              public void run(){
+//              //new FrmCrearProcesos().setVisible(true);
+//                  //cbo_tipoActionPerformed(java.awt.event.ActionEvent evt);
+//          }
+//          });
+//          this.dispose();
+//      }
     }//GEN-LAST:event_btn_AceptarActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
@@ -140,6 +159,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btn_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SalirActionPerformed
         // TODO add your handling code here:
         System.exit(0);
+        
     }//GEN-LAST:event_btn_SalirActionPerformed
 
     private void btn_NuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NuevoUsuarioActionPerformed
@@ -151,21 +171,21 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void cbo_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_tipoActionPerformed
         // TODO add your handling code here:
-        if (cbo_tipo.getSelectedItem().equals("Encargado Mesa Partes")) {
-            FrmNuevoDocumento NuevoDocumento=new FrmNuevoDocumento();
-            NuevoDocumento.setVisible(true);
-            //FrmLogin.this.dispose();
-            //oo9988  this.setBounds(50, 50, 450, 240);
-        } else if (cbo_tipo.getSelectedItem().equals("Modelador")) {
-            FrmCrearProcesos CrearProcesos=new FrmCrearProcesos();
-            CrearProcesos.setVisible(true);
-           // FrmLogin.this.dispose();
-            
-        } else if (cbo_tipo.getSelectedItem().equals("Gerente")) {
-            FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
-            EjecucionProceso.setVisible(true);
-            //FrmLogin.this.dispose();
-        }
+//        if (cbo_tipo.getSelectedItem().equals("Encargado Mesa Partes")) {
+//            FrmNuevoDocumento NuevoDocumento=new FrmNuevoDocumento();
+//            NuevoDocumento.setVisible(true);
+//            //FrmLogin.this.dispose();
+//            //oo9988  this.setBounds(50, 50, 450, 240);
+//        } else if (cbo_tipo.getSelectedItem().equals("Modelador")) {
+//            FrmCrearProcesos CrearProcesos=new FrmCrearProcesos();
+//            CrearProcesos.setVisible(true);
+//           // FrmLogin.this.dispose();
+//            
+//        } else if (cbo_tipo.getSelectedItem().equals("Gerente")) {
+//            FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
+//            EjecucionProceso.setVisible(true);
+//            //FrmLogin.this.dispose();
+//        }
     }//GEN-LAST:event_cbo_tipoActionPerformed
 
     /**

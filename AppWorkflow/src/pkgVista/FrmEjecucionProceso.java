@@ -10,8 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import pkgControlador.clsConecta;
 /**
  *
@@ -19,6 +21,7 @@ import pkgControlador.clsConecta;
  */
 public class FrmEjecucionProceso extends javax.swing.JFrame {
     private javax.swing.DefaultComboBoxModel modeloCboProcesos;
+     private JCheckBox rowCheck;
     DefaultTableModel model;
     Connection Conn;
     Statement sent;
@@ -60,6 +63,12 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         btn_Detalle = new javax.swing.JButton();
         btn_nuevoEjecucion = new javax.swing.JButton();
         btn_ModificarH = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tabla_restricciones = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tabla_Proceso = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tabla_actividades = new javax.swing.JTable();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -86,6 +95,11 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         getContentPane().add(btn_BuscarExpediente, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 90, -1, -1));
 
         cbo_Procesos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Certificado y/o constancia de contribuyente", "Fraccionamiento de pagos por deudas menores a 2UIT", "Fraccionamiento de pagos por deudas mayores a 2UIT", "Item 3", "Item 4" }));
+        cbo_Procesos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbo_ProcesosActionPerformed(evt);
+            }
+        });
         getContentPane().add(cbo_Procesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 294, -1));
 
         jLabel2.setText("Nombre Proceso");
@@ -110,14 +124,27 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             new String [] {
                 "Posicion", "Numero Documento", "Nombre Actividad", "Area", "Estado", "Tiempo", "ver Restriccion"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane5.setViewportView(tabla_EjecucionProceso);
 
-        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 1070, 330));
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 1070, 170));
 
         btn_Detalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/list.png"))); // NOI18N
         btn_Detalle.setText("Detalle");
-        getContentPane().add(btn_Detalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 130, 110, -1));
+        btn_Detalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_DetalleActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_Detalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 170, 110, -1));
 
         btn_nuevoEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_nuevoEjecucion.setText("Nuevo");
@@ -126,7 +153,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
                 btn_nuevoEjecucionActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_nuevoEjecucion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 170, 110, -1));
+        getContentPane().add(btn_nuevoEjecucion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 210, 110, -1));
 
         btn_ModificarH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_select_all.png"))); // NOI18N
         btn_ModificarH.setText("Modificar");
@@ -135,7 +162,79 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
                 btn_ModificarHActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_ModificarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 210, 110, -1));
+        getContentPane().add(btn_ModificarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 250, 110, -1));
+
+        tabla_restricciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Restricciones", "i"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(tabla_restricciones);
+
+        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 340, 230, 210));
+
+        tabla_Proceso.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Proceso"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_Proceso.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_ProcesoMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tabla_Proceso);
+
+        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 220, 210));
+
+        tabla_actividades.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Actividades"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(tabla_actividades);
+
+        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 340, 150, 210));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -195,6 +294,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             codBuscar = (txt_NumExpediente.getText()); 
             //codBuscar = JOptionPane.showInputDialog("Ingrese el codigo a Buscar: ");
             rs = conectar.consulta("select numero_expediente from documento");
+            
             //codBuscar=txt_NumExpediente.setText("");
 //            String sql = "select numero_expediente from documento";
 //            sent = Conn.createStatement();
@@ -209,14 +309,18 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             }
 //            String SQL = "SELECT id_documento,numero_expediente,asunto,fecha,destino,remitente FROM documento where numero_expediente = '" + codBuscar + "'";
             
-            String SQL = "SELECT d.numero_expediente, p.nombre_procesos, \n" +
-                "ap.posicion, ap.descripcion, ap.area_responsable, ap.tiempo,\n" +
-                "restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion,\n" +
-                "encargado_actividad.nombre\n" +
-                "FROM documento as d, procesos as p, actividad_por_proceso as ap\n" +
-                "INNER JOIN restricciones_por_actividad ON ap.id_restriccion = ap.id_restriccion\n" +
-                "INNER JOIN encargado_actividad ON ap.id_encargadoActividad = encargado_actividad.id_encargadoActividad where numero_expediente = '" + codBuscar + "' ";
-            
+            String SQL = "SELECT DISTINCT documento.numero_expediente, \n"
+                    + "procesos.nombre_procesos,procesos.estado,\n"
+                    + "actividad_por_proceso.posicion, actividad_por_proceso.descripcion, actividad_por_proceso.area_responsable, actividad_por_proceso.tiempo,\n"
+                    + "restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion,\n"
+                    + "encargado_actividad.nombre\n"
+                    + "FROM procesos\n"
+                    + "inner JOIN documento ON documento.id_procesos = procesos.id_procesos\n"
+                    + "inner JOIN actividad_por_proceso ON actividad_por_proceso.id_actividad = procesos.id_actividad\n"
+                    + "inner JOIN encargado_actividad ON actividad_por_proceso.id_actividad = actividad_por_proceso.id_actividad\n"
+                    + "inner JOIN restricciones_por_actividad ON restricciones_por_actividad.id_restriccion = actividad_por_proceso.id_restriccion\n"
+                    + "where numero_expediente = '" + codBuscar + "' ";
+
             model = conectar.retornarDatosTabla(SQL);
             tabla_EjecucionProceso.setModel(model);
             //jScrollPane2.getViewport().add(tabla_EjecucionProceso);
@@ -260,6 +364,150 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
         }
     }//GEN-LAST:event_btn_ModificarHActionPerformed
+    
+    void LlenarRestriccionesActividad(){
+        
+        try {
+            Conn = clsConecta.getConnection();
+            String codActividad = "";
+            //codActividad = (txt_CodigoActividad.getText()); 
+            String[] titulos = {"Proceso", "Actividades","Restricciones"};
+            //int selectedIndex = lstPacientes.getSelectedIndex();
+            int i = tabla_EjecucionProceso.getSelectedRow();
+            if (i != -1) {
+                //model.getValueAt(i,0);select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad where codigo_restriccion='1'
+                String sql = "select procesos.nombre_procesos,actividad_por_proceso.descripcion,restricciones_por_actividad.descripcion\n"
+                        + "from actividad_por_proceso\n"
+                        + "INNER JOIN procesos on procesos.id_procesos = actividad_por_proceso.id_actividad\n"
+                        + "INNER JOIN restricciones_por_actividad on restricciones_por_actividad.id_restriccion = actividad_por_proceso.id_actividad where codigo_restriccion=codigo_actividad";
+                model = new DefaultTableModel(null, titulos);
+                sent = Conn.createStatement();
+                ResultSet rs = sent.executeQuery(sql);
+
+                String fila[] = new String[3];
+
+                while (rs.next()) {
+                    //fila[0] = rs.getString("id_restriccion");
+                    fila[0] = rs.getString("nombre_procesos");
+                    fila[1] = rs.getString("descripcion");
+                    fila[2] = rs.getString("descripcion");
+
+                    model.addRow(fila);
+
+                }
+            }
+            tabla_Proceso.setModel(model);
+            //tabla_actividades.setModel(model);
+           // tabla_restricciones.setModel(model);
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    void LlenarProceso(){
+        try {
+            Conn = clsConecta.getConnection();
+            String[] titulos = {"Procesos"};
+            String sql = "select nombre_procesos from procesos where id_procesos=id_actividad";
+            model = new DefaultTableModel(null, titulos);
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+
+            String fila[] = new String[1];
+
+            while (rs.next()) {
+                fila[0] = rs.getString("nombre_procesos");
+
+                model.addRow(fila);
+
+            }
+           tabla_Proceso.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     void LlenarActividades(){
+        try {
+            Conn = clsConecta.getConnection();
+            String[] titulos = {"Actividades"};
+            String sql = "select descripcion from actividad_por_proceso where id_actividad = id_restriccion ";
+            model = new DefaultTableModel(null, titulos);
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+
+            String fila[] = new String[1];
+
+            while (rs.next()) {
+                fila[0] = rs.getString("descripcion");
+
+                model.addRow(fila);
+
+            }
+           tabla_actividades.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void LlenarRestricciones(){
+        try {
+            Conn = clsConecta.getConnection();
+            String[] titulos = {"Restricciones"};
+            String sql = "select descripcion from restricciones_por_actividad where id_restriccion = codigo_restriccion";
+            model = new DefaultTableModel(null, titulos);
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+
+            String fila[] = new String[2];
+
+            while (rs.next()) {
+                fila[0] = rs.getString("descripcion");
+                
+                model.addRow(fila);
+
+            }
+           tabla_restricciones.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+//    public void Cargar_Sintomas()
+//    {
+//        for(int i=1;i<=MSintomas.Can;i++)
+//        {
+//            DefaultTableModel temp = (DefaultTableModel) jt_sintomas.getModel();
+//            Object nuevo[]= {MSintomas.Cargar_Datos(i)};
+//
+//            temp.addRow(nuevo);
+//        }    
+//    }
+    private void tabla_ProcesoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_ProcesoMouseClicked
+        // TODO add your handling code here:
+        //LlenarRestriccionesActividad();
+//         int i = tabla_restricciones.getSelectedRow();
+//         Habilitar();
+//        TableModel model = tabla_restricciones.getModel();
+//        txt_NumeroRest.setText(model.getValueAt(i,0).toString().trim());
+//        txt_DescripcionRest.setText(model.getValueAt(i,1).toString().trim());
+//        
+    }//GEN-LAST:event_tabla_ProcesoMouseClicked
+
+    private void btn_DetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DetalleActionPerformed
+        // TODO add your handling code here:
+        //LlenarRestriccionesActividad();
+        LlenarProceso();
+        LlenarActividades();
+        LlenarRestricciones();
+    }//GEN-LAST:event_btn_DetalleActionPerformed
+
+    private void cbo_ProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_ProcesosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbo_ProcesosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,8 +560,14 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tabla_EjecucionProceso;
+    private javax.swing.JTable tabla_Proceso;
+    private javax.swing.JTable tabla_actividades;
+    private javax.swing.JTable tabla_restricciones;
     private javax.swing.JTextField txt_NumExpediente;
     // End of variables declaration//GEN-END:variables
 }

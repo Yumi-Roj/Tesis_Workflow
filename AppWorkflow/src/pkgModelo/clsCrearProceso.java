@@ -18,7 +18,16 @@ public class clsCrearProceso {
     private String posicion;
     private String tiempo;
     private String idActividad;
+    private String estado;
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
     public String getIdActividad() {
         return idActividad;
     }
@@ -30,7 +39,7 @@ public class clsCrearProceso {
     public clsCrearProceso() {
     }
 
-    public clsCrearProceso(String tipoTramite, String responsable, String nomProceso, String nomActividad, String area, String posicion, String tiempo) {
+    public clsCrearProceso(String tipoTramite, String responsable, String nomProceso, String nomActividad, String area, String posicion, String tiempo, String estado) {
         this.tipoTramite = tipoTramite;
         this.responsable = responsable;
         this.nomProceso = nomProceso;
@@ -38,6 +47,7 @@ public class clsCrearProceso {
         this.area = area;
         this.posicion = posicion;
         this.tiempo = tiempo;
+        this.estado = tiempo;
     }
 
     public String getTipoTramite() {

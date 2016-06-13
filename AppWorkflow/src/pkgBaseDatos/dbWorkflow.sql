@@ -51,6 +51,7 @@ CREATE TABLE Procesos
   id_actividad integer NULL,
   nombre_procesos character(100) NULL,
   tipo character(50) NULL,
+  estado character(50) NULL,
   CONSTRAINT pk_procesos PRIMARY KEY (id_procesos)
 )
 

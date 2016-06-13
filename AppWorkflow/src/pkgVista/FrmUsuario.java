@@ -227,21 +227,22 @@ Statement sent;
 
     private void btn_GuardarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarUsuarioActionPerformed
         // TODO add your handling code here:
-        try{
-            
-            String sql="insert into usuario (nombre_usuario, clave_usuario, nombre_completo, cargo)" +
-                   "Values (?,?,?,?) ";
+        try {
+
+            String sql = "insert into usuario (nombre_usuario, clave_usuario, nombre_completo, cargo)"
+                    + "Values (?,?,?,?) ";
             //JOptionPane.showMessageDialog(null, sql);
-            PreparedStatement ps=Conn.prepareCall(sql);
+            PreparedStatement ps = Conn.prepareCall(sql);
             ps.setString(1, txt_Usuario.getText().trim());
             ps.setString(2, txt_Contraseña.getText().trim());
             ps.setString(3, txt_NombApellidos.getText().trim());
             ps.setString(4, cbo_Cargo.getSelectedItem().toString().trim());
-            
-            int n=ps.executeUpdate();
-            if(n>0)
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        }catch(Exception e){
+
+            int n = ps.executeUpdate();
+            if (n > 0) {
+                JOptionPane.showMessageDialog(null, "datos guardados");
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error" + e.getMessage());
         }
         Llenar();

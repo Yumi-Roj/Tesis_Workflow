@@ -27,13 +27,17 @@ public class FrmNuevoDocumento extends javax.swing.JFrame {
 DefaultTableModel model;
 Connection Conn;
 Statement sent;
+private javax.swing.DefaultComboBoxModel modeloCboProcesos;
+clsConecta conectar;
     /**
      * Creates new form FrmNuevoDocumento
      */
     public FrmNuevoDocumento() {
         initComponents();
+        modeloCboProcesos = new javax.swing.DefaultComboBoxModel(new String[] {});
         Calendar c1 = GregorianCalendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");       
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");    
+        //LlenarComboboxEstado();
         //txt_Fecha.setDate(sdf.format(c1.getTime())); 
     }
 
@@ -92,24 +96,24 @@ Statement sent;
         jLabel4.setText("Asunto");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
         getContentPane().add(txt_Asunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 320, -1));
-        getContentPane().add(txt_Destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, 124, -1));
+        getContentPane().add(txt_Destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 124, -1));
 
         jLabel5.setText("Destino");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, -1));
 
         txt_remitente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_remitenteActionPerformed(evt);
             }
         });
-        getContentPane().add(txt_remitente, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 124, -1));
+        getContentPane().add(txt_remitente, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 350, 124, -1));
 
         jLabel3.setText("Remitente");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel13.setText("Datos Administrado");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 247, -1, -1));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, -1, -1));
 
         btn_Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
         btn_Guardar.setText("Grabar");
@@ -118,7 +122,7 @@ Statement sent;
                 btn_GuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 360, 99, -1));
+        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 420, 99, -1));
 
         btn_Nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_Nuevo.setText("Nuevo");
@@ -127,7 +131,7 @@ Statement sent;
                 btn_NuevoActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, 102, -1));
+        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 102, -1));
 
         btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/document_preview.png"))); // NOI18N
         btn_Buscar.setText("Buscar");
@@ -136,7 +140,7 @@ Statement sent;
                 btn_BuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 99, -1));
+        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 510, 99, -1));
 
         btn_Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/dialog_close.png"))); // NOI18N
         btn_Cerrar.setText("Cerrar");
@@ -145,9 +149,9 @@ Statement sent;
                 btn_CerrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(687, 480, 100, -1));
+        getContentPane().add(btn_Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 540, 100, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 120, 770, 10));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 229, 770, -1));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 770, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("NUEVO DOCUMENTO");
@@ -160,7 +164,7 @@ Statement sent;
                 btn_ModificarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 420, 100, -1));
+        getContentPane().add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 480, 100, -1));
         getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 133, -1));
 
         tabla_Expediente.setModel(new javax.swing.table.DefaultTableModel(
@@ -181,7 +185,7 @@ Statement sent;
         });
         jScrollPane1.setViewportView(tabla_Expediente);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 670, 160));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 670, 160));
 
         btn_Listar.setText("Listar");
         btn_Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +193,7 @@ Statement sent;
                 btn_ListarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 330, 100, -1));
+        getContentPane().add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, 100, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -214,6 +218,7 @@ Statement sent;
         txt_Destino.setEditable(true);
     }
 
+
     void LlenarDocumento() {
         try {
             Conn = clsConecta.getConnection();
@@ -229,6 +234,7 @@ Statement sent;
                 fila[0] = rs.getString("id_documento");
                 fila[1] = rs.getString("numero_expediente");
                 fila[2] = rs.getString("asunto");
+                fila[5] = rs.getString("remitente");
                 fila[3] = rs.getString("fecha");
                 fila[4] = rs.getString("destino");
                 fila[5] = rs.getString("remitente");
@@ -285,7 +291,10 @@ Statement sent;
 
     private void btn_CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CerrarActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        //System.exit(0);
+        FrmLogin Principal=new FrmLogin();
+        Principal.setVisible(true);
+        FrmNuevoDocumento.this.dispose();
     }//GEN-LAST:event_btn_CerrarActionPerformed
 
     private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed

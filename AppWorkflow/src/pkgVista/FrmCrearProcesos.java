@@ -24,13 +24,18 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     DefaultTableModel model;
     Connection Conn;
     Statement sent;
+    private  ResultSet idActividad = null;
+    private javax.swing.DefaultComboBoxModel modeloCboProcesos;
+    clsConecta conectar;
     /**
      * Creates new form FrmCrearProcesos
      */
    // public clsConecta abc=new clsConecta();
     
     public FrmCrearProcesos() {
+        modeloCboProcesos = new javax.swing.DefaultComboBoxModel(new String[] {});
         initComponents();
+        LlenarComboboxEstado();
 
     }
 
@@ -92,6 +97,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         btn_ListarRestricciones = new javax.swing.JButton();
         btn_LimpiarActividades = new javax.swing.JButton();
         btn_LimpiarRestriccion = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        txt_CodigoActividad = new javax.swing.JTextField();
+        cbo_Estadodoc = new javax.swing.JComboBox<>();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,10 +132,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                         .addGroup(jp_inicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13))
-                        .addContainerGap(753, Short.MAX_VALUE))
+                        .addContainerGap(792, Short.MAX_VALUE))
                     .addGroup(jp_inicioLayout.createSequentialGroup()
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 426, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 449, Short.MAX_VALUE)
                         .addComponent(btn_inicio)
                         .addGap(33, 33, 33))))
         );
@@ -141,7 +150,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                     .addGroup(jp_inicioLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(306, Short.MAX_VALUE))
+                        .addContainerGap(332, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_inicioLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_inicio)
@@ -155,27 +164,27 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("CREAR ACTIVIDAD");
-        jp_crear.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        jp_crear.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
         jLabel5.setText("Nombre Actividad");
-        jp_crear.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+        jp_crear.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
 
         jLabel6.setText("Area Responsable");
-        jp_crear.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
-        jp_crear.add(txt_actividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 300, -1));
+        jp_crear.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, -1));
+        jp_crear.add(txt_actividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 300, -1));
 
         jLabel7.setText("Posicion");
-        jp_crear.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 210, -1, -1));
+        jp_crear.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 250, -1, -1));
 
         jLabel2.setText("Nombre Proceso");
-        jp_crear.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, -1, -1));
+        jp_crear.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
 
         jLabel8.setText("Tiempo");
-        jp_crear.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 180, -1, -1));
+        jp_crear.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, -1, -1));
 
         jLabel3.setText("Responsable");
-        jp_crear.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
-        jp_crear.add(txt_tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 180, 70, -1));
+        jp_crear.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
+        jp_crear.add(txt_tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 220, 70, -1));
 
         btn_GuardarRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
         btn_GuardarRest.setText("Grabar");
@@ -184,7 +193,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_GuardarRestActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_GuardarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 570, 110, -1));
+        jp_crear.add(btn_GuardarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 610, 110, -1));
 
         btn_nuevoRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_nuevoRest.setText("Nuevo");
@@ -193,8 +202,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_nuevoRestActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_nuevoRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 110, -1));
-        jp_crear.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 210, 74, -1));
+        jp_crear.add(btn_nuevoRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, 110, -1));
+        jp_crear.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 250, 74, -1));
 
         btn_EliminarRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_delete_shred.png"))); // NOI18N
         btn_EliminarRest.setText("Eliminar");
@@ -203,10 +212,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_EliminarRestActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_EliminarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 570, 110, -1));
+        jp_crear.add(btn_EliminarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, 110, -1));
 
         cbo_responsable.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Elegir Encargado", "GERENTE DE ADMINISTRACIÓN TRIBUTARIA", " " }));
-        jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 300, -1));
+        jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 300, -1));
 
         tabla_restricciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -226,8 +235,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla_restricciones);
 
-        jp_crear.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 480, 390, 110));
-        jp_crear.add(txt_NomProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, 242, -1));
+        jp_crear.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 520, 390, 110));
+        jp_crear.add(txt_NomProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 242, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("CREAR PROCESO");
@@ -235,8 +244,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("HISTORIAL");
-        jp_crear.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
-        jp_crear.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 870, 10));
+        jp_crear.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
+        jp_crear.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 870, 10));
 
         tabla_procesoActividad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -256,15 +265,15 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabla_procesoActividad);
 
-        jp_crear.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 860, 120));
+        jp_crear.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 860, 120));
 
         jLabel10.setText("dias");
-        jp_crear.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 180, 40, -1));
+        jp_crear.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 220, 40, -1));
         jp_crear.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 860, 10));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("CREAR RESTRICCIONES");
-        jp_crear.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, -1, -1));
+        jp_crear.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, -1, -1));
 
         btn_ModificarRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
         btn_ModificarRest.setText("Modificar");
@@ -273,7 +282,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_ModificarRestActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_ModificarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 570, 110, -1));
+        jp_crear.add(btn_ModificarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 610, 110, -1));
 
         btn_nuevoH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_nuevoH.setText("Nuevo");
@@ -282,7 +291,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_nuevoHActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_nuevoH, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, 120, -1));
+        jp_crear.add(btn_nuevoH, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 310, 120, -1));
 
         btn_GuardarH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
         btn_GuardarH.setText("Grabar");
@@ -291,7 +300,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_GuardarHActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_GuardarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 190, 110, -1));
+        jp_crear.add(btn_GuardarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 230, 110, -1));
 
         btn_ModificarH.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
         btn_ModificarH.setText("Modificar");
@@ -300,7 +309,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_ModificarHActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_ModificarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, 110, -1));
+        jp_crear.add(btn_ModificarH, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, 110, -1));
 
         btn_EliminarActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit_delete_shred.png"))); // NOI18N
         btn_EliminarActividad.setText("Eliminar");
@@ -309,13 +318,13 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_EliminarActividadActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_EliminarActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 270, 101, -1));
+        jp_crear.add(btn_EliminarActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 310, 101, -1));
 
         jLabel14.setText("Tipo Tramite");
         jp_crear.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 80, -1));
 
         cbo_tipoTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DOCUMENTO INTERNO", "DOCUMENTO EXTERNO", " " }));
-        jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 240, -1));
+        jp_crear.add(cbo_tipoTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 180, -1));
 
         btn_GuardarProcesosActividad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/save_all.png"))); // NOI18N
         btn_GuardarProcesosActividad.setText("Grabar");
@@ -325,7 +334,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_GuardarProcesosActividadActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 110, -1));
+        jp_crear.add(btn_GuardarProcesosActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 310, 110, -1));
 
         btn_Listar.setText("Listar");
         btn_Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -333,7 +342,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_ListarActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 270, 90, -1));
+        jp_crear.add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 310, 90, -1));
 
         cbo_ListarArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Elegir Area", "Oficina Secretaria General", "Gerencia de Administracion Tributaria", "SubGerencia Logistica", "SubGerencia Tesoreria", "SubGerencia Contabilidad", "SubGerencia Informatica y Estadistica", "SubGerencia Estudis y Proyectos", "SubGerencia Recursos Humanos", "SubGerencia Gestion Riesgos de Desastres", "Gerencia Asesoria Juridica", "Gerencia Planificacion y Presupuesto", "Gerencia Desarrollo Urbano", "Gerencia Servicio Ciudadano", "Gerencia Desarrollo Social", "Gerencia Transporte Urbano", "Gerencia Administracion Tributaria", "SubGerencia Fiscalizacion Administracion", "Gerencia Seguridad Ciudadana", "Gerencia Centro Historico" }));
         cbo_ListarArea.addActionListener(new java.awt.event.ActionListener() {
@@ -341,15 +350,15 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 cbo_ListarAreaActionPerformed(evt);
             }
         });
-        jp_crear.add(cbo_ListarArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 300, -1));
+        jp_crear.add(cbo_ListarArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 300, -1));
 
         jLabel15.setText("Codigo");
-        jp_crear.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, -1, -1));
+        jp_crear.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 520, -1, -1));
 
         jLabel16.setText("Restriccion");
-        jp_crear.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, -1, -1));
-        jp_crear.add(txt_NumeroRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 480, 170, -1));
-        jp_crear.add(txt_DescripcionRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, 170, -1));
+        jp_crear.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, -1, -1));
+        jp_crear.add(txt_NumeroRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 520, 170, -1));
+        jp_crear.add(txt_DescripcionRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 550, 170, -1));
 
         btn_ListarRestricciones.setText("Listar");
         btn_ListarRestricciones.addActionListener(new java.awt.event.ActionListener() {
@@ -357,7 +366,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_ListarRestriccionesActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_ListarRestricciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 450, 90, -1));
+        jp_crear.add(btn_ListarRestricciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 490, 90, -1));
 
         btn_LimpiarActividades.setText("Limpiar");
         btn_LimpiarActividades.addActionListener(new java.awt.event.ActionListener() {
@@ -365,7 +374,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_LimpiarActividadesActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_LimpiarActividades, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, -1, -1));
+        jp_crear.add(btn_LimpiarActividades, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 310, -1, -1));
 
         btn_LimpiarRestriccion.setText("Limpiar");
         btn_LimpiarRestriccion.addActionListener(new java.awt.event.ActionListener() {
@@ -373,7 +382,22 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 btn_LimpiarRestriccionActionPerformed(evt);
             }
         });
-        jp_crear.add(btn_LimpiarRestriccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 450, 90, -1));
+        jp_crear.add(btn_LimpiarRestriccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 490, 90, -1));
+
+        jLabel18.setText("Codigo Actividad");
+        jp_crear.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
+
+        txt_CodigoActividad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_CodigoActividadActionPerformed(evt);
+            }
+        });
+        jp_crear.add(txt_CodigoActividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 40, -1));
+
+        jp_crear.add(cbo_Estadodoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 50, 160, -1));
+
+        jLabel19.setText("Estado");
+        jp_crear.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 50, -1, -1));
 
         jtpanel_procesos.addTab("CREAR PROCESO", jp_crear);
 
@@ -381,17 +405,16 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 928, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jtpanel_procesos, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jtpanel_procesos))
         );
 
         pack();
@@ -401,6 +424,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         txt_NomProceso.setEditable(false);
         txt_actividad.setEditable(false);
         txt_tiempo.setEditable(false);
+        txt_CodigoActividad.setEditable(false);
     }
     void Limpiar(){
         txt_NomProceso.setText("");
@@ -411,12 +435,29 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         txt_NomProceso.setEditable(true);
         txt_actividad.setEditable(true);
         txt_tiempo.setEditable(true);
+        txt_CodigoActividad.setEditable(true);
+    }
+        void LlenarComboboxEstado(){
+ 
+        try {
+            Conn = clsConecta.getConnection();
+            String sql = "SELECT id_estado,descripcion_estado FROM estado ORDER BY id_estado";
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            modeloCboProcesos.addElement("[ Elije un Estado ]");
+            while (rs.next()) {
+                modeloCboProcesos.addElement(rs.getString("descripcion_estado"));
+                cbo_Estadodoc.setModel(modeloCboProcesos);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     void LlenarActividad(){
         try {
             Conn = clsConecta.getConnection();
-            String[] titulos = {"ID", "Posicion", "NombreActividad", "Area","Responsable", "Tiempo"};
-            String sql = "select id_actividad,posicion,descripcion,area_responsable, responsable, tiempo from actividad_por_proceso";
+            String[] titulos = {"Codigo", "Posicion", "NombreActividad", "Area","Responsable", "Tiempo"};
+            String sql = "select codigo_actividad,posicion,descripcion,area_responsable, responsable, tiempo from actividad_por_proceso order by codigo_actividad";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
@@ -424,7 +465,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             String fila[] = new String[6];
 
             while (rs.next()) {
-                fila[0] = rs.getString("id_actividad");
+                fila[0] = rs.getString("codigo_actividad");
                 fila[1] = rs.getString("posicion");
                 fila[2] = rs.getString("descripcion");
                 fila[3] = rs.getString("area_responsable");
@@ -444,8 +485,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     void LlenarRestricciones(){
         try {
             Conn = clsConecta.getConnection();
-            String[] titulos = {"ID", "Codigo", "Restricciones"};
-            String sql = "select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad";
+            String[] titulos = {"Codigo", "Restricciones"};
+            String sql = "select codigo_restriccion,descripcion from restricciones_por_actividad";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
@@ -453,9 +494,9 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             String fila[] = new String[3];
 
             while (rs.next()) {
-                fila[0] = rs.getString("id_restriccion");
-                fila[1] = rs.getString("codigo_restriccion");
-                fila[2] = rs.getString("descripcion");
+                //fila[0] = rs.getString("id_restriccion");
+                fila[0] = rs.getString("codigo_restriccion");
+                fila[1] = rs.getString("descripcion");
 
                 model.addRow(fila);
 
@@ -470,30 +511,33 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         
         try {
             Conn = clsConecta.getConnection();
-            String[] titulos = {"ID", "Codigo", "Restricciones"};
+            String codActividad = "";
+            codActividad = (txt_CodigoActividad.getText()); 
+            String[] titulos = {"Codigo", "Restricciones"};
             //int selectedIndex = lstPacientes.getSelectedIndex();
             int i = tabla_procesoActividad.getSelectedRow();
-        if (i != -1) {
-            //model.getValueAt(i,0);select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad where codigo_restriccion='1'
-             String sql = "select restricciones_por_actividad.id_restriccion,restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion,actividad_por_proceso.descripcion\n" +
-                "from actividad_por_proceso \n" +
-                "INNER JOIN restricciones_por_actividad on restricciones_por_actividad.id_restriccion = actividad_por_proceso.id_restriccion";
-            model = new DefaultTableModel(null, titulos);
-            sent = Conn.createStatement();
-            ResultSet rs = sent.executeQuery(sql);
+            if (i != -1) {
+                //model.getValueAt(i,0);select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad where codigo_restriccion='1'
+                String sql = "select restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion,actividad_por_proceso.descripcion\n"
+                        + "                from actividad_por_proceso\n"
+                        + "                INNER JOIN restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
+                        + "                where codigo_restriccion=codigo_actividad";
+                model = new DefaultTableModel(null, titulos);
+                sent = Conn.createStatement();
+                ResultSet rs = sent.executeQuery(sql);
 
-            String fila[] = new String[3];
+                String fila[] = new String[2];
 
-            while (rs.next()) {
-                fila[0] = rs.getString("id_restriccion");
-                fila[1] = rs.getString("codigo_restriccion");
-                fila[2] = rs.getString("descripcion");
+                while (rs.next()) {
+                    //fila[0] = rs.getString("id_restriccion");
+                    fila[0] = rs.getString("codigo_restriccion");
+                    fila[1] = rs.getString("descripcion");
 
-                model.addRow(fila);
+                    model.addRow(fila);
 
+                }
             }
-        }
-           tabla_restricciones.setModel(model);
+            tabla_restricciones.setModel(model);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -540,12 +584,14 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         objCrearProceso = new pkgModelo.clsDAOCrearProceso();
         objCrearProceso.setTipoTramite(cbo_tipoTramite.getSelectedItem().toString().trim());
         objCrearProceso.setNomProceso(txt_NomProceso.getText().trim());
+        objCrearProceso.setEstado(cbo_Estadodoc.getSelectedItem().toString().trim());
         objCrearProceso.setNomActividad(txt_actividad.getText().trim());
         //objCrearProceso.setArea(txt_responsableArea.getText().trim());
         objCrearProceso.setArea(cbo_ListarArea.getSelectedItem().toString().trim());
         objCrearProceso.setResponsable(cbo_responsable.getSelectedItem().toString().trim());
         objCrearProceso.setPosicion(jSpinner1.getValue().toString().trim());
         objCrearProceso.setTiempo(txt_tiempo.getText().trim());
+        objCrearProceso.setIdActividad(txt_CodigoActividad.getText().trim());
         objCrearProceso.insertarNuevoProcesoActividad();
         //objCrearProceso.ListarProceso();
         tabla_procesoActividad.setModel(objCrearProceso.ListarProceso());
@@ -611,6 +657,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
        // Habilitar();
         TableModel model = tabla_procesoActividad.getModel();
         //jSpinner1.setValue(model.getValueAt(i,1));
+        txt_CodigoActividad.setText(model.getValueAt(i,0).toString().trim());
         jSpinner1.setValue(0);
         txt_actividad.setText(model.getValueAt(i,2).toString().trim());
         //cbo_ListarArea.setSelectedItem(toString().equals(model.getValueAt(i, 3)));
@@ -630,7 +677,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         try {
 
             String sql = "INSERT INTO actividad_por_proceso(descripcion, area_responsable,tiempo, posicion, responsable)"
-                    + "VALUES (?,?,?,?)";
+                    + "VALUES (?,?,?,?,?) ";
             PreparedStatement ps = Conn.prepareCall(sql);
             ps.setString(1, txt_actividad.getText().trim());
             ps.setString(2, cbo_ListarArea.getSelectedItem().toString().trim());
@@ -650,10 +697,11 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_GuardarHActionPerformed
 
     private void guardarProceso() {
+        
         try {
-
-            String sql = "insert into procesos (nombre_procesos, tipo)"
-                    + "Values (?,?) ";
+            String idActi = idActividad.getString("id_actividad");
+            String sql = "insert into procesos (idActi,nombre_procesos, tipo)"
+                    + "Values (?,?,?) ";
             PreparedStatement ps = Conn.prepareCall(sql);
             ps.setString(1, txt_NomProceso.getText().trim());
             ps.setString(2, cbo_tipoTramite.getSelectedItem().toString().trim());
@@ -720,7 +768,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             "Values (?,?) ";
 
             PreparedStatement ps=Conn.prepareCall(sql);
-            ps.setString(1, txt_NumeroRest.getText().trim());
+            ps.setInt(1, Integer.parseInt(txt_NumeroRest.getText().trim()));
             ps.setString(2, txt_DescripcionRest.getText().trim());
 
             int n=ps.executeUpdate();
@@ -744,8 +792,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         int i = tabla_restricciones.getSelectedRow();
         // Habilitar();
         TableModel model = tabla_restricciones.getModel();
-        txt_NumeroRest.setText(model.getValueAt(i,1).toString().trim());
-        txt_DescripcionRest.setText(model.getValueAt(i,2).toString().trim());
+        txt_NumeroRest.setText(model.getValueAt(i,0).toString().trim());
+        txt_DescripcionRest.setText(model.getValueAt(i,1).toString().trim());
     }//GEN-LAST:event_tabla_restriccionesMouseClicked
 
     private void btn_ListarRestriccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ListarRestriccionesActionPerformed
@@ -762,6 +810,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         // TODO add your handling code here:
         Limpiar_tabla_restricciones();
     }//GEN-LAST:event_btn_LimpiarRestriccionActionPerformed
+
+    private void txt_CodigoActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CodigoActividadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_CodigoActividadActionPerformed
     
     public void Limpiar_tabla_procesoActividad()
     {
@@ -835,6 +887,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JButton btn_inicio;
     private javax.swing.JButton btn_nuevoH;
     private javax.swing.JButton btn_nuevoRest;
+    private javax.swing.JComboBox<String> cbo_Estadodoc;
     private javax.swing.JComboBox cbo_ListarArea;
     private javax.swing.JComboBox cbo_responsable;
     private javax.swing.JComboBox<String> cbo_tipoTramite;
@@ -847,6 +900,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -865,6 +920,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jtpanel_procesos;
     private javax.swing.JTable tabla_procesoActividad;
     private javax.swing.JTable tabla_restricciones;
+    private javax.swing.JTextField txt_CodigoActividad;
     private javax.swing.JTextField txt_DescripcionRest;
     private javax.swing.JTextField txt_NomProceso;
     private javax.swing.JTextField txt_NumeroRest;
