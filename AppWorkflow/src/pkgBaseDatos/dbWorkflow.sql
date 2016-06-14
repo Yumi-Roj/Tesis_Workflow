@@ -177,13 +177,13 @@ INSERT INTO estado(descripcion_estado)
     ('Anulado');
 
 INSERT INTO area(nombre_area)
-    VALUES ('Oficina Secretaria General'),
-    ('Gerencia de Administracion Tributaria'),
+    VALUES ('Oficina Secretaria General', 'Jefe de Registro Civil'),
+    ('Gerencia de Administracion Tributaria', 'Gerente de Administracion Tributaria'),
     ('SubGerencia Logistica'),
     ('SubGerencia Tesoreria'),
     ('SubGerencia Contabilidad'),
     ('SubGerencia Informatica y Estadistica'),
-    ('SubGerencia Estudis y Proyectos'),
+    ('SubGerencia Estudios y Proyectos'),
     ('SubGerencia Recursos Humanos'),
     ('SubGerencia Gestion Riesgos de Desastres'),
     ('Gerencia Asesoria Juridica'),
@@ -196,6 +196,29 @@ INSERT INTO area(nombre_area)
     ('SubGerencia Fiscalizacion Administracion'),
     ('Gerencia Seguridad Ciudadana'),
     ('Gerencia Centro Historico');
+
+CREATE TABLE Actividad
+(
+  id_actividad serial NOT NULL,
+  id_documento integer NULL,
+  id_restriccion integer NULL,
+  estado_actividad character(100) NULL,
+  fecha_inicio date NULL,
+  fecha_fin date NULL,
+  CONSTRAINT pk_actividades PRIMARY KEY (id_actividad)
+  )
+INSERT INTO actividad(nombre_area)
+    VALUES ('Recibo de pago de derechos al administrado', '2016-06-09','2016-06-09'),
+
+Recibe solicitud y documentos
+Entrega de formulario al administrado
+Registra boletaje, sella
+Recibe expediente
+Se califica expediente
+Se emite informe tecnico y Resolucion
+Envia copia de Resolucion a fiscalizacion para la respectiva inspeccion
+Termino del Proceso
+
 
 INSERT INTO area(
             id_area, nombre_area, encargado)

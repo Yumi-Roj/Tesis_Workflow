@@ -164,7 +164,7 @@ clsConecta conectar;
                 btn_ModificarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 480, 100, -1));
+        getContentPane().add(btn_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 480, 110, -1));
         getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 133, -1));
 
         tabla_Expediente.setModel(new javax.swing.table.DefaultTableModel(

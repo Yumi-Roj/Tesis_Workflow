@@ -51,6 +51,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
         jDialog1 = new javax.swing.JDialog();
+        jDialog2 = new javax.swing.JDialog();
         btn_BuscarExpediente = new javax.swing.JButton();
         cbo_Procesos = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
@@ -166,7 +167,8 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
         tabla_restricciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null},
+                {null, null}
             },
             new String [] {
                 "Restricciones", "i"
@@ -554,6 +556,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;

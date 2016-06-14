@@ -26,16 +26,21 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     Statement sent;
     private  ResultSet idActividad = null;
     private javax.swing.DefaultComboBoxModel modeloCboProcesos;
+    private javax.swing.DefaultComboBoxModel modeloCboEstado;
     clsConecta conectar;
+    ResultSet rs;
+
     /**
      * Creates new form FrmCrearProcesos
      */
    // public clsConecta abc=new clsConecta();
     
     public FrmCrearProcesos() {
+        modeloCboEstado = new javax.swing.DefaultComboBoxModel(new String[] {});
         modeloCboProcesos = new javax.swing.DefaultComboBoxModel(new String[] {});
         initComponents();
         LlenarComboboxEstado();
+        LlenarComboboxProcesos();
 
     }
 
@@ -101,6 +106,9 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         txt_CodigoActividad = new javax.swing.JTextField();
         cbo_Estadodoc = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        cbo_BuscarProceso = new javax.swing.JComboBox<>();
+        btn_BuscarProceso = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -214,7 +222,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jp_crear.add(btn_EliminarRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 610, 110, -1));
 
-        cbo_responsable.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Elegir Encargado", "GERENTE DE ADMINISTRACIÓN TRIBUTARIA", " " }));
+        cbo_responsable.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Elegir Encargado", "Jefe de Registro Civil", "Gerente de Administracion Tributaria", " " }));
         jp_crear.add(cbo_responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 300, -1));
 
         tabla_restricciones.setModel(new javax.swing.table.DefaultTableModel(
@@ -399,6 +407,20 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         jLabel19.setText("Estado");
         jp_crear.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 50, -1, -1));
 
+        jLabel20.setText("Buscar Proceso");
+        jp_crear.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        cbo_BuscarProceso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jp_crear.add(cbo_BuscarProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 240, -1));
+
+        btn_BuscarProceso.setText("Buscar");
+        btn_BuscarProceso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarProcesoActionPerformed(evt);
+            }
+        });
+        jp_crear.add(btn_BuscarProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, -1, -1));
+
         jtpanel_procesos.addTab("CREAR PROCESO", jp_crear);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -437,27 +459,52 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         txt_tiempo.setEditable(true);
         txt_CodigoActividad.setEditable(true);
     }
-        void LlenarComboboxEstado(){
- 
+    
+    void LlenarComboboxEstado() {
+
         try {
             Conn = clsConecta.getConnection();
             String sql = "SELECT id_estado,descripcion_estado FROM estado ORDER BY id_estado";
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
-            modeloCboProcesos.addElement("[ Elije un Estado ]");
+            modeloCboEstado.addElement("[ Elije un Estado ]");
             while (rs.next()) {
-                modeloCboProcesos.addElement(rs.getString("descripcion_estado"));
-                cbo_Estadodoc.setModel(modeloCboProcesos);
+                modeloCboEstado.addElement(rs.getString("descripcion_estado"));
+                cbo_Estadodoc.setModel(modeloCboEstado);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    void LlenarActividad(){
+
+    void LlenarComboboxProcesos() {
+
         try {
             Conn = clsConecta.getConnection();
-            String[] titulos = {"Codigo", "Posicion", "NombreActividad", "Area","Responsable", "Tiempo"};
-            String sql = "select codigo_actividad,posicion,descripcion,area_responsable, responsable, tiempo from actividad_por_proceso order by codigo_actividad";
+            String sql = "SELECT id_procesos,nombre_procesos,tipo FROM procesos ORDER BY id_procesos";
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            modeloCboProcesos.addElement("[ Elije un Proceso ]");
+            while (rs.next()) {
+                modeloCboProcesos.addElement(rs.getString("nombre_procesos"));
+                cbo_BuscarProceso.setModel(modeloCboProcesos);
+//               String tmpStrObtenido = rs.getString("nombre_procesos");
+//               cbo_Procesos.addItem(makeObj(tmpStrObtenido));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void LlenarActividad() {
+        try {
+            Conn = clsConecta.getConnection();
+            String[] titulos = {"Codigo", "Posicion", "NombreActividad", "Area", "Responsable", "Tiempo"};
+            String sql = "select DISTINCT actividad_por_proceso.codigo_actividad,actividad_por_proceso.posicion,actividad_por_proceso.descripcion,actividad_por_proceso.area_responsable, actividad_por_proceso.responsable, actividad_por_proceso.tiempo,\n"
+                    + "restricciones_por_actividad.codigo_restriccion\n"
+                    + "from actividad_por_proceso \n"
+                    + "inner join restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
+                    + "where codigo_actividad=codigo_restriccion order by posicion";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
@@ -486,7 +533,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         try {
             Conn = clsConecta.getConnection();
             String[] titulos = {"Codigo", "Restricciones"};
-            String sql = "select codigo_restriccion,descripcion from restricciones_por_actividad";
+            String sql = "select id_restriccion,descripcion from restricciones_por_actividad order by id_restriccion";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
@@ -495,7 +542,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
 
             while (rs.next()) {
                 //fila[0] = rs.getString("id_restriccion");
-                fila[0] = rs.getString("codigo_restriccion");
+                fila[0] = rs.getString("id_restriccion");
                 fila[1] = rs.getString("descripcion");
 
                 model.addRow(fila);
@@ -518,10 +565,10 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             int i = tabla_procesoActividad.getSelectedRow();
             if (i != -1) {
                 //model.getValueAt(i,0);select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad where codigo_restriccion='1'
-                String sql = "select restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion,actividad_por_proceso.descripcion\n"
-                        + "                from actividad_por_proceso\n"
-                        + "                INNER JOIN restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
-                        + "                where codigo_restriccion=codigo_actividad";
+                String sql = "select DISTINCT restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion\n"
+                        + "from actividad_por_proceso\n"
+                        + "INNER JOIN restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
+                        + "where codigo_restriccion=codigo_actividad";
                 model = new DefaultTableModel(null, titulos);
                 sent = Conn.createStatement();
                 ResultSet rs = sent.executeQuery(sql);
@@ -814,6 +861,58 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private void txt_CodigoActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CodigoActividadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_CodigoActividadActionPerformed
+
+    private void btn_BuscarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarProcesoActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            Conn = clsConecta.getConnection();
+            String codBuscar = "";
+            codBuscar = (btn_BuscarProceso.getActionCommand().toString());
+             boolean encontro = false;
+
+//            while (rs.next()) {
+//                if (codBuscar.equals(rs.getObject("nombre_procesos"))) {
+//                    encontro = true;
+//                    break;
+//                }
+//            }
+//   
+            String[] titulos = {"Codigo", "Posicion", "NombreActividad", "Area", "Responsable", "Tiempo"};
+            String sql = "select DISTINCT actividad_por_proceso.codigo_actividad,actividad_por_proceso.posicion,actividad_por_proceso.descripcion,actividad_por_proceso.area_responsable, actividad_por_proceso.responsable, actividad_por_proceso.tiempo,\n"
+                    + "restricciones_por_actividad.codigo_restriccion, procesos.codigo_proceso, procesos.nombre_procesos\n"
+                    + "from actividad_por_proceso\n"
+                    + "inner join restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
+                    + "inner join procesos on procesos.codigo_proceso = actividad_por_proceso.codigo_actividad\n"
+                    + "where codigo_actividad=codigo_proceso order by posicion";
+            model = new DefaultTableModel(null, titulos);
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+
+            String fila[] = new String[6];
+
+            while (rs.next()) {
+                fila[0] = rs.getString("codigo_actividad");
+                fila[1] = rs.getString("posicion");
+                fila[2] = rs.getString("descripcion");
+                fila[3] = rs.getString("area_responsable");
+                fila[4] = rs.getString("responsable");
+                fila[5] = rs.getString("tiempo");
+
+                model.addRow(fila);
+
+            }
+            tabla_procesoActividad.setModel(model);
+            
+//            if (encontro == false) {
+//                //JOptionPane.showMessageDialog(null, "no existe proceso Buscado");
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         
+    }//GEN-LAST:event_btn_BuscarProcesoActionPerformed
     
     public void Limpiar_tabla_procesoActividad()
     {
@@ -873,6 +972,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_BuscarProceso;
     private javax.swing.JButton btn_EliminarActividad;
     private javax.swing.JButton btn_EliminarRest;
     private javax.swing.JButton btn_GuardarH;
@@ -887,6 +987,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JButton btn_inicio;
     private javax.swing.JButton btn_nuevoH;
     private javax.swing.JButton btn_nuevoRest;
+    private javax.swing.JComboBox<String> cbo_BuscarProceso;
     private javax.swing.JComboBox<String> cbo_Estadodoc;
     private javax.swing.JComboBox cbo_ListarArea;
     private javax.swing.JComboBox cbo_responsable;
@@ -903,6 +1004,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
