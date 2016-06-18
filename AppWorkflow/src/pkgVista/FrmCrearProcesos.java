@@ -488,9 +488,6 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             while (rs.next()) {
                 modeloCboProcesos.addElement(rs.getString("nombre_procesos"));
                 cbo_BuscarProceso.setModel(modeloCboProcesos);
-//               String tmpStrObtenido = rs.getString("nombre_procesos");
-//               cbo_Procesos.addItem(makeObj(tmpStrObtenido));
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -559,7 +556,8 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         try {
             Conn = clsConecta.getConnection();
             String codActividad = "";
-            codActividad = (txt_CodigoActividad.getText()); 
+           // codActividad = String.valueOf(tabla_procesoActividad.getValueAt(tabla_procesoActividad.getSelectedRow(), tabla_procesoActividad.getSelectedColumn()));
+           //codActividad = (txt_CodigoActividad.getText()); 
             String[] titulos = {"Codigo", "Restricciones"};
             //int selectedIndex = lstPacientes.getSelectedIndex();
             int i = tabla_procesoActividad.getSelectedRow();
@@ -568,7 +566,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                 String sql = "select DISTINCT restricciones_por_actividad.codigo_restriccion,restricciones_por_actividad.descripcion\n"
                         + "from actividad_por_proceso\n"
                         + "INNER JOIN restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
-                        + "where codigo_restriccion=codigo_actividad";
+                        + "where codigo_restriccion = '" + tabla_procesoActividad.getValueAt(0,0).toString().trim() + "'";
                 model = new DefaultTableModel(null, titulos);
                 sent = Conn.createStatement();
                 ResultSet rs = sent.executeQuery(sql);
@@ -868,7 +866,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         try {
             Conn = clsConecta.getConnection();
             String codBuscar = "";
-            codBuscar = (btn_BuscarProceso.getActionCommand().toString());
+            codBuscar = cbo_BuscarProceso.getSelectedItem().toString();
              boolean encontro = false;
 
 //            while (rs.next()) {
@@ -884,7 +882,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                     + "from actividad_por_proceso\n"
                     + "inner join restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
                     + "inner join procesos on procesos.codigo_proceso = actividad_por_proceso.codigo_actividad\n"
-                    + "where codigo_actividad=codigo_proceso order by posicion";
+                    + "where nombre_procesos= '" + codBuscar + "' order by posicion";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
