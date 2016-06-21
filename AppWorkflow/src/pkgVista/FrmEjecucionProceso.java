@@ -79,7 +79,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         tabla_actividades = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        cbo_areas = new javax.swing.JComboBox<>();
+        cbo_areas = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
 
         jCheckBoxMenuItem1.setSelected(true);
@@ -133,23 +133,15 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
         tabla_EjecucionProceso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Posicion", "Numero Documento", "Asunto", "Procesos", "Nombre Actividad", "Destino", "Estado", "Tiempo", "ver Restriccion"
+                "Numero Documento", "Asunto", "Fecha", "Proceso"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         tabla_EjecucionProceso.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabla_EjecucionProcesoMouseClicked(evt);
@@ -201,7 +193,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tabla_restricciones);
 
-        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 360, 390, 140));
+        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 350, 390, 140));
 
         tabla_actividades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -234,7 +226,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         });
         jScrollPane8.setViewportView(tabla_actividades);
 
-        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 330, 130));
+        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 330, 130));
 
         jButton1.setText("Rellenar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -244,7 +236,7 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 10, -1, -1));
 
-        cbo_areas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbo_areas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbo_areas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbo_areasActionPerformed(evt);
@@ -417,8 +409,49 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         }
     }
     //seleccion del fila del proceso y se carga las actividades de este
-      void LlenarActividadporProceso(String strProceso){
-        int numCol = 0,columBoolean = 0;
+      void LlenarActividadporProceso2(String strProceso) {
+        int numCol = 0, columBoolean = 0;
+
+        try {
+            Conn = clsConecta.getConnection();
+
+            String[] titulos = {"Actividades", "Estado"};
+            int i = tabla_EjecucionProceso.getSelectedRow();
+            if (i != -1) {
+                strProceso = tabla_EjecucionProceso.getValueAt(i, 3).toString().trim();
+                String sql = "select id_proceso2 from proceso2 where nombre_proceso2 = '" + strProceso + "'";
+                ResultSet rs = sent.executeQuery(sql);
+
+                int id_pro = 0;
+
+                while (rs.next()) {
+                    id_pro = Integer.parseInt(rs.getString("id_proceso2"));
+                }
+
+                System.out.print(id_pro);
+
+                sql = "select actividad, estado from actividades_proceso2 where id_proceso = '" + id_pro + "'";
+
+                model = new DefaultTableModel(null, titulos);
+                sent = Conn.createStatement();
+                rs = sent.executeQuery(sql);
+                Object[] filas = new Object[2];
+                while (rs.next()) {
+
+                    filas[0] = rs.getString("actividad");
+                    filas[1] = Boolean.FALSE;
+                    //fila[1] = rs.getString("estado");
+                    model.addRow(filas);
+                }
+            }
+            tabla_actividades.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+      
+    void LlenarActividadporProceso(String strProceso){
         
         try {
             Conn = clsConecta.getConnection();
@@ -439,46 +472,29 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
                 
                 System.out.print(id_pro);
                                 
-                sql = "select actividad, estado from actividades_proceso2 where id_proceso = '" + id_pro + "'";
-                model = new DefaultTableModel(null, titulos);
+                sql = "select actividad, estado from actividades_proceso2 where id_proceso = '" + id_pro + "' order by actividad";
+ 		
+                DefaultTableModel modelo = (DefaultTableModel) tabla_actividades.getModel();
+
                 sent = Conn.createStatement();
                 rs = sent.executeQuery(sql);
-                //model.addColumn("Verificar");
-                //String fila[] = new String[2];
-                Object[] filas = new Object[2];
+                //Object[] filas = new Object[2];
+                String fila[] = new String[2];
                 while (rs.next()) {
-////                      for(i=1;i<=numCol;i++)
-////                {/*Lavariable columBoolean indica
-////                 * el número de columna que tendrá los checkbox
-////                 * es decir la booleana
-////                 */
-////                    //si i es igual a la columna checkbox
-////                    if(i==columBoolean){
-////                        //por defecto saldrán sin seleccionar, es decir como FALSE
-////                        filas[columBoolean-1]=Boolean.FALSE;
-////                    }else{
-////                        //si no rellenará la tabla con los datos normalmente
-////                        filas[i-1]=rs.getObject(i-1);
-////                    }
-////                }
-
-                    //fila[0] = rs.getString("id_restriccion");
                     
-                    filas[0] = rs.getString("actividad");
-                    filas[1] = Boolean.FALSE;
-                    //fila[1] = rs.getString("estado");
-                    model.addRow(filas);
-//                    model.setValueAt ("estado", 0, 1); // Cambia el valor de la fila 1, columna 2.
+                    fila[0] = rs.getString("actividad");
+                    fila[1] = rs.getString("estado");
+                    modelo.addRow(new String[]{fila[0],fila[1]});
                 }
             }
-            tabla_actividades.setModel(model);
+//            tabla_actividades.setModel(model);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-      
-       void LlenarRestriccionesActividad() {
+    
+    void LlenarRestriccionesActividad() {
 
         try {
             Conn = clsConecta.getConnection();
@@ -488,20 +504,19 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             //int selectedIndex = lstPacientes.getSelectedIndex();
             int i = tabla_actividades.getSelectedRow();
             if (i != -1) {
-                strActividad = tabla_actividades.getValueAt(i,0).toString().trim();
+                strActividad = tabla_actividades.getValueAt(i, 0).toString().trim();
                 String sql = "select id_proceso from actividades_proceso2 where actividad = '" + strActividad + "'";
                 ResultSet rs = sent.executeQuery(sql);
                 int id_act = 0;
-                
-                while (rs.next()) 
-                {
+
+                while (rs.next()) {
                     id_act = Integer.parseInt(rs.getString("id_proceso"));
                 }
-                
+
                 System.out.print(id_act);
-                                
+
                 sql = "select descripcion, estado from restricciones_por_actividad where codigo_restriccion = '" + id_act + "'";
-                
+
                 model = new DefaultTableModel(null, titulos);
                 sent = Conn.createStatement();
                 rs = sent.executeQuery(sql);
@@ -522,13 +537,15 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
     //selccion de la fila actividades y se carga sus restricciones 
+
     void llenarRestrccion(String restriccion) {
         try {
             Conn = clsConecta.getConnection();
-            
+
             String[] titulos = {"Restricciones"};
-            String sql = "select descripcion from restricciones_por_actividad where descripcion = '"+restriccion+"'";
+            String sql = "select descripcion from restricciones_por_actividad where descripcion = '" + restriccion + "'";
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);
@@ -538,13 +555,11 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             while (rs.next()) {
                 //fila[0] = rs.getString("id_restriccion");
                 fila[0] = rs.getString("descripcion");
-                
-
 
                 model.addRow(fila);
 
             }
-           tabla_restricciones.setModel(model);
+            tabla_restricciones.setModel(model);
 
         } catch (Exception e) {
             e.printStackTrace();

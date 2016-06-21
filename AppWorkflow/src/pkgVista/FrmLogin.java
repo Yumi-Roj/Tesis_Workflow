@@ -7,6 +7,7 @@ package pkgVista;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
@@ -123,44 +124,65 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_ContrasenaActionPerformed
 
     private void btn_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AceptarActionPerformed
-                
-      pkgModelo.clsDAOLogin obj = new pkgModelo.clsDAOLogin();
-      obj.setUsuario(cbo_tipoUsuario.getSelectedItem().toString().trim());
-      //obj.setUsuario(txt_Usuario.getText().trim());
-      obj.setContrasena(txt_Contrasena.getText().trim());
-
-      String password = new String(txt_Contrasena.getPassword());
-      char[] pass = txt_Contrasena.getPassword();
-      String cargo = cbo_tipoUsuario.getSelectedItem().toString();
-      //String usuario = new String(txt_Usuario.getText().trim());//Encargado Mesa Partes
-      
-        if (cargo.equals(cbo_tipoUsuario.getSelectedItem().toString()) && Arrays.equals(pass, txt_Contrasena.getPassword())) {
-
-            if (cbo_tipoUsuario.getSelectedItem().toString().equals("Encargado Mesa Partes")) {
-                FrmNuevoDocumento NuevoDocumento = new FrmNuevoDocumento();
-                NuevoDocumento.setVisible(true);
-                //this.setVisible(true);
-                FrmLogin.this.dispose();
-            }
-        }
-        if (cargo.equals(cbo_tipoUsuario.getSelectedItem().toString()) && Arrays.equals(pass, txt_Contrasena.getPassword())) {
-            if (cbo_tipoUsuario.getSelectedItem().toString().equals("Modelador")) {
-                FrmCrearProcesos CrearProcesos = new FrmCrearProcesos();
-                CrearProcesos.setVisible(true);
-                // FrmLogin.this.dispose();
-            }
-
-        }
-        if (cargo.equals(cbo_tipoUsuario.getSelectedItem().toString()) && Arrays.equals(pass, txt_Contrasena.getPassword())) {
-           // if (cbo_tipoUsuario.getSelectedItem().toString().equals("Encargado Mesa Partes")) {
-                FrmEjecucionProceso EjecucionProceso = new FrmEjecucionProceso();
-                EjecucionProceso.setVisible(true);
-                //FrmLogin.this.dispose();
-            //}
-
-        }
         
-//        if (cbo_tipoUsuario.getSelectedItem().toString().equals("gonzalo")&& usuario.equals("gonzalo")){
+        Conn = clsConecta.getConnection();
+
+        if (validar_ingreso() == 1) {
+
+            this.dispose();
+
+            JOptionPane.showMessageDialog(null, "Bienvenido\n Has ingresado satisfactoriamente al sistema", "Mensaje de bienvenida", JOptionPane.INFORMATION_MESSAGE);
+            FrmNuevoDocumento NuevoDocumento = new FrmNuevoDocumento();
+            NuevoDocumento.setVisible(true);
+            this.setVisible(true);
+            FrmLogin.this.dispose();
+        }
+        else if (validar_ingreso() == 2) {
+
+            this.dispose();
+
+            JOptionPane.showMessageDialog(null, "Bienvenido\n Has ingresado satisfactoriamente al sistema", "Mensaje de bienvenida", JOptionPane.INFORMATION_MESSAGE);
+            FrmCrearProcesos CrearProcesos = new FrmCrearProcesos();
+            CrearProcesos.setVisible(true);
+            this.setVisible(true);
+            FrmLogin.this.dispose();
+            
+        }
+        else if (validar_ingreso() == 3) {
+
+            this.dispose();
+
+            JOptionPane.showMessageDialog(null, "Bienvenido\n Has ingresado satisfactoriamente al sistema", "Mensaje de bienvenida", JOptionPane.INFORMATION_MESSAGE);
+            FrmEjecucionProceso EjecucionProceso = new FrmEjecucionProceso();
+            EjecucionProceso.setVisible(true);
+            FrmLogin.this.dispose();
+
+        }
+        else if (validar_ingreso() == 4) {
+
+            this.dispose();
+
+            JOptionPane.showMessageDialog(null, "Bienvenido\n Has ingresado satisfactoriamente al sistema", "Mensaje de bienvenida", JOptionPane.INFORMATION_MESSAGE);
+            FrmEjecucionProceso EjecucionProceso = new FrmEjecucionProceso();
+            EjecucionProceso.setVisible(true);
+            FrmLogin.this.dispose();
+
+        }
+        else {
+
+            JOptionPane.showMessageDialog(null, "Acceso denegado: Por favor ingrese un usuario y/o contraseña correctos", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
+
+        }       
+//        if (cargo.equals(cbo_tipoUsuario.getSelectedItem().toString()) && Arrays.equals(pass, txt_Contrasena.getPassword())) {
+//            if (cbo_tipoUsuario.getSelectedItem().toString().equals("Gerente")) {
+//                FrmEjecucionProceso EjecucionProceso = new FrmEjecucionProceso();
+//                EjecucionProceso.setVisible(true);
+//                FrmLogin.this.dispose();
+//            }
+//
+//        }
+//        
+//        if (cbo_tipoUsuario.getSelectedItem().toString().equals("Gerente")&& password.equals("admin")){
 //            FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
 //            EjecucionProceso.setVisible(true);
 //            //FrmLogin.this.dispose();
@@ -220,6 +242,50 @@ public class FrmLogin extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+
+    public int validar_ingreso() {
+
+        String cargo = cbo_tipoUsuario.getSelectedItem().toString();
+        String clave = String.valueOf(txt_Contrasena.getPassword());
+
+        int resultado = 0;
+
+        String SSQL = "SELECT id_usuario FROM usuario WHERE cargo='" + cargo + "' AND clave_usuario = '" + clave + "' ";
+        try {
+
+            Conn = clsConecta.getConnection();
+            Statement st = Conn.createStatement();
+            ResultSet rs = st.executeQuery(SSQL);
+
+            if (!rs.next()) {
+
+                return 0;
+
+            }
+            return Integer.parseInt(rs.getString("id_usuario"));
+
+        } catch (SQLException ex) {
+
+            JOptionPane.showMessageDialog(null, ex, "Error de conexión", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+
+            try {
+
+                Conn.close();
+
+            } catch (SQLException ex) {
+
+                JOptionPane.showMessageDialog(null, ex, "Error de desconexión", JOptionPane.ERROR_MESSAGE);
+
+            }
+
+        }
+
+        return resultado;
+
+    }
+
     /**
      * @param args the command line arguments
      */

@@ -99,6 +99,7 @@ CREATE TABLE Documento
   remitente character(100) NULL,
   CONSTRAINT pk_documento PRIMARY KEY (id_documento)
 )
+
 CREATE TABLE Restricciones
 (
   id_restriccion serial NOT NULL,

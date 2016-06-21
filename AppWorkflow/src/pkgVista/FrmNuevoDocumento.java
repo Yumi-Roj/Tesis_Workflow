@@ -28,6 +28,7 @@ DefaultTableModel model;
 Connection Conn;
 Statement sent;
 private javax.swing.DefaultComboBoxModel modeloCboProcesos;
+private javax.swing.DefaultComboBoxModel modeloCboArea;
 clsConecta conectar;
     /**
      * Creates new form FrmNuevoDocumento
@@ -35,8 +36,11 @@ clsConecta conectar;
     public FrmNuevoDocumento() {
         initComponents();
         modeloCboProcesos = new javax.swing.DefaultComboBoxModel(new String[] {});
+        modeloCboArea = new javax.swing.DefaultComboBoxModel(new String[] {});
         Calendar c1 = GregorianCalendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");    
+        LlenarComboboxProcesos();
+        LlenarComboboxDestino();
         //LlenarComboboxEstado();
         //txt_Fecha.setDate(sdf.format(c1.getTime())); 
     }
@@ -76,8 +80,8 @@ clsConecta conectar;
         btn_Listar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbo_proceso = new javax.swing.JComboBox<String>();
+        cbo_Destino = new javax.swing.JComboBox<String>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -126,7 +130,7 @@ clsConecta conectar;
                 btn_GuardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 420, 99, -1));
+        getContentPane().add(btn_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 420, 110, -1));
 
         btn_Nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_Nuevo.setText("Nuevo");
@@ -135,7 +139,7 @@ clsConecta conectar;
                 btn_NuevoActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 102, -1));
+        getContentPane().add(btn_Nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 110, -1));
 
         btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/document_preview.png"))); // NOI18N
         btn_Buscar.setText("Buscar");
@@ -144,7 +148,7 @@ clsConecta conectar;
                 btn_BuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 510, 99, -1));
+        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 510, 110, -1));
 
         btn_Cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/dialog_close.png"))); // NOI18N
         btn_Cerrar.setText("Cerrar");
@@ -153,13 +157,13 @@ clsConecta conectar;
                 btn_CerrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 540, 100, -1));
+        getContentPane().add(btn_Cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 540, 110, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 120, 770, 10));
-        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 770, -1));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 282, 820, 10));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("NUEVO DOCUMENTO");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, -1, -1));
 
         btn_Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/edit.png"))); // NOI18N
         btn_Modificar.setText("Modificar");
@@ -197,19 +201,19 @@ clsConecta conectar;
                 btn_ListarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, 100, -1));
+        getContentPane().add(btn_Listar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 390, 110, -1));
 
         jLabel7.setText("Proceso");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, -1));
 
         jLabel8.setText("Destino");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 240, -1, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 250, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 200, -1));
+        cbo_proceso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(cbo_proceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 320, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 240, 160, -1));
+        cbo_Destino.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(cbo_Destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 250, 260, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -260,6 +264,38 @@ clsConecta conectar;
             }
             tabla_Expediente.setModel(model);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void LlenarComboboxProcesos() {
+
+        try {
+            Conn = clsConecta.getConnection();
+            String sql = "SELECT id_procesos,nombre_procesos,tipo FROM procesos ORDER BY id_procesos";
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            modeloCboProcesos.addElement("[ Elije un Proceso ]");
+            while (rs.next()) {
+                modeloCboProcesos.addElement(rs.getString("nombre_procesos"));
+                cbo_proceso.setModel(modeloCboProcesos);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void LlenarComboboxDestino() {
+
+        try {
+            Conn = clsConecta.getConnection();
+            String sql = "SELECT id_area,nombre_area FROM area ORDER BY id_area";
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            modeloCboArea.addElement("[ Elije un area ]");
+            while (rs.next()) {
+                modeloCboArea.addElement(rs.getString("nombre_area"));
+                cbo_Destino.setModel(modeloCboArea);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -424,8 +460,8 @@ clsConecta conectar;
     private javax.swing.JButton btn_Listar;
     private javax.swing.JButton btn_Modificar;
     private javax.swing.JButton btn_Nuevo;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cbo_Destino;
+    private javax.swing.JComboBox<String> cbo_proceso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
