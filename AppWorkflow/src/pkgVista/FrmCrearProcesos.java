@@ -243,7 +243,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla_restricciones);
 
-        jp_crear.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 520, 390, 110));
+        jp_crear.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 520, 420, 110));
         jp_crear.add(txt_NomProceso, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 242, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -273,7 +273,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabla_procesoActividad);
 
-        jp_crear.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 860, 120));
+        jp_crear.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 880, 120));
 
         jLabel10.setText("dias");
         jp_crear.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 220, 40, -1));
@@ -868,14 +868,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
             String codBuscar = "";
             codBuscar = cbo_BuscarProceso.getSelectedItem().toString();
              boolean encontro = false;
-
-//            while (rs.next()) {
-//                if (codBuscar.equals(rs.getObject("nombre_procesos"))) {
-//                    encontro = true;
-//                    break;
-//                }
-//            }
-//   
+   
             String[] titulos = {"Codigo", "Posicion", "NombreActividad", "Area", "Responsable", "Tiempo"};
             String sql = "select DISTINCT actividad_por_proceso.codigo_actividad,actividad_por_proceso.posicion,actividad_por_proceso.descripcion,actividad_por_proceso.area_responsable, actividad_por_proceso.responsable, actividad_por_proceso.tiempo,\n"
                     + "restricciones_por_actividad.codigo_restriccion, procesos.codigo_proceso, procesos.nombre_procesos\n"
@@ -883,6 +876,7 @@ public class FrmCrearProcesos extends javax.swing.JFrame {
                     + "inner join restricciones_por_actividad on restricciones_por_actividad.codigo_restriccion = actividad_por_proceso.codigo_actividad\n"
                     + "inner join procesos on procesos.codigo_proceso = actividad_por_proceso.codigo_actividad\n"
                     + "where nombre_procesos= '" + codBuscar + "' order by posicion";
+            
             model = new DefaultTableModel(null, titulos);
             sent = Conn.createStatement();
             ResultSet rs = sent.executeQuery(sql);

@@ -39,6 +39,11 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         LlenarComboboxProcesos();
         LlenarComboboxAreas();
         llenarGrilla();
+//        tabla_actividades.setModel(model);
+//        model.addColumn("Selec");
+//        model.addColumn("Nombre");
+//        tabla_actividades.getColumnModel().getColumn(0).setCellEditor( new Clase_CellEditor() );
+//        tabla_actividades.getColumnModel().getColumn(0).setCellRenderer(new Clase_CellRender() );
         //LlenarActividadporProceso();
     }
 
@@ -67,7 +72,6 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         txt_NumExpediente = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         tabla_EjecucionProceso = new javax.swing.JTable();
-        btn_Detalle = new javax.swing.JButton();
         btn_nuevoEjecucion = new javax.swing.JButton();
         btn_ModificarH = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -155,15 +159,6 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 1070, 170));
 
-        btn_Detalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/list.png"))); // NOI18N
-        btn_Detalle.setText("Detalle");
-        btn_Detalle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_DetalleActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_Detalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 170, 110, -1));
-
         btn_nuevoEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
         btn_nuevoEjecucion.setText("Nuevo");
         btn_nuevoEjecucion.addActionListener(new java.awt.event.ActionListener() {
@@ -210,11 +205,11 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
         tabla_actividades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null}
+                {"", null},
+                {"", null}
             },
             new String [] {
-                "Actividades", "Validar"
+                "Actividades", "Estado"
             }
         ) {
             Class[] types = new Class [] {
@@ -230,6 +225,11 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabla_actividades.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_actividadesMouseClicked(evt);
             }
         });
         jScrollPane8.setViewportView(tabla_actividades);
@@ -331,11 +331,6 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
             codBuscar = (txt_NumExpediente.getText()); 
             //codBuscar = JOptionPane.showInputDialog("Ingrese el codigo a Buscar: ");
             rs = conectar.consulta("select numero_expediente from documento");
-            
-            //codBuscar=txt_NumExpediente.setText("");
-//            String sql = "select numero_expediente from documento";
-//            sent = Conn.createStatement();
-//            ResultSet rs = sent.executeQuery(sql);
             boolean encontro = false;
 
             while (rs.next()) {
@@ -373,156 +368,8 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
     private void btn_ModificarHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarHActionPerformed
         // TODO add your handling code here:
-         try{
-            String sql="Update actividad_por_proceso set descripcion=?, area_responsable=?, tiempo=?, posicion=?, responsable=?"+
-                    "where id_actividad=?";
-            int fila=tabla_EjecucionProceso.getSelectedRow();
-            int dao= Integer.parseInt(tabla_EjecucionProceso.getValueAt(fila,0).toString());
-            PreparedStatement ps=Conn.prepareCall(sql);
-            
-//           ps.setString(1, txt_NomProceso.getText().trim());
-//            ps.setString(1, cbo_tipoTramite.getSelectedItem().toString().trim());
-//            ps.setString(1, txt_actividad.getText().trim());
-//            ps.setString(2, cbo_ListarArea.getSelectedItem().toString().trim());   
-//            ps.setString(3, txt_tiempo.getText().trim());1
-//            ps.setString(4, jSpinner1.getValue().toString());
-//            ps.setString(5, cbo_responsable.getSelectedItem().toString().trim());
- 
-           //ps.setInt(6,dao);
-           //JOptionPane.showMessageDialog(null, ps.toString());
-            int n=ps.executeUpdate();
-            if(n>0){
-                //Limpiar();
-                //LlenarActividad();
-                JOptionPane.showMessageDialog(null, "datos modificados");
-
-            }
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "error"+ e.getMessage());
-        }
     }//GEN-LAST:event_btn_ModificarHActionPerformed
     
-    void LlenarRestriccionesActividad(){
-        
-        try {
-            Conn = clsConecta.getConnection();
-            String codActividad = "";
-            //codActividad = (txt_CodigoActividad.getText()); 
-            String[] titulos = {"Proceso", "Actividades","Restricciones"};
-            //int selectedIndex = lstPacientes.getSelectedIndex();
-            int i = tabla_EjecucionProceso.getSelectedRow();
-            if (i != -1) {
-                //model.getValueAt(i,0);select id_restriccion,codigo_restriccion,descripcion from restricciones_por_actividad where codigo_restriccion='1'
-                String sql = "select procesos.nombre_procesos,actividad_por_proceso.descripcion,restricciones_por_actividad.descripcion\n"
-                        + "from actividad_por_proceso\n"
-                        + "INNER JOIN procesos on procesos.id_procesos = actividad_por_proceso.id_actividad\n"
-                        + "INNER JOIN restricciones_por_actividad on restricciones_por_actividad.id_restriccion = actividad_por_proceso.id_actividad where codigo_restriccion=codigo_actividad";
-                model = new DefaultTableModel(null, titulos);
-                sent = Conn.createStatement();
-                ResultSet rs = sent.executeQuery(sql);
-
-                String fila[] = new String[3];
-
-                while (rs.next()) {
-                    //fila[0] = rs.getString("id_restriccion");
-                    fila[0] = rs.getString("nombre_procesos");
-                    fila[1] = rs.getString("descripcion");
-                    fila[2] = rs.getString("descripcion");
-
-                    model.addRow(fila);
-
-                }
-            }
-            //tabla_Proceso.setModel(model);
-            //tabla_actividades.setModel(model);
-           // tabla_restricciones.setModel(model);
-            
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    void LlenarProceso(){
-        try {
-            Conn = clsConecta.getConnection();
-            String[] titulos = {"Procesos"};
-            String sql = "select nombre_procesos from procesos where id_procesos=id_actividad";
-            model = new DefaultTableModel(null, titulos);
-            sent = Conn.createStatement();
-            ResultSet rs = sent.executeQuery(sql);
-
-            String fila[] = new String[1];
-
-            while (rs.next()) {
-                fila[0] = rs.getString("nombre_procesos");
-
-                model.addRow(fila);
-
-            }
-           //tabla_Proceso.setModel(model);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
-     void LlenarActividades(){
-        try {
-            Conn = clsConecta.getConnection();
-            String[] titulos = {"Actividades"};
-            String sql = "select descripcion from actividad_por_proceso where id_actividad = id_restriccion ";
-            model = new DefaultTableModel(null, titulos);
-            sent = Conn.createStatement();
-            ResultSet rs = sent.executeQuery(sql);
-
-            String fila[] = new String[1];
-
-            while (rs.next()) {
-                fila[0] = rs.getString("descripcion");
-
-                model.addRow(fila);
-
-            }
-           tabla_actividades.setModel(model);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    void LlenarRestricciones(){
-        try {
-            Conn = clsConecta.getConnection();
-            String[] titulos = {"Restricciones"};
-            String sql = "select descripcion from restricciones_por_actividad where id_restriccion = codigo_restriccion";
-            model = new DefaultTableModel(null, titulos);
-            sent = Conn.createStatement();
-            ResultSet rs = sent.executeQuery(sql);
-
-            String fila[] = new String[2];
-
-            while (rs.next()) {
-                fila[0] = rs.getString("descripcion");
-                
-                model.addRow(fila);
-
-            }
-           tabla_restricciones.setModel(model);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private void btn_DetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DetalleActionPerformed
-        // TODO add your handling code here:
-        //LlenarRestriccionesActividad();
-        LlenarProceso();
-        LlenarActividades();
-        LlenarRestricciones();
-    }//GEN-LAST:event_btn_DetalleActionPerformed
-
     private void cbo_ProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_ProcesosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbo_ProcesosActionPerformed
@@ -571,11 +418,12 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
     }
     //seleccion del fila del proceso y se carga las actividades de este
       void LlenarActividadporProceso(String strProceso){
+        int numCol = 0,columBoolean = 0;
         
         try {
             Conn = clsConecta.getConnection();
 
-            String[] titulos = {"Actividades"};
+            String[] titulos = {"Actividades","Estado"};
             int i = tabla_EjecucionProceso.getSelectedRow();
             if (i != -1) {
                 strProceso = tabla_EjecucionProceso.getValueAt(i,3).toString().trim();
@@ -591,21 +439,85 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
                 
                 System.out.print(id_pro);
                                 
-                sql = "select actividad from actividades_proceso2 where id_proceso = '" + id_pro + "'";
+                sql = "select actividad, estado from actividades_proceso2 where id_proceso = '" + id_pro + "'";
                 model = new DefaultTableModel(null, titulos);
                 sent = Conn.createStatement();
                 rs = sent.executeQuery(sql);
-                model.addColumn("Verificar");
-                String fila[] = new String[2];
+                //model.addColumn("Verificar");
+                //String fila[] = new String[2];
+                Object[] filas = new Object[2];
                 while (rs.next()) {
+////                      for(i=1;i<=numCol;i++)
+////                {/*Lavariable columBoolean indica
+////                 * el número de columna que tendrá los checkbox
+////                 * es decir la booleana
+////                 */
+////                    //si i es igual a la columna checkbox
+////                    if(i==columBoolean){
+////                        //por defecto saldrán sin seleccionar, es decir como FALSE
+////                        filas[columBoolean-1]=Boolean.FALSE;
+////                    }else{
+////                        //si no rellenará la tabla con los datos normalmente
+////                        filas[i-1]=rs.getObject(i-1);
+////                    }
+////                }
+
                     //fila[0] = rs.getString("id_restriccion");
-                    fila[0] = rs.getString("actividad");
-                    model.addRow(fila);
-                    model.setValueAt ("nuevo valor", 0, 1); // Cambia el valor de la fila 1, columna 2.
+                    
+                    filas[0] = rs.getString("actividad");
+                    filas[1] = Boolean.FALSE;
+                    //fila[1] = rs.getString("estado");
+                    model.addRow(filas);
+//                    model.setValueAt ("estado", 0, 1); // Cambia el valor de la fila 1, columna 2.
                 }
             }
             tabla_actividades.setModel(model);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+      
+       void LlenarRestriccionesActividad() {
+
+        try {
+            Conn = clsConecta.getConnection();
+            String strActividad = "";
+            //codActividad = (txt_CodigoActividad.getText()); 
+            String[] titulos = {"Restricciones", "Estado"};
+            //int selectedIndex = lstPacientes.getSelectedIndex();
+            int i = tabla_actividades.getSelectedRow();
+            if (i != -1) {
+                strActividad = tabla_actividades.getValueAt(i,0).toString().trim();
+                String sql = "select id_proceso from actividades_proceso2 where actividad = '" + strActividad + "'";
+                ResultSet rs = sent.executeQuery(sql);
+                int id_act = 0;
+                
+                while (rs.next()) 
+                {
+                    id_act = Integer.parseInt(rs.getString("id_proceso"));
+                }
+                
+                System.out.print(id_act);
+                                
+                sql = "select descripcion, estado from restricciones_por_actividad where codigo_restriccion = '" + id_act + "'";
+                
+                model = new DefaultTableModel(null, titulos);
+                sent = Conn.createStatement();
+                rs = sent.executeQuery(sql);
+
+                Object[] fila = new Object[2];
+
+                while (rs.next()) {
+                    //fila[0] = rs.getString("id_restriccion");
+                    fila[0] = rs.getString("descripcion");
+                    fila[1] = Boolean.FALSE;
+
+                    model.addRow(fila);
+
+                }
+            }
+            tabla_restricciones.setModel(model);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -695,6 +607,16 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
         System.out.println(strActividad);
     }//GEN-LAST:event_tabla_restriccionesMouseClicked
 
+    private void tabla_actividadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_actividadesMouseClicked
+        // TODO add your handling code here:
+         int i = tabla_actividades.getSelectedRow();
+        String strActividad = "";
+        TableModel model = tabla_actividades.getModel();
+        strActividad = model.getValueAt(i,0).toString().trim();
+        System.out.println(strActividad);
+        LlenarRestriccionesActividad();
+    }//GEN-LAST:event_tabla_actividadesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -732,7 +654,6 @@ public class FrmEjecucionProceso extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_BuscarExpediente;
-    private javax.swing.JButton btn_Detalle;
     private javax.swing.JButton btn_ModificarH;
     private javax.swing.JButton btn_nuevoEjecucion;
     private javax.swing.JComboBox cbo_Procesos;

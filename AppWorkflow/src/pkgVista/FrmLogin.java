@@ -5,19 +5,30 @@
  */
 package pkgVista;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pkgControlador.clsConecta;
 
 /**
  *
  * @author YUMI
  */
 public class FrmLogin extends javax.swing.JFrame {
-
+    DefaultTableModel model;
+    Connection Conn;
+    Statement sent;
+    private javax.swing.DefaultComboBoxModel modeloCboTipoUsuario;
     /**
      * Creates new form FrmLogin
      */
     public FrmLogin() {
         initComponents();
+        modeloCboTipoUsuario = new javax.swing.DefaultComboBoxModel(new String[] {});
+        LlenarComboboxTipoUsuario();
     }
 
     /**
@@ -35,7 +46,7 @@ public class FrmLogin extends javax.swing.JFrame {
         btn_Aceptar = new javax.swing.JButton();
         btn_Cancelar = new javax.swing.JButton();
         btn_Salir = new javax.swing.JButton();
-        cbo_tipo = new javax.swing.JComboBox<String>();
+        cbo_tipoUsuario = new javax.swing.JComboBox<>();
         txt_Usuario = new javax.swing.JTextField();
         btn_NuevoUsuario = new javax.swing.JButton();
 
@@ -86,13 +97,13 @@ public class FrmLogin extends javax.swing.JFrame {
         });
         getContentPane().add(btn_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 90, -1));
 
-        cbo_tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Encargado Mesa Partes", "Modelador", "Gerente" }));
-        cbo_tipo.addActionListener(new java.awt.event.ActionListener() {
+        cbo_tipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Encargado Mesa Partes", "Modelador", "Gerente" }));
+        cbo_tipoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbo_tipoActionPerformed(evt);
+                cbo_tipoUsuarioActionPerformed(evt);
             }
         });
-        getContentPane().add(cbo_tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 170, -1));
+        getContentPane().add(cbo_tipoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 170, -1));
         getContentPane().add(txt_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 167, -1));
 
         btn_NuevoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pkgIconos/news_subscribe.png"))); // NOI18N
@@ -114,41 +125,46 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btn_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AceptarActionPerformed
                 
       pkgModelo.clsDAOLogin obj = new pkgModelo.clsDAOLogin();
-      obj.setUsuario(cbo_tipo.getSelectedItem().toString().trim());
+      obj.setUsuario(cbo_tipoUsuario.getSelectedItem().toString().trim());
       //obj.setUsuario(txt_Usuario.getText().trim());
       obj.setContrasena(txt_Contrasena.getText().trim());
+
       String password = new String(txt_Contrasena.getPassword());
+      char[] pass = txt_Contrasena.getPassword();
+      String cargo = cbo_tipoUsuario.getSelectedItem().toString();
+      //String usuario = new String(txt_Usuario.getText().trim());//Encargado Mesa Partes
       
-      if (cbo_tipo.getSelectedItem().toString().equals("Encargado Mesa Partes")&& password.equals("admin")) {
-            FrmNuevoDocumento NuevoDocumento=new FrmNuevoDocumento();
-            NuevoDocumento.setVisible(true);
-            //this.setVisible(true);
-            FrmLogin.this.dispose();
-            //oo9988  this.setBounds(50, 50, 450, 240);
-        } if (cbo_tipo.getSelectedItem().toString().equals("Modelador")&& password.equals("admin")){
-            FrmCrearProcesos CrearProcesos=new FrmCrearProcesos();
-            CrearProcesos.setVisible(true);
-           // FrmLogin.this.dispose();
-            
-        } if (cbo_tipo.getSelectedItem().toString().equals("Gerente")&& password.equals("admin")){
-            FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
-            EjecucionProceso.setVisible(true);
-            //FrmLogin.this.dispose();
+        if (cargo.equals(cbo_tipoUsuario.getSelectedItem().toString()) && Arrays.equals(pass, txt_Contrasena.getPassword())) {
+
+            if (cbo_tipoUsuario.getSelectedItem().toString().equals("Encargado Mesa Partes")) {
+                FrmNuevoDocumento NuevoDocumento = new FrmNuevoDocumento();
+                NuevoDocumento.setVisible(true);
+                //this.setVisible(true);
+                FrmLogin.this.dispose();
+            }
         }
-      
-//      if (obj.valide()== false) {
-//          JOptionPane.showMessageDialog(rootPane, "Datos incorrectos");
-//          
-//      }
-//      else{
-//          java.awt.EventQueue.invokeLater(new Runnable(){
-//              public void run(){
-//              //new FrmCrearProcesos().setVisible(true);
-//                  //cbo_tipoActionPerformed(java.awt.event.ActionEvent evt);
-//          }
-//          });
-//          this.dispose();
-//      }
+        if (cargo.equals(cbo_tipoUsuario.getSelectedItem().toString()) && Arrays.equals(pass, txt_Contrasena.getPassword())) {
+            if (cbo_tipoUsuario.getSelectedItem().toString().equals("Modelador")) {
+                FrmCrearProcesos CrearProcesos = new FrmCrearProcesos();
+                CrearProcesos.setVisible(true);
+                // FrmLogin.this.dispose();
+            }
+
+        }
+        if (cargo.equals(cbo_tipoUsuario.getSelectedItem().toString()) && Arrays.equals(pass, txt_Contrasena.getPassword())) {
+           // if (cbo_tipoUsuario.getSelectedItem().toString().equals("Encargado Mesa Partes")) {
+                FrmEjecucionProceso EjecucionProceso = new FrmEjecucionProceso();
+                EjecucionProceso.setVisible(true);
+                //FrmLogin.this.dispose();
+            //}
+
+        }
+        
+//        if (cbo_tipoUsuario.getSelectedItem().toString().equals("gonzalo")&& usuario.equals("gonzalo")){
+//            FrmEjecucionProceso EjecucionProceso=new FrmEjecucionProceso();
+//            EjecucionProceso.setVisible(true);
+//            //FrmLogin.this.dispose();
+//        }
     }//GEN-LAST:event_btn_AceptarActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
@@ -169,7 +185,7 @@ public class FrmLogin extends javax.swing.JFrame {
         FrmLogin.this.dispose();
     }//GEN-LAST:event_btn_NuevoUsuarioActionPerformed
 
-    private void cbo_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_tipoActionPerformed
+    private void cbo_tipoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbo_tipoUsuarioActionPerformed
         // TODO add your handling code here:
 //        if (cbo_tipo.getSelectedItem().equals("Encargado Mesa Partes")) {
 //            FrmNuevoDocumento NuevoDocumento=new FrmNuevoDocumento();
@@ -186,8 +202,24 @@ public class FrmLogin extends javax.swing.JFrame {
 //            EjecucionProceso.setVisible(true);
 //            //FrmLogin.this.dispose();
 //        }
-    }//GEN-LAST:event_cbo_tipoActionPerformed
+    }//GEN-LAST:event_cbo_tipoUsuarioActionPerformed
+    
+    void LlenarComboboxTipoUsuario() {
 
+        try {
+            Conn = clsConecta.getConnection();
+            String sql = "SELECT id_usuario,cargo FROM usuario ORDER BY id_usuario";
+            sent = Conn.createStatement();
+            ResultSet rs = sent.executeQuery(sql);
+            modeloCboTipoUsuario.addElement("[ Elije Tipo Usuario ]");
+            while (rs.next()) {
+                modeloCboTipoUsuario.addElement(rs.getString("cargo"));
+                cbo_tipoUsuario.setModel(modeloCboTipoUsuario);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -228,7 +260,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JButton btn_Cancelar;
     private javax.swing.JButton btn_NuevoUsuario;
     private javax.swing.JButton btn_Salir;
-    private javax.swing.JComboBox<String> cbo_tipo;
+    private javax.swing.JComboBox<String> cbo_tipoUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField txt_Contrasena;
